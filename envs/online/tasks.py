@@ -1,0 +1,32 @@
+from utils import Task
+
+ALL_TASKS = [
+    Task(
+        user_id="cnjd13015182766_p",
+        shop_id="5de650c946e7c3001814990f",
+        platform="jd",
+        instruction=f'''
+买家发送：已下单—净水器售后
+买家发送：我的电水壶和滤芯还没发吗？
+人工发送：/辛苦小主提供一下净水器的订单号，小客服为您查询~
+买家发送：310305074915
+机器人发送：~ 小主，麻烦稍等一下~
+买家发送：？
+机器人发送：~ 抱歉小主，请稍等下~这边看下给您回复
+人工发送：这边帮您走加急处理哈
+买家发送：好吧
+机器人发送：~ #E-s21~
+买家发送：#E-s56
+机器人发送：~ #E-s21#E-s21
+        ''',
+        principle="",
+    ),
+    Task(
+        user_id="user_2",
+        shop_id="shop_2",
+        platform="platform_2",
+        instruction="instruction_2",
+        principle="principle_2",
+    ),
+    # Add more tasks as needed
+]

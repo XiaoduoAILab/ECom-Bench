@@ -1,0 +1,9 @@
+host:
+  url: localhost
+  port: 8080
+
+cache: False
+
+data:
+  cache: False
+  directory: ./data
