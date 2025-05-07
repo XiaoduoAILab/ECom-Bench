@@ -1,3 +1,6 @@
+# 项目目录结构
+
+```
 .
 ├── fastapi_service.py     # FastAPI服务主入口文件
 ├── config.yaml            # 配置文件
@@ -14,3 +17,7 @@
 │   └── common.py          # 公共工具函数
 ├── data/                  # 数据存储目录
 └── test.py                # 测试文件
+```
+
+# 备注
+是用的时候记得开VPN
