@@ -4,7 +4,7 @@ from .tools.get_discount_info import get_discount_info
 from .tools.get_image_info import get_image_info
 from .tools.get_logistic_info import get_logistic_info
 from .tools.get_order_info import get_order_info
-from .tools.get_product_info import get_product_info
+from .tools.get_goods_property import get_goods_property
 mcp = FastMCP("service")
 
 
@@ -23,7 +23,7 @@ def get_logistic_info_tool(platform: str, shop_id: str, order_id: str) -> str:
     return get_logistic_info(platform, shop_id, order_id)
 
 @mcp.tool()
-def get_product_info_tool(platform: str, shop_id: str, goods_id: str) -> str:
+def gget_goods_property_tool(platform: str, shop_id: str, goods_id: str) -> str:
     """
     用于获取商品信息
     当用户询问商品详情时，可以调用此工具
@@ -34,7 +34,7 @@ def get_product_info_tool(platform: str, shop_id: str, goods_id: str) -> str:
     Returns:
         商品信息的格式化字符串
     """
-    return get_product_info(platform, shop_id, goods_id)
+    return get_goods_property(platform, shop_id, goods_id)
 
 @mcp.tool()
 def get_discount_info_tool(platform: str, shop_id: str, order_id: str) -> str:
