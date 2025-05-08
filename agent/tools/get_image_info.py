@@ -1,5 +1,6 @@
 from typing import List,Dict
 from .apis import OnlineLLMApi
+from .config import get_config
 MULTIMODAL_TYPES = ['doubao-pro', 'qwenvlmax', 'gpt4omini', 'kimi-8k', 'kimi-32k', 'kimi-128k']
     
 def get_image_info(summarized_query: str, history_messages: List[Dict]) -> str:
@@ -27,6 +28,10 @@ def get_image_info(summarized_query: str, history_messages: List[Dict]) -> str:
     {summarized_query}
     '''
     online_llm_api = OnlineLLMApi()
-    online_llm_api.multimodal_type = "kimi-128k"
-    result = online_llm_api.generate_multimodal_response(input_message).content
+    config = get_config()
+    online_llm_api.multimodal_type = config['multimodal']
+    messages = [
+        {'role': 'user', 'content': input_message}
+    ]
+    result = online_llm_api.generate_multimodal_response(messages).content
     return result

@@ -23,7 +23,7 @@ def get_logistic_info_tool(platform: str, shop_id: str, order_id: str) -> str:
     return get_logistic_info(platform, shop_id, order_id)
 
 @mcp.tool()
-def gget_goods_property_tool(platform: str, shop_id: str, goods_id: str) -> str:
+def get_goods_property_tool(platform: str, shop_id: str, goods_id: str) -> str:
     """
     用于获取商品信息
     当用户询问商品详情时，可以调用此工具

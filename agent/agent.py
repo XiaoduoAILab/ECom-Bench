@@ -1,6 +1,5 @@
 from utils import LLM
 
-
 class Agent(LLM):
     def __init__(self, agent_model:str, verbose=False, mcp_tools= []):
         super().__init__(model_name=agent_model, verbose=verbose, mcp_tools=mcp_tools)
