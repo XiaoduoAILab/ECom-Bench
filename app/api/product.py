@@ -32,7 +32,7 @@ async def get_goods_property(product_params: ProductParams) -> str:
     # 生成缓存键
     cache_key = get_md5(**product_params.model_dump())
     _config = get_config()
-    if _config.get("cache") == "true":
+    if _config["data"].get("cache"):
         cached_data = read_cache("get_goods_property", cache_key)
         if cached_data:
             return cached_data

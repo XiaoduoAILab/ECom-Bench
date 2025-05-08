@@ -78,7 +78,7 @@ def parse_args() -> RunConfig:
 
 async def main():
     config = parse_args()
-    run(config)
+    await run(config)
 
 
 if __name__ == "__main__":

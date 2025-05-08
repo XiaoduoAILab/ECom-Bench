@@ -34,15 +34,15 @@ async def test_api():
         # 测试 /get_discount_info 路由
         response = await client.post(f"{API_URL}/get_discount_info", json=discount_params)
         print("Discount Info:\n", response.status_code, "\n", response.text)
-
+        print("-" * 50)
         # 测试 /get_logistics_info 路由
         response = await client.post(f"{API_URL}/get_logistics_info", json=logistics_params)
         print("Logistics Info:\n", response.status_code, "\n", response.text)
-
+        print("-" * 50)
         # 测试 /get_order_info 路由
         response = await client.post(f"{API_URL}/get_order_info", json=order_params)
         print("Order Info:\n", response.status_code, "\n", response.text)
-
+        print("-" * 50)
         # 测试 /get_goods_property 路由
         response = await client.post(f"{API_URL}/get_goods_property", json=product_params)
         print("Product Info:\n", response.status_code, "\n", response.text)

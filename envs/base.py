@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional, Dict, Tuple
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from user import User
 from agent import Agent
-from reward import Reward
+from .reward import Reward
 from wikis import AGENT_WIKI
 import time
 import os
@@ -39,16 +39,7 @@ class Env(object):
         self.session = []
         self.elapsed_time = []
         
-    
-
-    def reset(self, task_index: Optional[int] = None):
-        if task_index is None:
-            task_index = random.randint(0, len(self.tasks) - 1)
-        self.task_index = task_index
-        self.task = self.tasks[task_index]
-
     def run(self) -> Tuple[float, List[Dict]]:
-        self.reset()
         self.customer = User(self.user_model)
         self.service = Agent(self.agent_model)
         self.customer.load_system_prompt(self.user_wiki)
@@ -75,11 +66,10 @@ class Env(object):
         return reward, self.session
         
     async def a_run(self) -> Tuple[float, List[Dict]]:
-        self.reset()
         async with MultiServerMCPClient({
         "customer": {
             "command": "python",
-            "args": [os.path.join( os.path.dirname(os.path.dirname(__file__)) , "user", "memory.py")],
+            "args": [os.path.join(os.path.dirname(os.path.dirname(__file__)) , "user", "memory.py")],
             "transport": "stdio",
         }
         }) as client_customer:

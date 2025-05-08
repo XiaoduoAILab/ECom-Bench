@@ -20,13 +20,5 @@ ALL_TASKS = [
 机器人发送：~ #E-s21#E-s21
         ''',
         principle="",
-    ),
-    Task(
-        user_id="user_2",
-        shop_id="shop_2",
-        platform="platform_2",
-        instruction="instruction_2",
-        principle="principle_2",
-    ),
-    # Add more tasks as needed
+    )
 ]

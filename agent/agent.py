@@ -2,9 +2,9 @@ from utils import LLM
 
 
 class Agent(LLM):
-    def __init__(self, agent_model:str, verbose=False, mcp_tools= None):
+    def __init__(self, agent_model:str, verbose=False, mcp_tools= []):
         super().__init__(model_name=agent_model, verbose=verbose, mcp_tools=mcp_tools)
-        self.agent_model = super()._initiate_agent
+        self.agent_model = super()._initiate_agent()
         self.detail_messages = []
     
     
@@ -12,9 +12,9 @@ class Agent(LLM):
         self.messages.append({"role": "system", "content": system_prompt})
     
     
-    def call(self, message:str) -> str:
+    async def call(self, message:str) -> str:
         self.messages.append({"role": "user", "content": message})
-        responses = self.agent_model.ainvoke(
+        responses = await self.agent_model.ainvoke(
             {
                 "messages": self.messages
             }

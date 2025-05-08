@@ -1,10 +1,10 @@
 from typing import List, Dict
 from mcp.server.fastmcp import FastMCP
-from .tools.get_discount_info import get_discount_info
-from .tools.get_image_info import get_image_info
-from .tools.get_logistic_info import get_logistic_info
-from .tools.get_order_info import get_order_info
-from .tools.get_goods_property import get_goods_property
+from tools import get_discount_info
+from tools import get_image_info
+from tools import get_logistic_info
+from tools import get_order_info
+from tools import get_goods_property
 mcp = FastMCP("service")
 
 

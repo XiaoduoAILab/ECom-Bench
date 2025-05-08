@@ -32,7 +32,7 @@ async def get_logistics_info(logistics_params: LogisticsParams) -> str:
     # 生成缓存键
     cache_key = get_md5(**logistics_params.model_dump())
     _config = get_config()
-    if _config.get("cache") == "true":
+    if _config["data"].get("cache"):
         cached_data = read_cache("get_logistics_info", cache_key)
         if cached_data:
             return cached_data

@@ -2,7 +2,7 @@ from utils import LLM
 from langgraph.prebuilt import create_react_agent
 
 class User(LLM):
-    def __init__(self, user_model:str, verbose=False, mcp_tools= None):
+    def __init__(self, user_model:str, verbose=False, mcp_tools= []):
         super().__init__(model_name=user_model, verbose=verbose, mcp_tools=mcp_tools)
         self.detail_messages = []
         self.user_model = super()._initiate_agent()
@@ -12,9 +12,9 @@ class User(LLM):
         self.messages.append({"role": "system", "content": system_prompt})
     
     
-    def call(self, message:str) -> str:
+    async def call(self, message:str) -> str:
         self.messages.append({"role": "user", "content": message})
-        responses = self.user_model.ainvoke(
+        responses = await self.user_model.ainvoke(
             {
                 "messages": self.messages
             }

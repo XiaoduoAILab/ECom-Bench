@@ -53,7 +53,7 @@ async def get_order_info(order_params: OrderParams) -> str:
     # 生成缓存键
     _config = get_config()
     cache_key = get_md5(**order_params.model_dump())
-    if _config.get("cache") == "true":
+    if _config["data"].get("cache"):
         cached_data = read_cache("get_order_info", cache_key)
         if cached_data:
             return cached_data

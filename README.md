@@ -1,3 +1,4 @@
+# 项目目录
 .
 ├── main.py                # 主程序入口
 ├── run.py                 # 运行入口
@@ -52,3 +53,8 @@
 └── wikis/                 # 文档资料
     ├── agent_wiki.md      # 代理文档
     └── reward_wiki.md     # 奖励文档
+
+
+# 运行命令
+python run.py ：运行主程序。
+python app/fastapi_service.py ：运行FastAPI服务。

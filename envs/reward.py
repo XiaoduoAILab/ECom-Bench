@@ -1,3 +1,5 @@
+# import sys
+# sys.path.append("/Users/utopia/Documents/晓多/Ebench")
 from utils import LLM
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import PromptTemplate
@@ -19,8 +21,8 @@ class RewardResult(BaseModel):
     tasks: List[Task] = Field(description="包含本轮对话中识别出的所有不同客户意图及对应的客服响应评估，每个意图只评估一次，不允许重复")
 
 class Reward(LLM):
-    def __init__(self, reward_model:str):
-        super().__init__(model_name=reward_model)
+    def __init__(self, reward_model:str, verbose=False):
+        super().__init__(model_name=reward_model, verbose=verbose)
         self.reward_model = self.llm
         self.parser = PydanticOutputParser(pydantic_object=RewardResult)
     

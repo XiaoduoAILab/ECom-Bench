@@ -59,7 +59,7 @@ class RunLogger:
 console_verbose = RunLogger()
 
 class LLM(ABC): 
-    def __init__(self, model_name, verbose, mcp_tools=None):
+    def __init__(self, model_name:str, verbose:bool, mcp_tools=[]):
         self.model_name = model_name
         self.verbose = verbose
         self.mcp_tools = mcp_tools
