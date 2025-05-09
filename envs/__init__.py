@@ -28,6 +28,8 @@ def get_env(
 
         return MockStoryEnv(
             user_model=user_model,
+            agent_model=agent_model,
+            reward_model=reward_model,
             console_verbose=console_verbose,
             task_index=task_index,
         )

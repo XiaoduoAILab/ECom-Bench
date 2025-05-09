@@ -1,6 +1,7 @@
 import os
 import sys
 import asyncio
+import json
 from rich.console import Console
 # 添加父目录到路径以启用本地导入
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -44,9 +45,9 @@ async def main():
         }
     }) as client_service:
         # 定义客户和商铺信息
-        user_id = "ac4a6413"
-        shop_id = "65694797abf77ce6da447377"
-        platform = "pdd"
+        user_id = "cnjdjd_42f3b413bf221"
+        shop_id = "5de650c946e7c3001814990f"
+        platform = "jd"
         
         # 初始化代理并加载系统提示
         agent = Agent(
@@ -63,13 +64,17 @@ async def main():
         
         # 示例用户消息（包含图片URL）
         msg = '''
-https://chat-img.pddugc.com/chat-pic-mall-user-v1/2024-11-20/df069f7e-613e-4540-b650-4b0d8197e6e4.jpeg
-图里什么内容？
+        帮我查询下这个订单 310305074915 的订单信息
         '''
+        import requests
+        # response = requests.post("http://localhost:8000/get_logistics_info", json={"platform": platform, "shop_id": shop_id, "order_id": "304656322378", "user_id": user_id})
+        # print(response.json())
+        # exit()
         
         # 获取代理响应并打印
         response = await agent.call(msg)
-        console.print(f"[bold blue]{agent.detail_messages}")
+        details = [d.model_dump() for d in agent.detail_messages[0]]
+        console.print(f"[bold blue]{json.dumps(details, ensure_ascii=False, indent=4)}")
         
         # print(response)
 

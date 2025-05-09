@@ -28,7 +28,7 @@ async def get_discount_info(discount_params: DiscountParams) -> str:
     """
     # 生成缓存键
     _config = get_config()
-    cache_key = get_md5(**discount_params.dict())
+    cache_key = get_md5(**discount_params.model_dump())
     if _config["data"].get("cache"):
         cached_data = read_cache("get_discount_info", cache_key)
         if cached_data is not None:

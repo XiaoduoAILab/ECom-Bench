@@ -1,16 +1,14 @@
 from .tasks import ALL_TASKS as tasks
 from .wiki import WIKI
 from envs.base import Env
-import random
 from user import User
 from agent import Agent
-import random
 from typing import Dict, List, Optional, Dict, Tuple, override
 from langchain_mcp_adapters.client import MultiServerMCPClient
 import time
 import os
 
-class MockOnlineEnv(Env):
+class MockStoryEnv(Env):
     def __init__(
         self,
         user_model: str = "gpt-4o",

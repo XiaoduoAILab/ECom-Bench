@@ -2,7 +2,7 @@ import requests
 from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Optional
-from utils.common import center, format_order_id, format_buyer_id
+from utils.common import center
 from utils.cache import get_md5, read_cache, write_cache
 from utils.config import get_config
 
@@ -13,7 +13,7 @@ class LogisticsParams(BaseModel):
     platform: str
     shop_id: str
     order_id: str
-    buyer_id: Optional[str] = None
+    user_id: Optional[str] = None
 
 @router.post("/get_logistics_info")
 async def get_logistics_info(logistics_params: LogisticsParams) -> str:
@@ -24,7 +24,7 @@ async def get_logistics_info(logistics_params: LogisticsParams) -> str:
         platform: 电商平台信息
         shop_id: 店铺ID
         order_id: 订单ID
-        buyer_id: 买家ID（可选）
+        user_id: 买家ID（可选）
         
     Returns:
         物流信息的格式化字符串
@@ -42,7 +42,7 @@ async def get_logistics_info(logistics_params: LogisticsParams) -> str:
     # 获取API地址和头信息
     location, headers = center(logistics_params.platform, 'logistics')
     order_id = logistics_params.order_id
-    buyer_id = logistics_params.buyer_id
+    buyer_id = logistics_params.user_id
     # 格式化订单ID和买家ID
     order_id = "1000282702_" + order_id if not order_id.startswith('1000282702_') else order_id
     prefix = "cnjd"

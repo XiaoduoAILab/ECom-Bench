@@ -14,6 +14,7 @@ os.environ["ZHIPUAI_API_KEY"] =  '2d00fac6fbc0408db8bd096b9b704a41.9Hje9rgehzpa2
 
 
 class Task(BaseModel):
+    annotator:str
     user_id: str
     shop_id: str
     platform: str

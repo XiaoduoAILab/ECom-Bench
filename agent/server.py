@@ -2,14 +2,14 @@ from typing import List, Dict
 from mcp.server.fastmcp import FastMCP
 from tools import get_discount_info
 from tools import get_image_info
-from tools import get_logistic_info
+from tools import get_logistics_info
 from tools import get_order_info
 from tools import get_goods_property
 mcp = FastMCP("service")
 
 
 @mcp.tool()
-def get_logistic_info_tool(platform: str, shop_id: str, order_id: str) -> str:
+def get_logistics_info_tool(platform: str, shop_id: str, order_id: str, user_id: str) -> str:
     """
     用于获取物流政策的信息
     当用户询问物流政策时，可以调用此工具
@@ -17,10 +17,11 @@ def get_logistic_info_tool(platform: str, shop_id: str, order_id: str) -> str:
         platform: 电商平台信息
         shop_id: 店铺ID
         order_id: 订单ID
+        user_id: 用户ID
     Returns:
         物流政策的格式化字符串
     """
-    return get_logistic_info(platform, shop_id, order_id)
+    return get_logistics_info(platform, shop_id, order_id, user_id)
 
 @mcp.tool()
 def get_goods_property_tool(platform: str, shop_id: str, goods_id: str) -> str:

@@ -20,4 +20,5 @@ class Agent(LLM):
         )
         self.detail_messages.append(responses["messages"])
         self.messages.append({"role": "assistant", "content": responses["messages"][-1].content})
+        # print(self.detail_messages)
         return responses["messages"][-1].content

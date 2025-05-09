@@ -15,7 +15,7 @@ logistics_params = {
     "platform": "jd",
     "shop_id": "5de650c946e7c3001814990f",
     "order_id": "304656322378",
-    "buyer_id": "cnjdjd_42f3b413bf221"
+    "user_id": "cnjdjd_42f3b413bf221"
 }
 
 order_params = {
@@ -26,7 +26,7 @@ order_params = {
 product_params = {
     "platform": "jd",
     "shop_id": "5de650c946e7c3001814990f",
-    "goods_id": "100091810629"
+    "goods_id": "100192762770"
 }
 
 async def test_api():
