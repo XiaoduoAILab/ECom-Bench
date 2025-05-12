@@ -4,9 +4,7 @@ from envs.base import Env
 from agents.mcp import MCPServerStdio
 from user import User
 from agent import AgentSDK as Agent
-import random
 from typing import Dict, List, Optional, Dict, Tuple, override
-from langchain_mcp_adapters.client import MultiServerMCPClient
 import time
 import os
 
@@ -40,13 +38,6 @@ class MockOnlineEnv(Env):
             "autoApprove": [],
         },
         ) as client_service:
-        # async with MultiServerMCPClient({
-        # "service": {
-        #     "command": "python",
-        #     "args": [os.path.join(base_dir,"agent", "server.py")],
-        #     "transport": "stdio",
-        # }
-        # }) as client_service:
             self.customer = User(self.user_model)
             self.service = Agent(self.agent_model, mcp_tools=client_service)
             self.customer.load_system_prompt(self.user_wiki.format(instruction=self.task.instruction))
