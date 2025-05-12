@@ -1,7 +1,7 @@
 # Copyright Sierra
 from rich.console import Console
 from pydantic import BaseModel
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 from langgraph.prebuilt import create_react_agent
 from langchain_community.chat_models import ChatZhipuAI
 from langchain_openai import ChatOpenAI
@@ -21,6 +21,12 @@ class Task(BaseModel):
     instruction: str
     principle: str
 
+
+class EnvRunResult(BaseModel):
+    task_id: int
+    reward: float
+    traj: List[Dict[str, Any]]
+    trial: int
 
 
 class RunConfig(BaseModel):

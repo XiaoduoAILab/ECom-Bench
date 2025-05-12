@@ -3,8 +3,8 @@ host:
   port: 8000
 
 data:
-  cache: false           # 是否使用缓存的数据
-  save: true            # 是否选择缓存数据
+  cache: true           # 是否使用缓存的数据
+  save: false            # 是否选择缓存数据
   directory: "./data"     # 缓存数据的路径
   lock_timeout: 5       # 文件锁超时时间(秒)
 

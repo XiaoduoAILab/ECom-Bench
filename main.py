@@ -10,7 +10,7 @@ from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 from rich.progress import Progress
 from envs import get_env
-from utils import RunConfig, console_verbose
+from utils import RunConfig, console_verbose, EnvRunResult
 import traceback
 import asyncio  # 添加asyncio导入，用于处理协程
 
@@ -33,8 +33,8 @@ async def run(config: RunConfig) -> List:
     end_index = (
         len(env.tasks) if config.end_index == -1 else min(config.end_index, len(env.tasks))
     )
-    all_reward_results = [] # num_trials 的结果
-    all_tasks_results = [] # num_trials 的结果
+    all_env_results = [] # num_trials 的结果, 用于记录详细信息
+    all_tasks_results = [] # num_trials 的结果，用于记录是否成功
     
     lock = multiprocessing.Lock()
     if config.task_ids and len(config.task_ids) > 0:
@@ -87,17 +87,26 @@ async def run(config: RunConfig) -> List:
                         # result.info,
                         # "\n[dim]-----------------------------------------------------------------[/dim]"
                     )
-                with lock:
-                    data = []
-                    if os.path.exists(ckpt_path):
-                        with open(ckpt_path, "r") as f:
-                            data = json.load(f)
-                    with open(ckpt_path, "w") as f:
-                        json.dump(data +  [{idx : traj}], f, indent=2, ensure_ascii=False)
-                return (reward, task_result_str)
+                    
+
+                    
+                # with lock:
+                #     data = []
+                #     if os.path.exists(ckpt_path):
+                #         with open(ckpt_path, "r") as f:
+                #             data = json.load(f)
+                #     with open(ckpt_path, "w") as f:
+                #         json.dump(data +  [env_run_result.model_dump()], f, indent=2, ensure_ascii=False)
+                env_run_result = EnvRunResult(
+                        reward=reward,
+                        task_id=idx,
+                        traj=traj,
+                        trial=i
+                    )
+                return (env_run_result, task_result_str)
             
             task_progress = progress.add_task(f"[yellow]Trial {i + 1} tasks", total=len(idxs))
-            reward_results = [] # 每个trial的结果, rewards
+            env_results = [] # 每个trial的结果, rewards
             tasks_results = [] # 每个trial的结果
             with ThreadPoolExecutor(max_workers=config.max_concurrency) as executor:
                 # 提交所有任务
@@ -108,7 +117,7 @@ async def run(config: RunConfig) -> List:
                     idx = future_to_idx[future]
                     try:
                         result = future.result()  # 这里不再是协程，而是直接获取结果
-                        reward_results.append(result[0])
+                        env_results.append(result[0])
                         tasks_results.append(result[1])
                         # 更新任务进度
                         progress.update(task_progress, advance=1)
@@ -116,7 +125,7 @@ async def run(config: RunConfig) -> List:
                         console_verbose.print(f"[red]\n处理任务 {idx} 时出错: {str(e)}[/red]")
                         console_verbose.print(traceback.format_exc())  # 这会打印完整的堆栈跟踪
 
-            all_reward_results.extend(reward_results)
+            all_env_results.extend(env_results)
             all_tasks_results.append({"num_trial": i+1, "results": tasks_results})
             progress.remove_task(task_progress)
             # 集中打印所有任务结果
@@ -131,24 +140,23 @@ async def run(config: RunConfig) -> List:
                 console_verbose.print("\n[bold blue]-------------------[/bold blue]\n")
 
 
-    # display_metrics(all_reward_results)
+    display_metrics(all_env_results) 
 
     with open(ckpt_path, "w") as f:
-        json.dump([reward for reward in all_reward_results], f, indent=2, ensure_ascii=False)
+        json.dump([result.model_dump() for result in all_env_results], f, indent=2, ensure_ascii=False)
         console_verbose.print(f"\n[blue]📄 Results saved to {ckpt_path}[/blue]\n")  # Saved result info
 
-    return all_reward_results  # 修复：应该返回结果列表而不是未定义的变量
+    return all_env_results
 
 
 
-def display_metrics(results: List[float]) -> None:
-    if len(results) == 0:
-        return None
+def display_metrics(results: List[EnvRunResult]) -> None:
+    
     def is_successful(reward: float) -> bool:
         return 0+1e-6 < reward <= (1 + 1e-6)
 
     num_trials = len(set([r.trial for r in results]))
-    rewards = results
+    rewards = [r.reward for r in results]
     avg_reward = sum(rewards) / len(rewards)
     # c from https://arxiv.org/pdf/2406.12045
     c_per_task_id: dict[int, int] = {}
