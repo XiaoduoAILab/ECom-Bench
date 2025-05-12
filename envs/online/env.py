@@ -1,9 +1,9 @@
 from .tasks import ALL_TASKS as tasks
 from .wiki import WIKI
 from envs.base import Env
-import random
+from agents.mcp import MCPServerStdio
 from user import User
-from agent import Agent
+from agent import AgentSDK as Agent
 import random
 from typing import Dict, List, Optional, Dict, Tuple, override
 from langchain_mcp_adapters.client import MultiServerMCPClient
@@ -31,15 +31,24 @@ class MockOnlineEnv(Env):
         
     async def a_run(self) -> Tuple[float, List[Dict]]:
         base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-        async with MultiServerMCPClient({
-        "service": {
+        async with MCPServerStdio(
+        name= "service",
+        params={
             "command": "python",
             "args": [os.path.join(base_dir,"agent", "server.py")],
-            "transport": "stdio",
-        }
-        }) as client_service:
+            "disabled": False,
+            "autoApprove": [],
+        },
+        ) as client_service:
+        # async with MultiServerMCPClient({
+        # "service": {
+        #     "command": "python",
+        #     "args": [os.path.join(base_dir,"agent", "server.py")],
+        #     "transport": "stdio",
+        # }
+        # }) as client_service:
             self.customer = User(self.user_model)
-            self.service = Agent(self.agent_model, mcp_tools=client_service.get_tools())
+            self.service = Agent(self.agent_model, mcp_tools=client_service)
             self.customer.load_system_prompt(self.user_wiki.format(instruction=self.task.instruction))
             self.service.load_system_prompt(self.agent_wiki.format(platform=self.task.platform, shop_id=self.task.shop_id, user_id = self.task.user_id))
             self.console_verbose.log(f"\n[bold blue]=== 开始执行任务 ===[/bold blue]")  # Task execution start

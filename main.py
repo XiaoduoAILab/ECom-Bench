@@ -77,7 +77,10 @@ async def run(config: RunConfig) -> List:
                         # "\n[dim]-----------------------------------------------------------------[/dim]"
                     )
                 except Exception as e:
-                    reward, traj = 0.0, [{"error": str(e), "traceback": traceback.format_exc()}]  
+                    reward, traj = 0.0, [{"error": str(e), "traceback": traceback.format_exc()}]
+                    
+                    console_verbose.print(f"[red]\n处理任务 {idx} 时出错: {str(e)}[/red]")
+                    console_verbose.print(traceback.format_exc())  # 这会打印完整的堆栈跟踪  
                     task_result_str = (
                         f"✅" if reward > 0 else f"❌",
                         f"task_id={idx}",
@@ -90,7 +93,7 @@ async def run(config: RunConfig) -> List:
                         with open(ckpt_path, "r") as f:
                             data = json.load(f)
                     with open(ckpt_path, "w") as f:
-                        json.dump(data +  [{idx : traj}], f, indent=2)
+                        json.dump(data +  [{idx : traj}], f, indent=2, ensure_ascii=False)
                 return (reward, task_result_str)
             
             task_progress = progress.add_task(f"[yellow]Trial {i + 1} tasks", total=len(idxs))

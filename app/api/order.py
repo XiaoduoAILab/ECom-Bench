@@ -61,7 +61,7 @@ async def get_order_info(order_params: OrderParams) -> str:
             return "没有查询到订单信息"
     
     # 格式化订单ID（添加前缀）
-    order_id = "1000001465_" + str(order_params.order_id) if not order_params.order_id.startswith('1000001465_') else order_params.order_id
+    order_id = "1000282702_" + str(order_params.order_id) if not order_params.order_id.startswith('1000282702_') else order_params.order_id
     
     # 获取API地址和头信息
     location, headers = center(order_params.platform, 'order')

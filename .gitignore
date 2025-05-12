@@ -2,3 +2,6 @@
 test/
 app/data/
 results/
+warehouse/
+*.csv
+*.json
