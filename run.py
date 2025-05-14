@@ -12,24 +12,24 @@ def parse_args() -> RunConfig:
     parser = argparse.ArgumentParser()
     parser.add_argument("--num-trials", type=int, default=1)
     parser.add_argument(
-        "--env", type=str, choices=["online","story","recommendation"], default="online"
+        "--env", type=str, choices=["online","story","recommendation"], default="story"
     )
     parser.add_argument(
         "--user-model",
         type=str,
-        default="deepseek-v3",
+        default="qwen",
         help="The model to use for the user simulator",
     )
     parser.add_argument(
         "--agent-model",
         type=str,
-        default="deepseek-v3",
+        default="qwen",
         help="The model to use for the agent simulator",
     )
     parser.add_argument(
         "--reward-model",
         type=str,
-        default="deepseek-v3",
+        default="qwen",
         help="The model to use for the reward simulator",
     )
     

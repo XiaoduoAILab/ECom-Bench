@@ -2,7 +2,7 @@ from .tasks import ALL_TASKS as tasks
 from .wiki import WIKI
 from envs.base import Env
 from user import User
-from agent import Agent
+from agent import AgentLangChain as Agent
 from typing import Dict, List, Optional, Dict, Tuple, override
 from langchain_mcp_adapters.client import MultiServerMCPClient
 import time
@@ -37,7 +37,7 @@ class MockStoryEnv(Env):
         }
         }) as client_service:
             self.customer = User(self.user_model)
-            self.service = Agent(self.agent_model, mcp_tools=client_service.get_tools())
+            self.service = Agent(agent_model=self.agent_model, mcp_tools=client_service.get_tools())
             self.customer.load_system_prompt(self.user_wiki.format(instruction=self.task.instruction))
             self.service.load_system_prompt(self.agent_wiki.format(platform=self.task.platform, shop_id=self.task.shop_id, user_id = self.task.user_id))
             self.console_verbose.log(f"\n[bold blue]=== 开始执行任务 ===[/bold blue]")  # Task execution start

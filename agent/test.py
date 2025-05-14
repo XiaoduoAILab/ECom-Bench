@@ -66,10 +66,6 @@ async def main():
         msg = '''
         帮我查询下这个订单 310305074915 的订单信息
         '''
-        import requests
-        # response = requests.post("http://localhost:8000/get_logistics_info", json={"platform": platform, "shop_id": shop_id, "order_id": "304656322378", "user_id": user_id})
-        # print(response.json())
-        # exit()
         
         # 获取代理响应并打印
         response = await agent.call(msg)

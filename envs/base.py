@@ -2,7 +2,7 @@ import random
 from typing import Any, Dict, List, Optional, Dict, Tuple
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from user import User
-from agent import Agent
+from agent import AgentLangChain as Agent
 from .reward import Reward
 from wikis import AGENT_WIKI
 import time

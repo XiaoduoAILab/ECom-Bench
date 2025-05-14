@@ -153,7 +153,7 @@ async def run(config: RunConfig) -> List:
 def display_metrics(results: List[EnvRunResult]) -> None:
     
     def is_successful(reward: float) -> bool:
-        return 0+1e-6 < reward <= (1 + 1e-6)
+        return 0.5+1e-6 < reward <= (1 + 1e-6)
 
     num_trials = len(set([r.trial for r in results]))
     rewards = [r.reward for r in results]
