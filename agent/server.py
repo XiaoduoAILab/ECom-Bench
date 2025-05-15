@@ -21,6 +21,8 @@ def get_logistics_info_tool(platform: str, shop_id: str, order_id: str, user_id:
     Returns:
         物流政策的格式化字符串
     """
+    if not platform or not shop_id or not order_id or not user_id:
+        return "请提供完整的平台、店铺ID、订单ID和用户ID"
     return get_logistics_info(platform, shop_id, order_id, user_id)
 
 @mcp.tool()
@@ -35,6 +37,8 @@ def get_goods_property_tool(platform: str, shop_id: str, goods_id: str) -> str:
     Returns:
         商品信息的格式化字符串
     """
+    if not platform or not shop_id or not goods_id:
+        return "请提供完整的平台、店铺ID和商品ID"
     return get_goods_property(platform, shop_id, goods_id)
 
 @mcp.tool()
@@ -49,6 +53,8 @@ def get_discount_info_tool(platform: str, shop_id: str, order_id: str) -> str:
     Returns:
         优惠信息的格式化字符串
     """
+    if not platform or not shop_id or not order_id:
+        return "请提供完整的平台、店铺ID和订单ID"
     return get_discount_info(platform, shop_id, order_id)
 
 @mcp.tool()
@@ -62,6 +68,8 @@ def get_order_info_tool(platform: str, order_id: str):
     Returns:
         订单信息的格式化字符串
     """
+    if not platform or not order_id:
+        return "请提供完整的平台和订单ID"
     return get_order_info(platform, order_id)
 
 @mcp.tool()
@@ -92,6 +100,8 @@ def get_image_info_tool(
             - 若无图片链接：返回“未检测到有效图片链接”。
             - 若识别失败：返回“无法识别图片内容”。
     """
+    if not summarized_query or not history_messages:
+        return "请提供完整的问题和历史对话"
     return get_image_info(summarized_query, history_messages)
 
 if __name__ == "__main__":

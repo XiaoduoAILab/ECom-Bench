@@ -4,11 +4,11 @@ from envs.base import Env
 from agents.mcp import MCPServerStdio
 from user import User
 from agent import AgentSDK as Agent
-from typing import Dict, List, Optional, Dict, Tuple, override
+from typing import Dict, List, Optional, Dict, Tuple
 import time
 import os
 
-class MockOnlineEnv(Env):
+class MockSessionEnv(Env):
     def __init__(
         self,
         user_model: str = "gpt-4o",
@@ -63,7 +63,6 @@ class MockOnlineEnv(Env):
         reward = self.calculate_reward(self.session, self.elapsed_time, 1)
         return reward, self.session
     
-    @override
     def _is_done(self, message: str) -> bool:
         if ("###STOP###" in message and abs(len(message.strip()) - len("###STOP###")) <= 3) or \
             ("###STOP###" in message and ('祝' in message or '再见' in message or '谢' in message)):

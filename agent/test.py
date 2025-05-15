@@ -7,7 +7,7 @@ from rich.console import Console
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # 本地导入
-from agent import Agent
+from agent import AgentLangChain as Agent
 from langchain_mcp_adapters.client import MultiServerMCPClient
 
 # 获取基础目录
@@ -52,7 +52,8 @@ async def main():
         # 初始化代理并加载系统提示
         agent = Agent(
             agent_model="deepseek-v3", 
-            mcp_tools=client_service.get_tools()
+            mcp_tools=client_service.get_tools(),
+            verbose=True
         )
         agent.load_system_prompt(
             system_prompt.format(

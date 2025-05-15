@@ -21,4 +21,4 @@ def get_logistics_info(platform: str, shop_id: str, order_id: str, user_id: str)
         return response.text
     else:
         return f"请求服务器失败，状态码：{response.status_code}, 内容：{response.text}"
-    
+

@@ -12,10 +12,10 @@ def get_env(
     console_verbose=None,
     task_index: Optional[int] = None,
 ) -> Env:
-    if env_name == "online":
-        from .online import MockOnlineEnv
+    if env_name == "session":
+        from .session import MockSessionEnv
 
-        return MockOnlineEnv(
+        return MockSessionEnv(
             user_model=user_model,
             agent_model=agent_model,
             reward_model=reward_model,

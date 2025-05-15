@@ -14,9 +14,10 @@ class AgentLangChain(LLM):
     async def call(self, message:str) -> str:
         self.messages.append({"role": "user", "content": message})
         responses = await self.agent_model.ainvoke(
-            {
+            input = {
                 "messages": self.messages
-            }
+            },
+            debug=self.verbose
         )
         self.detail_messages.append(responses["messages"])
         self.messages.append({"role": "assistant", "content": responses["messages"][-1].content})

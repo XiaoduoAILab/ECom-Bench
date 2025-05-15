@@ -15,7 +15,7 @@ import traceback
 import asyncio  # 添加asyncio导入，用于处理协程
 
 async def run(config: RunConfig) -> List:
-    assert config.env in ["online","story","recommendation"]  
+    assert config.env in ["story", "recommendation", "session"]  
     random.seed(config.seed)
     time_str = datetime.now().strftime("%m%d%H%M%S")
     ckpt_path = f"{config.log_dir}/user-{config.user_model}_agent-{config.agent_model}_reward-{config.reward_model}_range_{config.start_index}-{config.end_index}_{time_str}.json"
@@ -136,7 +136,7 @@ async def run(config: RunConfig) -> List:
                 for i in range(0, len(results['results']), batch_size):  # 修复：访问results字典中的'results'列表
                     batch_results = results['results'][i:i+batch_size]
                     batch_results = [' '.join(r) for r in batch_results]
-                    console_verbose.print(f'[bold blue] {'  '.join(batch_results)}')
+                    console_verbose.print(f"[bold blue] {'  '.join(batch_results)}")
                 console_verbose.print("\n[bold blue]-------------------[/bold blue]\n")
 
 
