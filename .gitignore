@@ -1,7 +1,9 @@
-.DS_Store
 test/
 app/data/
 results/
 warehouse/
+.vscode/
+__pycache__/
+.DS_Store
 *.csv
 *.json

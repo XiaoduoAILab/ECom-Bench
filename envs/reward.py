@@ -1,5 +1,3 @@
-# import sys
-# sys.path.append("/Users/utopia/Documents/晓多/Ebench")
 from utils import LLM
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import PromptTemplate

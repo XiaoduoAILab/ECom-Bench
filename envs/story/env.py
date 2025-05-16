@@ -1,7 +1,7 @@
 from .tasks import ALL_TASKS as tasks
 from .wiki import WIKI
 from envs.base import Env
-from user import User
+from user import UserCoT as User
 from agent import AgentLangChain as Agent
 from typing import Dict, List, Optional, Dict, Tuple, override
 from langchain_mcp_adapters.client import MultiServerMCPClient

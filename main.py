@@ -18,7 +18,7 @@ async def run(config: RunConfig) -> List:
     assert config.env in ["story", "recommendation", "session"]  
     random.seed(config.seed)
     time_str = datetime.now().strftime("%m%d%H%M%S")
-    ckpt_path = f"{config.log_dir}/user-{config.user_model}_agent-{config.agent_model}_reward-{config.reward_model}_range_{config.start_index}-{config.end_index}_{time_str}.json"
+    ckpt_path = f"{config.log_dir}/user-{config.user_model}_agent-{config.agent_model}_reward-{config.reward_model}_env-{config.env}_range_{config.start_index}-{config.end_index}_{time_str}.json"
     if not os.path.exists(config.log_dir):
         os.makedirs(config.log_dir)
     console_verbose.reset(config.verbose)
