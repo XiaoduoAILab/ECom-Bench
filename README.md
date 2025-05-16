@@ -58,5 +58,5 @@
 ```
 
 # 运行命令
-python run.py ：运行主程序。
-python app/fastapi_service.py ：运行FastAPI服务。
+python run.py ：运行主程序。 # python run.py --env story --task-ids 0 --verbose
+cd app && python fastapi_service.py ：运行FastAPI服务。

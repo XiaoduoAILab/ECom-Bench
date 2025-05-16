@@ -3,7 +3,7 @@ from .wiki import WIKI
 from envs.base import Env
 from user import UserCoT as User
 from agent import AgentLangChain as Agent
-from typing import Dict, List, Optional, Dict, Tuple, override
+from typing import Dict, List, Optional, Dict, Tuple
 from langchain_mcp_adapters.client import MultiServerMCPClient
 import time
 import os
@@ -61,7 +61,6 @@ class MockStoryEnv(Env):
         reward = self.calculate_reward(self.session, self.elapsed_time, 1)
         return reward, self.session
     
-    @override
     def _is_done(self, message: str) -> bool:
         if ("###STOP###" in message and abs(len(message.strip()) - len("###STOP###")) <= 3) or \
             ("###STOP###" in message and ('祝' in message or '再见' in message or '谢' in message)):
