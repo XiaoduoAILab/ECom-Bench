@@ -7,11 +7,11 @@ from rich.console import Console
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # 本地导入
-from agents import AgentLangChain as Agent
+from agents_list import AgentLangChain as Agent
 from langchain_mcp_adapters.client import MultiServerMCPClient
 
 # 获取基础目录
-base_dir = os.path.dirname(os.path.abspath(__file__))
+base_dir = os.path.join(os.path.dirname(__file__), "servers", "offline")
 console = Console()
 # 定义系统提示
 system_prompt = '''
