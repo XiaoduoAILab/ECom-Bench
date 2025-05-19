@@ -1,7 +1,7 @@
 import random
-from typing import Any, Dict, List, Optional, Dict, Tuple
+from typing import Dict, List, Optional, Dict, Tuple
 from langchain_mcp_adapters.client import MultiServerMCPClient
-from user import User
+from user import UserBased as User
 from agent import AgentLangChain as Agent
 from .reward import Reward
 from wikis import AGENT_WIKI
@@ -77,7 +77,7 @@ class Env(object):
             async with MultiServerMCPClient({
                 "service": {
                     "command": "python",
-                    "args": [os.path.join( os.path.dirname(os.path.dirname(__file__)) ,"agent", "server.py")],
+                    "args": [os.path.join( os.path.dirname(os.path.dirname(__file__)) ,"agent", "servers","offline","server.py")],
                     "transport": "stdio",
                 }
             }) as client_service:

@@ -1,1 +1,1 @@
-from .user import User, UserCoT
+from .user import UserBased, UserCoT

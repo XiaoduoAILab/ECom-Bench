@@ -20,6 +20,7 @@ class Task(BaseModel):
     platform: str
     instruction: str
     principle: str
+    metadata:Optional[Dict[str, Any]] = None
 
 
 class EnvRunResult(BaseModel):
@@ -34,7 +35,7 @@ class RunConfig(BaseModel):
     user_model: str
     reward_model:str 
     num_trials: int 
-    env: str 
+    env: str
     temperature: float = 0.0
     start_index: int = 0
     end_index: int = -1
@@ -44,7 +45,7 @@ class RunConfig(BaseModel):
     seed: int = 10
     shuffle: int = 0
     verbose: bool = False
-    multimodal: str = "gpt4omini"
+
 
 
 

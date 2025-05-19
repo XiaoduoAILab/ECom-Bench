@@ -1,6 +1,6 @@
 from utils import LLM
 
-class User(LLM):
+class UserBased(LLM):
     def __init__(self, user_model:str, verbose=False, mcp_tools= []):
         super().__init__(model_name=user_model, verbose=verbose, mcp_tools=mcp_tools)
         self.detail_messages = []
@@ -75,7 +75,7 @@ class Response(BaseModel):
     final_response:str = Field(...,description='根据评估的结果选择最符合当前场景的反应方式，优先考虑有利于推进对话')
     
     
-class UserCoT(User):
+class UserCoT(UserBased):
     def __init__(self, user_model:str, verbose=False, mcp_tools= []):
         super().__init__(user_model=user_model, verbose=verbose, mcp_tools=mcp_tools)
         self.parser = PydanticOutputParser(pydantic_object=Response)

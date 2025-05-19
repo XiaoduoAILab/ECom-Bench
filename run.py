@@ -12,7 +12,7 @@ def parse_args() -> RunConfig:
     parser = argparse.ArgumentParser()
     parser.add_argument("--num-trials", type=int, default=1)
     parser.add_argument(
-        "--env", type=str, choices=["story","recommendation","session"], default="story"
+        "--env", type=str, choices=["story","recommendation","session", "dialogue"], default="story"
     )
     parser.add_argument(
         "--user-model",
@@ -33,6 +33,7 @@ def parse_args() -> RunConfig:
         help="The model to use for the reward simulator",
     )
     
+    
     parser.add_argument(
         "--temperature",
         type=float,
@@ -46,14 +47,13 @@ def parse_args() -> RunConfig:
     parser.add_argument(
         "--max-concurrency",
         type=int,
-        default=1,
+        default=10,
         help="Number of tasks to run in parallel",
     )
     parser.add_argument("--seed", type=int, default=10)
     parser.add_argument("--shuffle", type=int, default=0)
     parser.add_argument("--num_trials", type=int, default=1)
     parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
-    parser.add_argument("--multimodal", type=str, default='qwenvlmax', choices=['gpt4omini', 'kimi-8k', 'kimi-32k', 'kimi-128k', 'qwenvlmax', 'doubao-pro'], help="The multimodal model to use for the agent")
     args = parser.parse_args()
     console.print(f"[green]{args}[/green]")  # Info color
     return RunConfig(
@@ -71,7 +71,6 @@ def parse_args() -> RunConfig:
         seed=args.seed,
         shuffle=args.shuffle,
         verbose=args.verbose,
-        multimodal=args.multimodal,
         # Add any other arguments you want to pass to RunConfig
     )
 

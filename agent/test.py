@@ -7,7 +7,7 @@ from rich.console import Console
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # 本地导入
-from agent import AgentLangChain as Agent
+from agents import AgentLangChain as Agent
 from langchain_mcp_adapters.client import MultiServerMCPClient
 
 # 获取基础目录

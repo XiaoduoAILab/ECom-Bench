@@ -1,15 +1,16 @@
 from .tasks import ALL_TASKS as tasks
 from .wiki import WIKI
 from envs.base import Env
+from agents.mcp import MCPServerStdio
 from user import UserCoT as User
-from agent import AgentLangChain as Agent
+from agent import AgentSDK as Agent
 from agent import OFFLINE_SERVER_DIR
 from typing import Dict, List, Optional, Dict, Tuple
-from langchain_mcp_adapters.client import MultiServerMCPClient
 import time
 import os
 
-class MockStoryEnv(Env):
+class MockDialogueEnv(Env):
+    
     def __init__(
         self,
         user_model: str = "gpt-4o",
@@ -29,15 +30,17 @@ class MockStoryEnv(Env):
         self.console_verbose = console_verbose
         
     async def a_run(self) -> Tuple[float, List[Dict]]:
-        async with MultiServerMCPClient({
-        "service": {
+        async with MCPServerStdio(
+        name= "service",
+        params={
             "command": "python",
             "args": [os.path.join(OFFLINE_SERVER_DIR, "server.py")],
-            "transport": "stdio",
-        }
-        }) as client_service:
+            "disabled": False,
+            "autoApprove": [],
+        },
+        ) as client_service:
             self.customer = User(self.user_model)
-            self.service = Agent(agent_model=self.agent_model, mcp_tools=client_service.get_tools())
+            self.service = Agent(self.agent_model, mcp_tools=client_service)
             self.customer.load_system_prompt(self.user_wiki.format(instruction=self.task.instruction))
             self.service.load_system_prompt(self.agent_wiki.format(platform=self.task.platform, shop_id=self.task.shop_id, user_id = self.task.user_id))
             self.console_verbose.log(f"\n[bold blue]=== 开始执行任务 ===[/bold blue]")  # Task execution start
