@@ -1,9 +1,10 @@
 from .tasks import ALL_TASKS as tasks
 from .wiki import WIKI
 from envs.base import Env
+import shutil
 from user import UserCoT as User
 from agent import AgentLangChain as Agent
-from agent import OFFLINE_SERVER_DIR
+from agent import OFFLINE_SERVER_DIR, OFFLINE_CACHE_DIR
 from typing import Dict, List, Optional, Dict, Tuple
 from langchain_mcp_adapters.client import MultiServerMCPClient
 import time
@@ -27,12 +28,19 @@ class MockStoryEnv(Env):
             task_index=task_index,
         )
         self.console_verbose = console_verbose
+        self.data_dir = os.path.join(os.path.dirname(__file__), "data")
+        os.makedirs(self.data_dir, mode=777,exist_ok=True)
+
         
     async def a_run(self) -> Tuple[float, List[Dict]]:
+        self._create_isolated_data()
         async with MultiServerMCPClient({
         "service": {
             "command": "python",
-            "args": [os.path.join(OFFLINE_SERVER_DIR, "server.py")],
+            "args": [
+                os.path.join(OFFLINE_SERVER_DIR, "server.py"),
+                '--task_id', str(self.task_index),
+                ],
             "transport": "stdio",
         }
         }) as client_service:
@@ -66,4 +74,13 @@ class MockStoryEnv(Env):
             ("###STOP###" in message and ('祝' in message or '再见' in message or '谢' in message)):
             return True
         return False
+    
+    def _create_isolated_data(self):
+        self.cache_dir = os.path.join(OFFLINE_CACHE_DIR, f"task_{self.task_index}")
+        os.makedirs(self.cache_dir, exist_ok=True)
+        # 将data_dir的json文件都复制到cache_dir下
+        for file in os.listdir(self.data_dir):
+            if file.endswith(".json"):
+                shutil.copy(os.path.join(self.data_dir, file), self.cache_dir)
+
 

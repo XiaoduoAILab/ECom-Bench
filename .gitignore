@@ -2,6 +2,7 @@ test/
 app/data/
 results/
 warehouse/
+agent/servers/offline/cache/
 .vscode/
 __pycache__/
 .DS_Store

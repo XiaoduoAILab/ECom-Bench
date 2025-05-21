@@ -34,7 +34,10 @@ class MockDialogueEnv(Env):
         name= "service",
         params={
             "command": "python",
-            "args": [os.path.join(OFFLINE_SERVER_DIR, "server.py")],
+            "args": [
+                os.path.join(OFFLINE_SERVER_DIR, "server.py"),
+                
+                ],
             "disabled": False,
             "autoApprove": [],
         },

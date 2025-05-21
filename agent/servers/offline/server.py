@@ -1,4 +1,8 @@
 from typing import List, Dict
+import json
+import shutil
+import os
+import argparse
 from mcp.server.fastmcp import FastMCP
 from tools import get_discount_info
 from tools import get_image_info
@@ -6,6 +10,34 @@ from tools import get_logistics_info
 from tools import get_order_info
 from tools import get_goods_property
 mcp = FastMCP("service")
+data = {}
+cache_dir = os.path.join(os.path.dirname(__file__), 'cache')
+
+import logging
+file_dir = os.path.dirname(os.path.abspath(__file__))
+log_dir = os.path.join(file_dir, 'log')
+os.makedirs(log_dir, exist_ok=True)
+logging.basicConfig(
+    filename=os.path.join(log_dir,'server_debug.log'),
+    level=logging.DEBUG,
+)
+# 配置日志
+logging.basicConfig(
+    filename=os.path.join(log_dir, 'server_debug.log'),
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    force=True  # 强制重新配置日志
+)
+
+# 禁用缓冲
+logger = logging.getLogger()
+for handler in logger.handlers:
+    if hasattr(handler, 'setLevel'):
+        handler.setLevel(logging.DEBUG)
+    if hasattr(handler, 'flush'):
+        handler.flush()
+
+
 
 
 @mcp.tool()
@@ -104,5 +136,30 @@ def get_image_info_tool(
         return "请提供完整的问题和历史对话"
     return get_image_info(summarized_query, history_messages)
 
+# 解析参数
+
+
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--task_id", type=str, default='0')
+    return parser.parse_args()
+    
+# 读取制定目录下所有的json文件
+def read_json_files(cache_dir):
+    data = {}
+    for file in os.listdir(cache_dir):
+        if file.endswith(".json"):
+            key = file.split(".")[0]
+            with open(os.path.join(cache_dir, file), "r") as f:
+                data[key] = json.load(f)
+    logger.info(f"data done, {data.keys()}")
+    return data
+
 if __name__ == "__main__":
+    args = parse_args()
+    logger.debug(f"缓存数据: task_id={args.task_id}")
+    cache_dir = os.path.join(cache_dir, f"task_{args.task_id}")
+    data = read_json_files(cache_dir)
     mcp.run(transport="stdio")
