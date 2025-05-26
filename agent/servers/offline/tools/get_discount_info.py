@@ -1,8 +1,6 @@
-import requests
-import os
-from .config import get_config
-
-def get_discount_info(platform: str, shop_id: str, order_id: str) -> str:
+from .utils import get_discount
+import json 
+def get_discount_info(data, platform:str, shop_id:str) -> str:
     """
     用于获取优惠信息
     当用户询问优惠政策时，可以调用此函数
@@ -13,10 +11,7 @@ def get_discount_info(platform: str, shop_id: str, order_id: str) -> str:
     Returns:
         优惠信息的格式化字符串
     """
-    config = get_config()
-    url = os.path.join(config["base_url"], "get_discount_info") 
-    response = requests.post(url, json={"platform": platform, "shop_id": shop_id, "order_id": order_id})
-    if response.status_code == 200:
-        return response.text
-    else:
-        return f"请求服务器失败, 状态码: {response.status_code}，内容: {response.text}"
+    discount_info = get_discount(data = data, platform = platform, shop_id = shop_id)
+    if discount_info is None:
+        return f"没有找到{platform}店铺{shop_id}的优惠信息"
+    return data, json.dumps(discount_info, ensure_ascii=False)

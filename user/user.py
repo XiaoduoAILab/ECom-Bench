@@ -127,3 +127,27 @@ class UserCoT(UserBased):
         self.messages.append(f"客服回复: {message}")
         self.messages.append(f"你的回复：{final_response}")
         return final_response
+
+
+class UserHuman(LLM):
+    def __init__(self, user_model:str, verbose=False, mcp_tools= []):
+        super().__init__(model_name=user_model, verbose=verbose, mcp_tools=mcp_tools)
+        self.detail_messages = []
+        self.user_model = super()._initiate_agent()
+    
+    def load_system_prompt(self, system_prompt):
+        self.messages.append({"role": "system", "content": system_prompt})
+    
+    
+    async def call(self, message:str) -> str:
+        self.messages.append({"role": "user", "content": message})
+        response = input("请输入你（顾客）的回复（quit停止）：\t")
+        response = response.strip()
+        while not response:
+            print("回复不能为空，请重新输入：")
+            response = input("请输入你（顾客）的回复（quit停止）：\t")
+            response = response.strip()
+        self.messages.append({"role": "assistant", "content": response})
+        if response == 'quit':
+            response = '###STOP###'
+        return response

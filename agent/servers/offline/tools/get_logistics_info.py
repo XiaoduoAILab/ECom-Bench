@@ -1,8 +1,7 @@
-import requests
-import os
-from .config import get_config
+from .utils import get_logistics
+import json
 
-def get_logistics_info(platform: str, shop_id: str, order_id: str, user_id: str) -> str:
+def get_logistics_info(data, platform: str, shop_id: str, order_id: str, user_id: str) -> str:
     """
     用于获取物流政策的信息
     当用户询问物流政策时，可以调用此函数
@@ -14,11 +13,8 @@ def get_logistics_info(platform: str, shop_id: str, order_id: str, user_id: str)
     Returns:
         物流信息的格式化字符串
     """
-    config = get_config()
-    url = os.path.join(config["base_url"], "get_logistics_info")
-    response = requests.post(url, json={"platform": platform, "shop_id": shop_id, "order_id": order_id, "user_id": user_id})
-    if response.status_code == 200:
-        return response.text
-    else:
-        return f"请求服务器失败，状态码：{response.status_code}, 内容：{response.text}"
-
+    logistics_info = get_logistics(data = data, platform = platform, shop_id = shop_id, order_id = order_id, user_id = user_id)
+    if logistics_info is None:
+        return f"没有找到{platform}店铺{shop_id}用户{user_id}订单{order_id}的物流信息"
+    return data, json.dumps(logistics_info, ensure_ascii=False)
+    

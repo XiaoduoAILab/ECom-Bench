@@ -26,7 +26,7 @@ order_params = {
 product_params = {
     "platform": "jd",
     "shop_id": "5de650c946e7c3001814990f",
-    "goods_id": "100042045930"
+    "goods_id": "4596106"
 }
 
 async def test_api():

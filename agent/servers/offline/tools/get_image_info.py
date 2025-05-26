@@ -3,7 +3,7 @@ from .apis import OnlineLLMApi
 from .config import get_config
 MULTIMODAL_TYPES = ['doubao-pro', 'qwenvlmax', 'gpt4omini', 'kimi-8k', 'kimi-32k', 'kimi-128k']
     
-def get_image_info(summarized_query: str, history_messages: List[Dict]) -> str:
+def get_image_info(data, summarized_query: str, history_messages: List[Dict]):
     """
     图像识别工具：只在当前买家发送信息中有图片链接时调用该工具，图片链接中一般包含gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|tiff|heic等字段。否则不需要调用get_image_info工具。
     且存在买家对图片内容提出问题时调用该工具，你应该总结顾客的问题获得summarized_query，然后调用此函数，返回对于图片忠实的描述。
@@ -34,4 +34,4 @@ def get_image_info(summarized_query: str, history_messages: List[Dict]) -> str:
         {'role': 'user', 'content': input_message}
     ]
     result = online_llm_api.generate_multimodal_response(messages).content
-    return result
+    return data, result

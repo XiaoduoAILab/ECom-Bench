@@ -2,13 +2,14 @@ from .tasks import ALL_TASKS as tasks
 from .wiki import WIKI
 from envs.base import Env
 import shutil
-from user import UserCoT as User
+from user import UserBased as User
 from agent import AgentLangChain as Agent
-from agent import OFFLINE_SERVER_DIR, OFFLINE_CACHE_DIR
+from agent import OFFLINE_SERVER_DIR, OFFLINE_CACHE_DIR, ActionTools
 from typing import Dict, List, Optional, Dict, Tuple
 from langchain_mcp_adapters.client import MultiServerMCPClient
 import time
 import os
+import json
 
 class MockStoryEnv(Env):
     def __init__(
@@ -29,7 +30,7 @@ class MockStoryEnv(Env):
         )
         self.console_verbose = console_verbose
         self.data_dir = os.path.join(os.path.dirname(__file__), "data")
-        os.makedirs(self.data_dir, mode=777,exist_ok=True)
+        os.makedirs(self.data_dir, mode=0o777,exist_ok=True)
 
         
     async def a_run(self) -> Tuple[float, List[Dict]]:
@@ -39,7 +40,7 @@ class MockStoryEnv(Env):
             "command": "python",
             "args": [
                 os.path.join(OFFLINE_SERVER_DIR, "server.py"),
-                '--task_id', str(self.task_index),
+                "--cache_dir",self.cache_dir
                 ],
             "transport": "stdio",
         }
@@ -65,22 +66,95 @@ class MockStoryEnv(Env):
                 self.session.append({"role": "assistant", "content": service_response})
                 self.console_verbose.log(f"\n[bold brown]===============Service response:===============\n{service_response}[/bold brown]")           
             self.console_verbose.log(f"\n[bold blue]=== 任务执行完成 ===[/bold blue]")  # Task execution complete
-                
+        
+        self.original_data = self._load_data(base_dir=self.data_dir)
+        self.modified_data = self._load_data(base_dir=self.cache_dir)
+        self._remove_isolated_data()
         reward = self.calculate_reward(self.session, self.elapsed_time, 1)
         return reward, self.session
     
     def _is_done(self, message: str) -> bool:
         if ("###STOP###" in message and abs(len(message.strip()) - len("###STOP###")) <= 3) or \
-            ("###STOP###" in message and ('祝' in message or '再见' in message or '谢' in message)):
+            ("###STOP###" in message and ('祝' in message or '再见' in message or '谢' in message)) or \
+            ("转人工" in message):
             return True
         return False
     
     def _create_isolated_data(self):
-        self.cache_dir = os.path.join(OFFLINE_CACHE_DIR, f"task_{self.task_index}")
-        os.makedirs(self.cache_dir, exist_ok=True)
+        # 生成16位随机uuid作为session_id
+        import uuid
+        self.session_id = str(uuid.uuid4())[:16]
+        self.cache_dir = os.path.join(OFFLINE_CACHE_DIR, self.session_id)
+        os.makedirs(self.cache_dir, exist_ok=True, mode=0o777)
+        os.chmod(self.cache_dir, 0o777)
         # 将data_dir的json文件都复制到cache_dir下
         for file in os.listdir(self.data_dir):
             if file.endswith(".json"):
                 shutil.copy(os.path.join(self.data_dir, file), self.cache_dir)
-
-
+    
+    def _remove_isolated_data(self):
+        # 删除创建的文件夹
+        shutil.rmtree(self.cache_dir)
+    
+    def _load_data(self, base_dir):
+        data = {}
+        files = os.listdir(base_dir)
+        json_files = [f for f in files if f.endswith('.json')]
+        if len(json_files) == 0:
+            return data
+        else:
+            for json_file in json_files:
+                file_path = os.path.join(base_dir, json_file)
+                file_name = os.path.splitext(json_file)[0]
+                with open(file_path, 'r',encoding='utf-8') as f:
+                    data[file_name] = json.load(f)
+        return data
+    
+    def calculate_reward(self, session: list[Dict], elapsed_time: List[float], reward: int = 1):
+        """
+        计算奖励
+        :param history: 历史记录
+        :param elapsed_time: 消耗的时间
+        :return: 奖励结果
+        """
+        self.console_verbose.log("\n[bold blue]=== 开始计算奖励 ===[/bold blue]")  # Reward calculation start
+        if not self.calculate_base_reward():
+            return 0.0
+        history = []
+        for msg in session:
+            if msg['role'] == 'user':
+                history.append(f"顾客：{msg['content']}\n")
+            elif msg['role'] == 'assistant':
+                history.append(f"客服：{msg['content']}\n")
+        if len(history) == 0 or len(elapsed_time) == 0:
+            return 0.0
+        principle = self.task.principle
+        self.console_verbose.log(f"\n[bold green]=========奖励模型打分规则=========\n{principle}[/bold green]")  # Reward model scoring rules
+        # 计算内容奖励
+        reward_score, reward_content = self.reward.call(rules=principle, history=history)
+        # 计算时间奖励
+        reward_time = self.calculate_time_reward(elapsed_time, self.max_time_limit)
+        self.console_verbose.log(f"\n[gradient(90, red, purple)]=========奖励模型打分回复=========\n{reward_content}[/gradient(90, red, purple)]")
+        self.console_verbose.log(f"\n[bold green]内容奖励[0分 - 1分]: {reward_score}[/bold green]")  # Content reward
+        self.console_verbose.log(f"\n[bold green]时间奖励[0分 - 1分]: {reward_time}[/bold green]")
+        reward = reward * ( (self.ratio * reward_score) + ((1 - self.ratio) * reward_time) )
+        self.console_verbose.log(f"\n[bold green]最终计算奖励: {reward}[/bold green]")  # Reward
+        return reward
+    
+    def calculate_base_reward(self):
+        # 计算original_data和modified_data的哈希值
+        self._actions_to_tools()
+        import hashlib
+        original_data_hash = hashlib.sha256(json.dumps(self.original_data).encode('utf-8')).hexdigest()
+        modified_data_hash = hashlib.sha256(json.dumps(self.modified_data).encode('utf-8')).hexdigest()
+        return original_data_hash == modified_data_hash
+    
+    def _actions_to_tools(self):
+        action_tools = ActionTools()
+        actions = self.task.metadata
+        tools = action_tools.get_available_functions()
+        for action in actions:
+            for tool in tools:
+                if action.function_name == tool:
+                    self.original_data, _ = action_tools.call_function(action.function_name, data = self.original_data, **action.params)
+                    break

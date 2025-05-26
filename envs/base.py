@@ -32,6 +32,7 @@ class Env(object):
         self.user_model = user_model
         self.agent_model = agent_model
         self.reward_model = reward_model
+        self.reward = Reward(self.reward_model)
         self.max_time_limit = max_time_limit
         self.ratio = ratio
         self.user_wiki = user_wiki
@@ -126,9 +127,8 @@ class Env(object):
         if len(history) == 0 or len(elapsed_time) == 0:
             return 0.0
         principle = self.task.principle
-        self.console_verbose.log(f"\n[bold green]=========奖励模型打分规则=========\n: {principle}[/bold green]")  # Reward model scoring rules
+        self.console_verbose.log(f"\n[bold green]=========奖励模型打分规则=========\n{principle}[/bold green]")  # Reward model scoring rules
         # 计算内容奖励
-        self.reward = Reward(self.reward_model)
         reward_score, reward_content = self.reward.call(rules=principle, history=history)
         # 计算时间奖励
         reward_time = self.calculate_time_reward(elapsed_time, self.max_time_limit)

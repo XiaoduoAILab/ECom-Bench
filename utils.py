@@ -7,6 +7,7 @@ from langchain_community.chat_models import ChatZhipuAI
 from langchain_openai import ChatOpenAI
 from langchain_openai import AzureChatOpenAI
 from abc import ABC, abstractmethod
+from datetime import datetime
 import os
 os.environ["AZURE_OPENAI_API_KEY"] = '0ff535d339e44592b42256a1e2a4cda3'
 os.environ["ZHIPUAI_API_KEY"] =  '2d00fac6fbc0408db8bd096b9b704a41.9Hje9rgehzpa22ku'
@@ -20,8 +21,17 @@ class Task(BaseModel):
     platform: str
     instruction: str
     principle: str
-    metadata:Optional[Dict[str, Any]] = None
+    metadata:Optional[Any] = None
+    
 
+class Episode(BaseModel):
+    time: datetime  # Episode(time="2025-01-03T15:33", instruction="Instruction text")
+    instruction: str
+    metadata: Optional[Any] = None
+
+class Action(BaseModel):
+    function_name:str
+    params: Optional[Dict[str, Any]] = None
 
 class EnvRunResult(BaseModel):
     task_id: int
@@ -67,13 +77,13 @@ class RunLogger:
 console_verbose = RunLogger()
 
 class LLM(ABC): 
-    def __init__(self, model_name:str, verbose:bool=False, mcp_tools=[]):
+    def __init__(self, model_name:str, verbose:bool=False, mcp_tools=[], temperature=0.3):
         self.model_name = model_name
         self.verbose = verbose
         self.mcp_tools = mcp_tools
         self.llm = None  # 初始化llm属性
         self.messages = []
-        self.temperature = 0.3
+        self.temperature = temperature
         self._initiate_llm()  # 初始化时直接创建LLM实例
     
     def _initiate_llm(self):

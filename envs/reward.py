@@ -12,7 +12,7 @@ class Task(BaseModel):
     intention: str = Field(description="客户在当前子任务中明确或隐含表达的具体意图或需求")
     service: str = Field(description="客服针对该特定意图所提供的实际回复内容或服务内容")
     reason: str = Field(description="详细分析客服回复是否满足客户意图的具体理由，包括回复的相关性、完整性和有效性")
-    result: int = Field(description="客服响应满足度评分：1表示充分满足客户需求，0表示未能满足客户需求")
+    result: bool = Field(description="客服响应满足度评分：True表示充分满足客户需求，False表示未能满足客户需求")
 
 class RewardResult(BaseModel):
     """对一轮完整客户-客服对话中所有不同客户意图的满足情况进行综合评估"""
@@ -71,7 +71,7 @@ class Reward(LLM):
             return (0.0, result)
     
     def parse_score(self, parsed_result):
-        total = sum(task.result for task in parsed_result.tasks)
+        total = sum(1 for task in parsed_result.tasks if task.result)
         return round((total/len(parsed_result.tasks)), 2)
                     
 if __name__ == '__main__':
