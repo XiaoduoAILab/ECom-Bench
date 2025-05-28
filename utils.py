@@ -20,18 +20,22 @@ class Task(BaseModel):
     shop_id: str
     platform: str
     instruction: str
-    principle: str
     metadata:Optional[Any] = None
     
 
-class Episode(BaseModel):
-    time: datetime  # Episode(time="2025-01-03T15:33", instruction="Instruction text")
-    instruction: str
-    metadata: Optional[Any] = None
-
+    
+class Search(BaseModel):
+    name:str
+    arguments: Optional[Dict[str, Any]] = None
+    
 class Action(BaseModel):
-    function_name:str
-    params: Optional[Dict[str, Any]] = None
+    name:str
+    arguments: Optional[Dict[str, Any]] = None
+    
+class Validation(BaseModel):
+    outputs: List[str] = []
+    actions: List[Action] = []
+    searches: List[Search] = [] 
 
 class EnvRunResult(BaseModel):
     task_id: int
@@ -39,7 +43,10 @@ class EnvRunResult(BaseModel):
     traj: List[Dict[str, Any]]
     trial: int
 
-
+class Episode(BaseModel):
+    time: datetime  # Episode(time="2025-01-03T15:33", instruction="Instruction text")
+    instruction: str
+    metadata: Optional[Any] = None
 class RunConfig(BaseModel):
     agent_model: str
     user_model: str

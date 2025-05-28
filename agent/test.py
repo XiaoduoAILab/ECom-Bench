@@ -3,6 +3,7 @@ import sys
 import asyncio
 import json
 from rich.console import Console
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 # 添加父目录到路径以启用本地导入
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -11,7 +12,7 @@ from agents_list import AgentLangChain as Agent
 from langchain_mcp_adapters.client import MultiServerMCPClient
 
 # 获取基础目录
-base_dir = os.path.join(os.path.dirname(__file__), "servers", "offline")
+base_dir = os.path.join(os.path.dirname(__file__), "servers", "online")
 console = Console()
 # 定义系统提示
 system_prompt = '''
@@ -53,7 +54,6 @@ async def main():
         agent = Agent(
             agent_model="deepseek-v3", 
             mcp_tools=client_service.get_tools(),
-            verbose=True
         )
         agent.load_system_prompt(
             system_prompt.format(
@@ -71,7 +71,24 @@ async def main():
         # 获取代理响应并打印
         response = await agent.call(msg)
         details = [d.model_dump() for d in agent.detail_messages[0]]
-        console.print(f"[bold blue]{json.dumps(details, ensure_ascii=False, indent=4)}")
+        # console.print(f"[bold blue]{json.dumps(details, ensure_ascii=False, indent=4)}")
+        # print(agent.detail_messages)
+        results = []
+        for msg in agent.detail_messages[0]:
+            if type(msg) == AIMessage:
+                if msg.additional_kwargs.get("tool_calls"):
+                    for tool_call in msg.additional_kwargs["tool_calls"]:
+                        results.append(tool_call)
+        console.print(f"[bold blue]{json.dumps(results, ensure_ascii=False, indent=4)}")
+        tool_call = results[0]
+        arguments = json.loads(tool_call['function']['arguments'])
+        # 按键排序并计算SHA256
+        sorted_str = json.dumps(arguments, sort_keys=True, ensure_ascii=False)
+        sha256_hash = hashlib.sha256(sorted_str.encode('utf-8')).hexdigest()
+
+        print(f"Sorted arguments: {sorted_args}")
+        print(f"SHA256 hash: {sha256_hash}")
+        print(arguments.keys())
         
         # print(response)
 

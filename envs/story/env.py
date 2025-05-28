@@ -4,13 +4,14 @@ from envs.base import Env
 import shutil
 from user import UserBased as User
 from agent import AgentLangChain as Agent
+from langchain_core.messages import AIMessage
 from agent import OFFLINE_SERVER_DIR, OFFLINE_CACHE_DIR, ActionTools
 from typing import Dict, List, Optional, Dict, Tuple
 from langchain_mcp_adapters.client import MultiServerMCPClient
 import time
 import os
 import json
-
+import hashlib
 class MockStoryEnv(Env):
     def __init__(
         self,
@@ -29,6 +30,7 @@ class MockStoryEnv(Env):
             task_index=task_index,
         )
         self.console_verbose = console_verbose
+        self.tool_calls = []
         self.data_dir = os.path.join(os.path.dirname(__file__), "data")
         os.makedirs(self.data_dir, mode=0o777,exist_ok=True)
 
@@ -62,6 +64,7 @@ class MockStoryEnv(Env):
                 start_time = time.time()
                 service_response = await self.service.call(customer_response)
                 end_time = time.time()
+                self._save_tool_calls(self.service.detail_messages[-1])
                 self.elapsed_time.append(round(end_time - start_time, 3))
                 self.session.append({"role": "assistant", "content": service_response})
                 self.console_verbose.log(f"\n[bold brown]===============Service response:===============\n{service_response}[/bold brown]")           
@@ -118,43 +121,67 @@ class MockStoryEnv(Env):
         :return: 奖励结果
         """
         self.console_verbose.log("\n[bold blue]=== 开始计算奖励 ===[/bold blue]")  # Reward calculation start
-        if not self.calculate_base_reward():
-            return 0.0
-        history = []
-        for msg in session:
-            if msg['role'] == 'user':
-                history.append(f"顾客：{msg['content']}\n")
-            elif msg['role'] == 'assistant':
-                history.append(f"客服：{msg['content']}\n")
-        if len(history) == 0 or len(elapsed_time) == 0:
-            return 0.0
-        principle = self.task.principle
-        self.console_verbose.log(f"\n[bold green]=========奖励模型打分规则=========\n{principle}[/bold green]")  # Reward model scoring rules
-        # 计算内容奖励
-        reward_score, reward_content = self.reward.call(rules=principle, history=history)
-        # 计算时间奖励
         reward_time = self.calculate_time_reward(elapsed_time, self.max_time_limit)
-        self.console_verbose.log(f"\n[gradient(90, red, purple)]=========奖励模型打分回复=========\n{reward_content}[/gradient(90, red, purple)]")
-        self.console_verbose.log(f"\n[bold green]内容奖励[0分 - 1分]: {reward_score}[/bold green]")  # Content reward
+        reward_actions = 1 if self.calculate_actions_reward() else 0
+        reward_searches = 1 if self.calculate_searches_reward() else 0
+        reward_outputs = 1 if self.calculate_outputs_reward() else 0
+        self.console_verbose.log(f"\n[bold green]动作奖励[0分 - 1分]: {reward_actions}[/bold green]")
+        self.console_verbose.log(f"\n[bold green]搜索奖励[0分 - 1分]: {reward_searches}[/bold green]")
+        self.console_verbose.log(f"\n[bold green]输出奖励[0分 - 1分]: {reward_outputs}[/bold green]")
         self.console_verbose.log(f"\n[bold green]时间奖励[0分 - 1分]: {reward_time}[/bold green]")
-        reward = reward * ( (self.ratio * reward_score) + ((1 - self.ratio) * reward_time) )
+        reward = 1 * reward_actions * reward_searches * reward_outputs
         self.console_verbose.log(f"\n[bold green]最终计算奖励: {reward}[/bold green]")  # Reward
         return reward
     
-    def calculate_base_reward(self):
+    def calculate_actions_reward(self):
         # 计算original_data和modified_data的哈希值
         self._actions_to_tools()
-        import hashlib
         original_data_hash = hashlib.sha256(json.dumps(self.original_data).encode('utf-8')).hexdigest()
         modified_data_hash = hashlib.sha256(json.dumps(self.modified_data).encode('utf-8')).hexdigest()
         return original_data_hash == modified_data_hash
     
     def _actions_to_tools(self):
         action_tools = ActionTools()
-        actions = self.task.metadata
+        actions = self.task.metadata.actions
         tools = action_tools.get_available_functions()
         for action in actions:
             for tool in tools:
-                if action.function_name == tool:
-                    self.original_data, _ = action_tools.call_function(action.function_name, data = self.original_data, **action.params)
+                if action.name == tool:
+                    self.original_data, _ = action_tools.call_function(action.name, data = self.original_data, **action.arguments)
                     break
+    
+    def _save_tool_calls(self, detail_message):
+        for msg in detail_message:
+            if type(msg) == AIMessage:
+                if msg.additional_kwargs.get("tool_calls"):
+                    for tool_call in msg.additional_kwargs["tool_calls"]:
+                        self.tool_calls.append(tool_call)
+    
+    def calculate_searches_reward(self):
+        service_data_hash = set()
+        for tool_call in self.tool_calls:
+            tool_call['function']['arguments'] = json.loads(tool_call['function']['arguments'])
+            service_data_hash.add(self._function_to_hash(tool_call['function']))
+        search_data_hash = set()
+        for search in self.task.metadata.searches:
+            search_data_hash.add(self._function_to_hash(search.model_dump()))
+        return search_data_hash.issubset(service_data_hash)
+    
+    def _function_to_hash(self, function):
+        """
+        function = {
+            "name": "get_product_info",
+            "arguments": {
+                "product_id": "123456"
+            }
+        }
+        """
+        function = json.dumps(function, sort_keys=True, ensure_ascii=False)
+        data_hash = hashlib.sha256(function.encode('utf-8')).hexdigest()
+        return data_hash
+        
+    def calculate_outputs_reward(self):
+        long_string = "".join([msg['content'] for msg in self.session if msg['role'] == 'assistant'])
+        return all([output in long_string for output in self.task.metadata.outputs])
+            
+    

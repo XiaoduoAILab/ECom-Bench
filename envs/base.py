@@ -126,7 +126,7 @@ class Env(object):
                 history.append(f"客服：{msg['content']}\n")
         if len(history) == 0 or len(elapsed_time) == 0:
             return 0.0
-        principle = self.task.principle
+        principle = ''
         self.console_verbose.log(f"\n[bold green]=========奖励模型打分规则=========\n{principle}[/bold green]")  # Reward model scoring rules
         # 计算内容奖励
         reward_score, reward_content = self.reward.call(rules=principle, history=history)
