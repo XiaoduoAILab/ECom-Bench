@@ -140,8 +140,8 @@ def manage_return_tool(
         Field(..., description="用户ID")
     ],
     action: Annotated[
-        Literal["query", "handle"],
-        Field(..., description="操作类型，'query'为查询退货信息，'handle'为处理退货申请")
+        Literal["查询", "处理"],
+        Field(..., description="操作类型，'查询'为查询退货信息，'处理'为处理退货申请")
     ]
 ) -> str:
     """
@@ -248,24 +248,24 @@ def manage_ecard_tool(
         Field(..., description="用户ID")
     ],
     action: Annotated[
-        Literal["query", "usage", "balance"],
-        Field(..., description="操作类型，可选值：query（查询ecard相关信息）、usage（使用）、balance（余额查询）")
+        Literal["信息查询", "余额使用", "余额查询"],
+        Field(..., description="操作类型，可选值：信息查询（查询ecard相关信息）、余额使用、余额查询")
     ],
     shop_id: Annotated[
         str,
-        Field(None, description="店铺ID（仅在action为usage时必填）")
+        Field(None, description="店铺ID（仅在action为余额使用时必填）")
     ] = None,
     product_id: Annotated[
         str,
-        Field(None, description="商品ID（仅在action为usage时必填）")
+        Field(None, description="商品ID（仅在action为余额使用时必填）")
     ] = None,
     quantity: Annotated[
         int,
-        Field(None, description="商品购买数量（仅在action为usage时必填）")
+        Field(None, description="商品购买数量（仅在action为余额使用时必填）")
     ] = None
 ) -> str:
     """
-    用于管理京东E卡信息（查询使用方法、使用、余额）。当用户提出有关京东E卡相关问题时，可以调用此工具。
+    用于管理京东E卡信息（查询服务、使用、余额查询）。当用户提出有关京东E卡相关问题时，可以调用此工具。
     """
     global data
     data, result = manage_ecard(data = data, platform = platform, user_id = user_id, action = action, product_id = product_id, quantity = quantity, shop_id = shop_id)
@@ -337,16 +337,16 @@ def manage_order_tool(
         Field(..., description="用户ID")
     ],
     action: Annotated[
-        Literal["query", "cancel", "modify"],
-        Field(..., description="操作类型，可选值：query（查询）、cancel（取消）、modify（修改地址/手机号）")
+        Literal["查询", "取消", "修改"],
+        Field(..., description="操作类型，可选值：查询、取消、修改（地址/手机号）")
     ],
     address: Annotated[
         str,
-        Field(None, description="新收货地址（仅在action为modify时选填）")
+        Field(None, description="新收货地址（仅在action为修改时选填）")
     ] = None,
     phone_number: Annotated[
         str,
-        Field(None, description="新手机号（仅在action为modify时选填）")
+        Field(None, description="新手机号（仅在action为修改时选填）")
     ] = None
 ) -> str:
     """

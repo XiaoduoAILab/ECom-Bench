@@ -12,11 +12,11 @@ def manage_ecard(data, platform: str, user_id: str, action: str, product_id: str
     user_info = get_user_info(data, user_id)
     if not user_info:
         return data, f"没有找到用户{user_id}的信息"
-    if action == 'query':
+    if action == '信息查询':
         return data, ecard_service
-    elif action == 'balance':
+    elif action == '余额查询':
         return data, f"用户{user_id}的电子卡余额为{user_info["电子卡余额"]}元"
-    elif action == 'usage':
+    elif action == '余额使用':
         if not product_id or not quantity or not shop_id:
             return data, f"请提供商品ID、购买数量和店铺ID"
         product = get_product_detail(data, platform, shop_id, product_id)

@@ -9,14 +9,14 @@ def manage_order(data, platform: str, order_id: str, shop_id: str, user_id: str,
     order_status = order.get("订单状态", "")
     if not order:
         return data, f"没有找到订单{order_id}的信息"
-    if action == 'query':
+    if action == '查询':
         return data, json.dumps(order, ensure_ascii=False)
-    elif action == 'cancel':
+    elif action == '取消':
         if order_status not in ['待付款', '已付款', '处理中']:
             return data, f"订单{order_id}的状态为{order_status}，不能取消"
         data["orders"][platform][shop_id][user_id][order_id]["订单状态"] = "已取消"
         return data, f"订单{order_id}已取消"
-    elif action == 'modify':
+    elif action == '修改':
         if order_status not in ['待付款', '已付款', '处理中']:
             return data, f"订单{order_id}的状态为{order_status}，不能修改"
         if not address and not phone_number:
