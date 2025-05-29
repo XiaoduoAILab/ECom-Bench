@@ -68,7 +68,7 @@ ALL_TASKS = [
                         "shop_id": "5de650c946e7c3001814990f",
                         "user_id": "cnjd喜哥2号",
                         "order_id": "313271663680",
-                        "action": "cancel"
+                        "action": "取消"
                     }
                 ),
                 # Action(
@@ -272,7 +272,7 @@ ALL_TASKS = [
                         "shop_id": "5de650c946e7c3001814990f",
                         "order_id": "314415092676",
                         "user_id": "cnjd13424434889_p",
-                        "action": "handle"
+                        "action": "处理"
                     }
                 )
             ],
@@ -394,7 +394,7 @@ ALL_TASKS = [
                         "shop_id": "5de650c946e7c3001814990f",
                         "user_id": "cnjdwdnipzaorvgkymr",
                         "order_id": "312705335872",
-                        "action": "modify",
+                        "action": "修改",
                         "address": "湖南省长沙市劳动西路310号",
                         "phone_number": "13345178901"
                     }
@@ -594,7 +594,7 @@ ALL_TASKS = [
                         "shop_id": "5de650c946e7c3001814990f",
                         "user_id": "cnjd2235243611_m",
                         "order_id": "313157059869",
-                        "action": "查询"
+                        "action": "返现"
                     }
                 )
             ],
@@ -662,7 +662,7 @@ ALL_TASKS = [
                         "shop_id": "5de650c946e7c3001814990f",
                         "user_id": "cnjd21377259-135488",
                         "order_id": "312178752583",
-                        "action": "查询"
+                        "action": "返现"
                     }
                 )
             ],
