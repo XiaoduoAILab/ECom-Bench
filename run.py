@@ -17,7 +17,7 @@ def parse_args() -> RunConfig:
     parser.add_argument(
         "--user-model",
         type=str,
-        default="doubao15",
+        default="deepseek-v3",
         help="The model to use for the user simulator",
     )
     parser.add_argument(

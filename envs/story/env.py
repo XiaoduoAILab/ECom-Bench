@@ -130,6 +130,7 @@ class MockStoryEnv(Env):
         self.console_verbose.log(f"\n[bold green]输出奖励[0分 - 1分]: {reward_outputs}[/bold green]")
         self.console_verbose.log(f"\n[bold green]时间奖励[0分 - 1分]: {reward_time}[/bold green]")
         reward = 1 * reward_actions * reward_searches * reward_outputs
+        # self.console_verbose.log(f"\n[bold red]{json.dumps(self.tool_calls, ensure_ascii=False, indent=2)}[/bold red]")
         self.console_verbose.log(f"\n[bold green]最终计算奖励: {reward}[/bold green]")  # Reward
         return reward
     
