@@ -17,9 +17,9 @@ ALL_TASKS = [
 
 <性格特征>
 <情绪>略有不满，对额外收费感到不悦。<\情绪>
-<细心程度>较高，会详细询问安装过程中的所有费用细节。<\细心程度>
+<细心程度>较高，会详细询问安装过程中的安装细节。<\细心程度>
 <耐心程度>一般，虽然表现出急切但愿意等待客服回复。<\耐心程度>
-<信任程度>较低，对安装师傅收取的费用表示怀疑，并直接向客服寻求确认。<\信任程度>
+<信任程度>较低，会反复向客服寻求确认。<\信任程度>
 <维权意识>较强，明确表示想要知道哪些服务应该是免费提供的，并质疑实际收费情况。<\维权意识>
 <\性格特征>
 
@@ -45,7 +45,7 @@ ALL_TASKS = [
 <\意图三>
 
 <意图四>
-你发送了图片：https://dd-static.jd.com/ddimgp/jfs/t20260527/276273/2/25489/48651/68071d7fF83be7569/a06e09535b22db3b.jpg 给客服，咨询订单314231443863是否已有返现记录，如果没有，要求客服对图片进行验证，如果验证通过，登记返现信息
+你咨询订单314231443863是否已有返现记录，如果没有，要求客服对图片https://dd-static.jd.com/ddimgp/jfs/t20260528/280781/10/25581/172166/6808a980F4fea4867/cf783a9a7acc8c2d.jpg进行验证，如果验证通过，登记返现信息
 <\意图四>
 """
 ,
@@ -71,16 +71,16 @@ ALL_TASKS = [
                         "action": "取消"
                     }
                 ),
-                # Action(
-                #     name="register_cashback_by_review",
-                #     arguments={
-                #         "platform": "jd",
-                #         "shop_id": "5de650c946e7c3001814990f",
-                #         "user_id": "cnjd喜哥2号",
-                #         "order_id": "314231443863",
-                #         "action": "返现"
-                #     }
-                # )
+                Action(
+                    name="register_cashback_by_review",
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "user_id": "cnjd喜哥2号",
+                        "order_id": "314231443863",
+                        "action": "返现"
+                    }
+                )
             ],
             searches=[
                 Search(
@@ -91,16 +91,16 @@ ALL_TASKS = [
                         "product_id": "100042754736"
                     }
                 ),
-                Search(
-                    name = 'manage_order_tool',
-                    arguments={
-                        "platform": "jd",
-                        "shop_id": "5de650c946e7c3001814990f",
-                        "user_id": "cnjd喜哥2号",
-                        "order_id": "313271663680",
-                        "action": "查询"
-                    }
-                ),
+                # Search(
+                #     name = 'manage_order_tool',
+                #     arguments={
+                #         "platform": "jd",
+                #         "shop_id": "5de650c946e7c3001814990f",
+                #         "user_id": "cnjd喜哥2号",
+                #         "order_id": "313271663680",
+                #         "action": "查询"
+                #     }
+                # ),
                 Search(
                     name = 'register_cashback_by_review_tool',
                     arguments={
@@ -228,7 +228,7 @@ ALL_TASKS = [
     ),
     Task(
         annotator='售后阶段',
-        user_id="cnjd13424434889_p",
+        user_id="cnjd18463287301_p",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
         instruction = """
@@ -257,7 +257,7 @@ ALL_TASKS = [
 ### 这是你的目标：
 <意图一>
 你购买了一款商品：https://item.jd.com/100065930935.html，
-今天早上拔了几分钟就出现了故障，这已经是第三次了。你想要直接申请退货，不接受保修。
+今天早上拔了几分钟就出现了故障，这已经是第三次了。你想要直接申请退货，不接受保修，订单号314415092676
 <\意图一>
 """
 ,
@@ -271,7 +271,7 @@ ALL_TASKS = [
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
                         "order_id": "314415092676",
-                        "user_id": "cnjd13424434889_p",
+                        "user_id": "cnjd18463287301_p",
                         "action": "处理"
                     }
                 )

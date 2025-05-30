@@ -82,19 +82,24 @@ def get_discount_info_tool(
 def get_image_info_tool(
     summarized_query: Annotated[
         str,
-        Field(..., description="从对话中提炼的关于图片的核心问题（如包装是什么样子的？）")
+        Field(..., description="根据上下文总结顾客对图片的需求（用于任务提示）")
     ], 
+    needed_query: Annotated[
+        str,
+        Field(..., description="总结希望从图片中提取到的信息内容")
+    ],
     history_messages: Annotated[
         List[Dict[str, str]],
-        Field(..., description="完整对话历史，格式为：[{\"role\": \"user\", \"content\": \"图片链接或文字描述\"}, {\"role\": \"assistant\", \"content\": \"回复内容\"}, ...]")
+        Field(..., description="对话上下文，必须包含图片完整链接。格式为：[{\"role\": \"user\", \"content\": \"图片链接或文字描述\"}, {\"role\": \"assistant\", \"content\": \"回复内容\"}, ...]")
     ]
 ) -> str:
     """
     图像识别工具：仅在以下情况调用：
-    1. 当前或历史消息中包含图片链接（如含 `gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|tiff|heic` 等扩展名）。
+    1. 当前或历史消息中包含图片链接（如含 `gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|tiff|heic` 等扩展名），调用时必须包含完整图片链接
+    2. 你需要从图片中获取图片内容信息来解决问题
     """
     global data
-    data, result = get_image_info(data, summarized_query, history_messages)
+    data, result = get_image_info(data, summarized_query, needed_query, history_messages)
     set_data(data)
     return result
 
@@ -484,7 +489,8 @@ def register_cashback_by_review_tool(
     
     2. 当action为'返现'时：
         - 若系统无晒单记录，会要求用户提供晒单凭证（如截图链接）
-        - 你需要通过工具验证凭证有效后，登记晒单信息并触发返现流程
+        - 你需要通过调用工具验证凭证有效后（比如调用图像工具来验证截图链接的内容），才可以登记晒单信息并触发返现流程
+        - 有效的截图内容必须包含用户的评论信息
     """
     global data
     data, result = register_cashback_by_review(data = data, platform = platform, shop_id = shop_id, user_id = user_id, order_id = order_id, action = action)
