@@ -29,7 +29,7 @@ class MockDialogueEnv(Env):
         )
         self.console_verbose = console_verbose
         
-    async def a_run(self) -> Tuple[float, List[Dict]]:
+    async def a_run(self, user_strategy = 'based', agent_strategy = 'llm') -> Tuple[float, List[Dict]]:
         async with MultiServerMCPClient({
         "service": {
             "command": "python",

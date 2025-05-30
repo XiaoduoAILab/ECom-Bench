@@ -54,6 +54,8 @@ class RunConfig(BaseModel):
     num_trials: int 
     env: str
     temperature: float = 0.0
+    user_strategy: str
+    agent_strategy: str
     start_index: int = 0
     end_index: int = -1
     task_ids: Optional[List[int]] = None

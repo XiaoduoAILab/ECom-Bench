@@ -20,4 +20,5 @@ class AgentHuman(LLM):
             response = response.strip()
             
         self.messages.append({"role": "assistant", "content": response})
+        self.detail_messages.append([{"role": "assistant", "content": response}])
         return response

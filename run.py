@@ -21,10 +21,22 @@ def parse_args() -> RunConfig:
         help="The model to use for the user simulator",
     )
     parser.add_argument(
+        "--user-strategy",
+        type=str,
+        choices=['human', 'based', 'cot'],
+        default='based',
+    )
+    parser.add_argument(
         "--agent-model",
         type=str,
         default="deepseek-v3",
         help="The model to use for the agent simulator",
+    )
+    parser.add_argument(
+        "--agent-strategy",
+        type=str,
+        choices=['human', 'llm'],
+        default='llm',
     )
     parser.add_argument(
         "--reward-model",
@@ -60,6 +72,8 @@ def parse_args() -> RunConfig:
         user_model=args.user_model,
         agent_model=args.agent_model,
         reward_model=args.reward_model,
+        user_strategy=args.user_strategy,
+        agent_strategy=args.agent_strategy,
         num_trials=args.num_trials,
         env=args.env,
         temperature=args.temperature,

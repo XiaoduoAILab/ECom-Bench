@@ -66,7 +66,7 @@ class Env(object):
         reward = self.calculate_reward(self.session, self.elapsed_time, 1)
         return reward, self.session
         
-    async def a_run(self) -> Tuple[float, List[Dict]]:
+    async def a_run(self, user_strategy = 'based', agent_strategy = 'llm') -> Tuple[float, List[Dict]]:
         async with MultiServerMCPClient({
         "customer": {
             "command": "python",

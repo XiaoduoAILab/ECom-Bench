@@ -321,7 +321,7 @@ ALL_TASKS = [
 ,
         principle="",
         metadata=Validation(
-            outputs=['派送中', '有球阀'],
+            outputs=['派送中'],
             actions=[
             ],
             searches=[

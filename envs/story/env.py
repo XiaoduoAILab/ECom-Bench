@@ -2,8 +2,6 @@ from .tasks import ALL_TASKS as tasks
 from .wiki import WIKI
 from envs.base import Env
 import shutil
-from user import UserBased as User
-from agent import AgentLangChain as Agent
 from langchain_core.messages import AIMessage
 from agent import OFFLINE_SERVER_DIR, OFFLINE_CACHE_DIR, ActionTools
 from typing import Dict, List, Optional, Dict, Tuple
@@ -35,7 +33,7 @@ class MockStoryEnv(Env):
         os.makedirs(self.data_dir, mode=0o777,exist_ok=True)
 
         
-    async def a_run(self) -> Tuple[float, List[Dict]]:
+    async def a_run(self, user_strategy, agent_strategy) -> Tuple[float, List[Dict]]:
         self._create_isolated_data()
         async with MultiServerMCPClient({
         "service": {
@@ -47,6 +45,22 @@ class MockStoryEnv(Env):
             "transport": "stdio",
         }
         }) as client_service:
+            match user_strategy:
+                case 'human':
+                    from user import UserHuman as User
+                case 'based':
+                    from user import UserBased as User
+                case 'cot':
+                    from user import UserCoT as User
+                case _:
+                    raise ValueError(f"Unknown user strategy: {user_strategy}")
+            match agent_strategy:
+                case 'llm':
+                    from agent import AgentLangChain as Agent
+                case 'human':
+                    from agent import AgentHuman as Agent
+                case _:
+                    raise ValueError(f"Unknown agent strategy: {agent_strategy}")
             self.customer = User(self.user_model)
             self.service = Agent(agent_model=self.agent_model, mcp_tools=client_service.get_tools())
             self.customer.load_system_prompt(self.user_wiki.format(instruction=self.task.instruction))
@@ -165,7 +179,7 @@ class MockStoryEnv(Env):
         search_data_hash = set()
         for search in self.task.metadata.searches:
             search_data_hash.add(self._function_to_hash(search.model_dump()))
-        self.console_verbose.log(f"\n[bold red]self.tool_calls:\n{json.dumps([tool_call['function'] for tool_call in self.tool_calls], ensure_ascii=False, indent=2)}[/bold red]")
+        # self.console_verbose.log(f"\n[bold red]self.tool_calls:\n{json.dumps([tool_call['function'] for tool_call in self.tool_calls], ensure_ascii=False, indent=2)}[/bold red]")
         # self.console_verbose.log(f"\n[bold red]self.task.metadata.searches:\n{json.dumps([search.model_dump() for search in self.task.metadata.searches], ensure_ascii=False, indent=2)}[/bold red]")
         return search_data_hash.issubset(service_data_hash)
     
