@@ -2,7 +2,7 @@ from .tasks import ALL_TASKS as tasks
 from .wiki import WIKI
 from envs.base import Env
 import shutil
-from user import UserBased as User
+from user import UserCoT as User
 from agent import AgentLangChain as Agent
 from langchain_core.messages import AIMessage
 from agent import OFFLINE_SERVER_DIR, OFFLINE_CACHE_DIR, ActionTools
@@ -165,10 +165,8 @@ class MockStoryEnv(Env):
         search_data_hash = set()
         for search in self.task.metadata.searches:
             search_data_hash.add(self._function_to_hash(search.model_dump()))
-        self.console_verbose.log(f"self.tool_calls:\n")
-        self.console_verbose.log(f"\n[bold red]{json.dumps([tool_call['function'] for tool_call in self.tool_calls], ensure_ascii=False, indent=2)}[/bold red]")
-        self.console_verbose.log(f"self.task.metadata.searches:\n")
-        self.console_verbose.log(f"\n[bold red]{json.dumps([search.model_dump() for search in self.task.metadata.searches], ensure_ascii=False, indent=2)}[/bold red]")
+        self.console_verbose.log(f"\n[bold red]self.tool_calls:\n{json.dumps([tool_call['function'] for tool_call in self.tool_calls], ensure_ascii=False, indent=2)}[/bold red]")
+        # self.console_verbose.log(f"\n[bold red]self.task.metadata.searches:\n{json.dumps([search.model_dump() for search in self.task.metadata.searches], ensure_ascii=False, indent=2)}[/bold red]")
         return search_data_hash.issubset(service_data_hash)
     
     def _function_to_hash(self, function):
