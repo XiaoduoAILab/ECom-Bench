@@ -52,6 +52,7 @@ def get_logistics_info_tool(
     用于获取物流政策的信息
     当用户询问物流相关的问题时，可以调用此工具
     """
+    global data
     data, result = get_logistics_info(data = data, platform = platform, shop_id = shop_id, order_id = order_id, user_id = user_id)
     set_data(data)
     return result
@@ -72,6 +73,7 @@ def get_discount_info_tool(
     用于获取优惠信息
     当用户询问优惠政策时，可以调用此工具
     """
+    global data
     data, result = get_discount_info(data = data, platform = platform, shop_id = shop_id)
     set_data(data)
     return result

@@ -2,7 +2,7 @@ from .tasks import ALL_TASKS as tasks
 from .wiki import WIKI
 from envs.base import Env
 import shutil
-from user import UserCoT as User
+from user import UserBased as User
 from agent import AgentLangChain as Agent
 from langchain_core.messages import AIMessage
 from agent import OFFLINE_SERVER_DIR, OFFLINE_CACHE_DIR, ActionTools
