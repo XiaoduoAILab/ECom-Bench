@@ -61,8 +61,10 @@ class Stop(BaseModel):
 
 class Step(BaseModel):
     '''判断是否需要主动引导话题，转移到下一个意图'''
-    reason:str = Field(...,description='是否需要转移到下一个意图的理由，例如当客服满足不了你本次的需求时，已经陷入僵持时，需要转移到下一个意图。')
+    count:int = Field(...,description='在同一个意图中已经讨论的次数')
+    reason:str = Field(...,description='是否需要转移到下一个意图的理由，例如1.当客服满足不了你本次的需求 2.已经陷入僵持 3. 同一个意图讨论的次数大于1轮，需要转移到下一个意图。')
     step:bool = Field(...,description='是否需要转移到下一个意图')
+
 
 class Response(BaseModel):
     '''内部思考框架（每次回复前都需执行）, 在生成每条顾客回复前，请先进行以下思考步骤'''
@@ -121,7 +123,7 @@ class UserCoT(UserBased):
         response = self.parser.parse(responses["messages"][-1].content)
         final_response = response.final_response
         stop = response.stop.stop
-        if stop or "转人工" in final_response:
+        if stop :
             final_response = '###STOP###'
         
         self.messages.append(f"客服回复: {message}")
@@ -148,6 +150,7 @@ class UserHuman(LLM):
             response = input("请输入你（顾客）的回复（quit停止）：\t")
             response = response.strip()
         self.messages.append({"role": "assistant", "content": response})
+        self.detail_messages.append([self.messages[-1]])
         if response == 'quit':
             response = '###STOP###'
         return response

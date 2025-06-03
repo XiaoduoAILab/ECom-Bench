@@ -12,7 +12,7 @@ ALL_TASKS = [
 ### 这是你的画像：
 
 <消费者类型>
-价值敏感型顾客，关注燃气热水器的安装和材料费用。
+价值敏感型顾客
 <\消费者类型>
 
 <性格特征>
@@ -41,12 +41,16 @@ ALL_TASKS = [
 <\意图二>
 
 <意图三>
-你希望客服给你取消订单313271663680，如果取消不了，会要求客服查询对应订单的具体情况
+你希望客服给你取消订单313271663680
 <\意图三>
 
 <意图四>
-你咨询订单314231443863是否已有返现记录，如果没有，要求客服对图片https://dd-static.jd.com/ddimgp/jfs/t20260528/280781/10/25581/172166/6808a980F4fea4867/cf783a9a7acc8c2d.jpg进行验证，如果验证通过，登记返现信息
+如果取消不了，会要求客服查询对应订单的具体情况
 <\意图四>
+
+<意图五>
+你咨询订单314231443863是否已有返现记录，如果没有，要求客服对图片https://dd-static.jd.com/ddimgp/jfs/t20260528/280781/10/25581/172166/6808a980F4fea4867/cf783a9a7acc8c2d.jpg进行验证，如果验证通过，登记返现信息
+<\意图五>
 """
 ,
         metadata= Validation(
@@ -212,7 +216,7 @@ ALL_TASKS = [
 ,
         principle="",
         metadata=Validation(
-            outputs=['不包含'],
+            outputs=[],
             actions=[],
             searches=[
                 Search(
@@ -309,19 +313,19 @@ ALL_TASKS = [
 
 ### 这是你的目标：
 <意图一>
-你已经购买了一款商品：https://item.jd.com/100065930935.html?sdx=ehi-lLxFuJiE6JnIYYVZhcUguTOURHsgmjYZ4ukJEdyMdZrZK5hZ4X7sp0E，订单号314475833175，
-想要查询现在该商品的物流状态，确认已经到哪了。
+你有一个订单，订单号为314475833175，
+想要查询现在该订单的物流状态，确认已经到哪了。
 <\意图一>
 
 <意图二>
-同时你需要确认该产品的辅材是否有球阀，如果没有，询问能否商家配一个给你？。
+同时你需要确认商品：https://item.jd.com/100065930935.html?sdx=ehi-lLxFuJiE6JnIYYVZhcUguTOURHsgmjYZ4ukJEdyMdZrZK5hZ4X7sp0E 的辅材是否有球阀。
 <\意图二>
 
 """
 ,
         principle="",
         metadata=Validation(
-            outputs=['派送中'],
+            outputs=[],
             actions=[
             ],
             searches=[
@@ -375,11 +379,11 @@ ALL_TASKS = [
 
 ### 这是你的目标：
 <意图一>
-你已经购买了一款美的无冷感M9S Ultra全域恒温零冷水热水器，订单号：312705335872，你需要修改自己的物流地址，这个是买给你爸妈的，但你填了自己的地址，你需要临时进行更换，换成湖南省长沙市劳动西路310号，电话号码13345178901。
+你已经购买了一款美的无冷感M9S Ultra全域恒温零冷水热水器，订单号：312705335872，你需要修改自己的物流地址，换成湖南省长沙市劳动西路310号，电话号码13345178901。
 <\意图一>
 
 <意图二>
-如果客服解释物流需要时间，你就说自己购买就是看中物流速度，非常需要这个产品，你需要加急物流
+你想咨询物流的到达时间，确认多久能够收到，你就说自己购买就是看中物流速度，非常需要这个产品，你需要加急物流
 <\意图二>
 """
 ,
@@ -441,12 +445,14 @@ ALL_TASKS = [
 <\行为特征>
 
 ### 这是你的目标：
+
+
 <意图一>
-报告热水器漏水问题，订单号312693565755。在与客服沟通时，你会详细描述热水器漏水的情况，并提供相关图片作为证据，证明是或不是漏水，https://dd-static.jd.com/ddimgp/jfs/t20260606/283501/20/28323/84108/68143623F82bb7f79/14d2a1bab5ef45ea.jpg。
+你购买了商品100107985736，出现了E04的错误代码，询问这是什么意思。
 <\意图一>
 
 <意图二>
-确认是否该商品出现E04错误，漏水是什么原因
+同时，也出现了出现了漏水问题，发图片https://dd-static.jd.com/ddimgp/jfs/t20260606/283501/20/28323/84108/68143623F82bb7f79/14d2a1bab5ef45ea.jpg给客服进行证明
 <\意图二>
 
 <意图三>
@@ -456,7 +462,7 @@ ALL_TASKS = [
 ,
         principle="",
         metadata=Validation(
-            outputs=['是漏水', '水压异常'],
+            outputs=[],
             actions=[
                 Action(
                     name="schedule_service",
@@ -465,7 +471,7 @@ ALL_TASKS = [
                         "shop_id": "5de650c946e7c3001814990f",
                         "order_id": "312693565755",
                         "user_id": "cnjd辛谭婷",
-                        "user_name": "戴青云",
+                        "user_name": "辛谭婷",
                         "phone_number": "18941352934",
                         "service_type": "维修",
                         "service_time": "周三"
@@ -474,11 +480,12 @@ ALL_TASKS = [
             ],
             searches=[
                 Search(
-                    name="get_product_info_tool",
+                    name="get_fault_code_info_tool",
                     arguments={
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
-                        "product_id": "100107985736"
+                        "product_id": "100107985736",
+                        "fault_code": "E04"
                     }
                 )
             ]
@@ -514,7 +521,7 @@ ALL_TASKS = [
 
 ### 这是你的目标：
 <意图一>
-你已经购买了一款商品，订单号315064585335，你需要询问该燃热的物流预计到达时间是多少。
+你已经购买了一款商品，订单号是315064585335，你需要询问该订单的物流预计到达时间是多少。
 <\意图一>
 
 <意图二>
@@ -524,7 +531,7 @@ ALL_TASKS = [
 ,
         principle="",
         metadata=Validation(
-            outputs=['2025-05-11 10:30:00+00:00'],
+            outputs=[],
             actions=[
                 Action(
                     name="manage_invoice",
@@ -580,13 +587,13 @@ ALL_TASKS = [
 
 ### 这是你的目标：
 <意图一>
-你已经下单了一款燃气热水器，订单号313157059869，并且已经编辑好了晒单的笔记，希望客服通过晒单审核，给你返现。你会提供图片链接证明已经晒单，要求完成返现。https://dd-static.jd.com/ddimgp/jfs/t20260528/276824/36/26415/173531/6808debaF5a47087b/ff032d8d7589f083.jpg
+你已经下单了一款燃气热水器，订单号313157059869，并且已经编辑好了晒单的[笔记](https://dd-static.jd.com/ddimgp/jfs/t20260528/276824/36/26415/173531/6808debaF5a47087b/ff032d8d7589f083.jpg)，希望客服通过晒单审核，给你返现。你会提供图片链接证明已经晒单，要求完成返现。
 <\意图一>
 """
 ,
         principle="",
         metadata=Validation(
-            outputs=['未晒单'],
+            outputs=[],
             actions=[
                 Action(
                     name="register_cashback_by_review",
@@ -644,8 +651,8 @@ ALL_TASKS = [
 
 ### 这是你的目标：
 <意图一>
-你已经下单了一款燃气热水器，订单号312178752583，并且已经编辑好了晒单的笔记，希望客服通过晒单审核，给你返现。你会提供图片链接证明已经晒单，要求完成返现。https://dd-static.jd.com/ddimgp/jfs/t20260528/276824/36/26415/173531/6808debaF5a47087b/ff032d8d7589f083.jpg
-<\意图一>
+你已经下单了一款燃气热水器，订单号312178752583，并且已经编辑好了晒单的笔记[https://dd-static.jd.com/ddimgp/jfs/t20260528/276824/36/26415/173531/6808debaF5a47087b/ff032d8d7589f083.jpg
+]，希望客服通过晒单审核，给你返现。你会提供图片链接证明已经晒单，要求完成返现。<\意图一>
 
 <意图二>
 如果客服拒绝返现，你将让他说明原因。
@@ -654,7 +661,7 @@ ALL_TASKS = [
 ,
         principle="",
         metadata=Validation(
-            outputs=['未晒单'],
+            outputs=[],
             actions=[
                 Action(
                     name="register_cashback_by_review",

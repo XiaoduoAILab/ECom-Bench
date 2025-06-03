@@ -11,19 +11,23 @@ def manage_exchange(data, platform, shop_id, order_id, user_id, original_product
         return data, f"订单{order_id}无法进行换货，订单状态为{order.get('订单状态', '')}"
     order_products = order.get("订单商品列表", [])
     if not any(product.get("商品ID", "") == original_product_id for product in order_products):
-        return data, f"订单{order_id}购买的商品中没有找到原商品{original_product_id}"
+        return data, f"订单{order_id}购买的商品中没有找到商品{original_product_id}"
     else:
         original_product_index = next((index for index, product in enumerate(order_products) if product.get("商品ID", "") == original_product_id), None)
     original_product = get_product_detail(data, platform, shop_id, original_product_id)
     if not original_product:
-        return data, f"没有找到原商品{original_product_id}"
+        return data, f"没有找到商品{original_product_id}"
     exchange_list =original_product.get('可换货商品ID', [])
-    if exchange_product_id not in exchange_list:
-        return data, f"商品{original_product_id}不可以换货给{exchange_product_id}"
-    exchange_product = get_product_detail(data, platform, shop_id, exchange_product_id)
-    if not exchange_product:
-        return data, f"没有找到换货商品{exchange_product_id}"
-    if exchange_product.get('商品状态', '') != '已上架':
-        return data, f"商品{exchange_product_id}无法进行换货，商品状态为{exchange_product.get('商品状态', '')}"
+    
+    done = False
+    for exchange in exchange_list:
+        if exchange.get('商品ID', '') == exchange_product_id:
+            if exchange.get('商品状态', '') != '已上架':
+                return data, f"商品{exchange_product_id}状态为{exchange.get('商品状态', '')}，无法进行换货"
+            else:
+                done = True
+                break
+    if not done:
+        return data, f"商品{exchange_product_id}不在可换货商品列表中"
     data['orders'][platform][shop_id][user_id][order_id]['订单商品列表'][original_product_index]['商品ID'] = exchange_product_id
     return data, f"订单{order_id}商品{original_product_id}换货成功，换货后的商品ID为{exchange_product_id}"

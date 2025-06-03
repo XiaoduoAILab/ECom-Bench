@@ -358,6 +358,7 @@ def manage_order_tool(
 ) -> str:
     """
     用于管理订单信息，包括查询订单、取消订单（需要向用户再次确认）、修改订单（地址、手机号）操作。
+    订单的信息包括用户购买的商品，收货地址等具体信息
     """
     global data
     data, result = manage_order(data = data, platform = platform, order_id = order_id, shop_id = shop_id, user_id = user_id, action = action, address = address, phone_number = phone_number)
