@@ -6,7 +6,6 @@ import json
 # 可修改地址，手机号状态枚举：待付款,已付款,处理中
 def manage_order(data, platform: str, order_id: str, shop_id: str, user_id: str, action: str, address: str = None, phone_number: str = None):
     order = get_order(data, platform, shop_id, user_id, order_id)
-    order_status = order.get("订单状态", "")
     if not order:
         return data, f"没有找到订单{order_id}的信息"
     if action == '查询':

@@ -1,6 +1,7 @@
 from utils import Task, Action, Search, Validation
 
 ALL_TASKS = [
+# Task Done, not validtion
     Task(
         annotator='售后阶段',
         user_id="cnjd喜哥2号",
@@ -121,6 +122,9 @@ ALL_TASKS = [
             ]
         )
     ),
+    
+
+# Task Done, not validtion
     Task(
         annotator='售后阶段',
         user_id="cnjd喜哥2号",
@@ -149,10 +153,10 @@ ALL_TASKS = [
 
 ### 这是你的目标：
 <意图一>
-你购买了一款商品：https://item.jd.com/100042754736.html?sdx=ehi-lLxFuJiE6JnIYIpei8AitzeRRHsgmjYZ4ukJEdyMdZnQK5xZ53jtoU8&sdx=ehi-lLxFuJiE6JnIYIpei8AitzeRRHsgmjYZ4ukJEdyMdZnQK5xY7njhp04，想要了解安装是否免费。
+你购买了一款商品：https://item.jd.com/100112573625.html?sdx=ehi-lLxFuJiE6JnIYIpei8AitzeRRHsgmjYZ4ukJEdyMdZnQK5xZ53jtoU8&sdx=ehi-lLxFuJiE6JnIYIpei8AitzeRRHsgmjYZ4ukJEdyMdZnQK5xY7njhp04，但是你意识到体积太大了，所以想进行换货，订单是313271663680
 <\意图一>
 <意图二>
-之后，你查询订单313021098954的发货情况。
+你咨询客服有哪些商品可以替换，并希望替换一个60升的热水器
 <\意图二>
 <意图三>
 最后，你希望加急发货。
@@ -160,7 +164,7 @@ ALL_TASKS = [
 """
 ,
         metadata= Validation(
-            outputs=['免费'],
+            outputs=[],
             actions=[
                 Action(
                 name="manage_urgent",
