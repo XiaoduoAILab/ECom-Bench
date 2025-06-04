@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 def register_cashback_by_review(data, platform, shop_id, user_id, order_id, action):
-    if not isinstance(data.get("register_cashback"), defaultdict):
+    if not data.get("register_cashback", None):
         data["register_cashback"] = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(bool))))
     if action == "查询":
         record = data.get("register_cashback", {}).get(platform, {}).get(shop_id, {}).get(user_id, {}).get(order_id, {})

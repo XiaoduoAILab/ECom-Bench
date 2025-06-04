@@ -1,23 +1,13 @@
 {
-    "register_cashback": {
-        "jd": {
-            "5de650c946e7c3001814990f": {
-                "user_12345": {
-                    "order_67890": true,
-                    "order_67891": false
-                }
-            },
-            "10002": {
-                "user_54321": {
-                    "order_98765": true
-                }
+    "jd": {
+        "5de650c946e7c3001814990f": {
+            "cnjdii星星ii": {
+                "316123105676": false
             }
         },
-        "tmall": {
-            "20001": {
-                "user_11111": {
-                    "order_55555": true
-                }
+        "10002": {
+            "user_54321": {
+                "order_98765": true
             }
         }
     }
