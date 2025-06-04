@@ -12,13 +12,13 @@ def manage_order(data, platform: str, order_id: str, shop_id: str, user_id: str,
     if action == '查询':
         return data, json.dumps(order, ensure_ascii=False)
     elif action == '取消':
-        if order_status not in ['待付款', '已付款', '处理中']:
-            return data, f"订单{order_id}的状态为{order_status}，不能取消"
+        # if order_status not in ['待付款', '已付款', '处理中']:
+        #     return data, f"订单{order_id}的状态为{order_status}，不能取消"
         data["orders"][platform][shop_id][user_id][order_id]["订单状态"] = "已取消"
         return data, f"订单{order_id}已取消"
     elif action == '修改':
-        if order_status not in ['待付款', '已付款', '处理中']:
-            return data, f"订单{order_id}的状态为{order_status}，不能修改"
+        # if order_status not in ['待付款', '已付款', '处理中']:
+        #     return data, f"订单{order_id}的状态为{order_status}，不能修改"
         if not address and not phone_number:
             return data, f"新地址和新手机号都为空，无法修改"
         if address: # 默认只修改详细地址

@@ -7,7 +7,6 @@ ALL_TASKS = [
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
         instruction = """
-### 你现在正在网上购物。
 
 ### 这是你的画像：
 
@@ -32,25 +31,29 @@ ALL_TASKS = [
 ### 这是你的目标：
 
 <意图一>
-你购买了一款商品：https://item.jd.com/100042754736.html?sdx=ehi-lLxFuJiE6JnIYIpei8AitzeRRHsgmjYZ4ukJEdyMdZnQK5xZ53jtoU8&sdx=ehi-lLxFuJiE6JnIYIpei8AitzeRRHsgmjYZ4ukJEdyMdZnQK5xY7njhp04，
-想要了解安装细节，并要求客服进行指导。
+你购买了一款商品：https://item.jd.com/100042754736.html?sdx=ehi-lLxFuJiE6JnIYIpei8AitzeRRHsgmjYZ4ukJEdyMdZnQK5xZ53jtoU8&sdx=ehi-lLxFuJiE6JnIYIpei8AitzeRRHsgmjYZ4ukJEdyMdZnQK5xY7njhp04，但安装十分麻烦，对此你向客服进行抱怨
 <\意图一>
-
 <意图二>
-你希望客服给你加急订单313021098954
+之后，你向客服询问安装教程
 <\意图二>
-
 <意图三>
-你希望客服给你取消订单313271663680
+此外你即将旅游，你希望客服给你加急订单313021098954
 <\意图三>
-
 <意图四>
-如果取消不了，会要求客服查询对应订单的具体情况
+同时，你要求客服查询订单313271663680的状态
 <\意图四>
-
 <意图五>
-你咨询订单314231443863是否已有返现记录，如果没有，要求客服对图片https://dd-static.jd.com/ddimgp/jfs/t20260528/280781/10/25581/172166/6808a980F4fea4867/cf783a9a7acc8c2d.jpg进行验证，如果验证通过，登记返现信息
+如果还没有发货，你希望取消订单
 <\意图五>
+<意图六>
+最后，你咨询订单314231443863是否已有返现记录
+<\意图六>
+<意图七>
+如果没有，要求客服对图片https://dd-static.jd.com/ddimgp/jfs/t20260528/280781/10/25581/172166/6808a980F4fea4867/cf783a9a7acc8c2d.jpg进行验证
+<\意图七>
+<意图八>
+如果验证通过，登记返现信息
+<\意图八>
 """
 ,
         metadata= Validation(
@@ -95,16 +98,16 @@ ALL_TASKS = [
                         "product_id": "100042754736"
                     }
                 ),
-                # Search(
-                #     name = 'manage_order_tool',
-                #     arguments={
-                #         "platform": "jd",
-                #         "shop_id": "5de650c946e7c3001814990f",
-                #         "user_id": "cnjd喜哥2号",
-                #         "order_id": "313271663680",
-                #         "action": "查询"
-                #     }
-                # ),
+                Search(
+                    name = 'manage_order_tool',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "user_id": "cnjd喜哥2号",
+                        "order_id": "313271663680",
+                        "action": "查询"
+                    }
+                ),
                 Search(
                     name = 'register_cashback_by_review_tool',
                     arguments={
@@ -124,11 +127,10 @@ ALL_TASKS = [
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
         instruction = """
-### 你现在正在网上购物。
 
 ### 这是你的画像：
 <消费者类型>
-价值敏感型顾客，关注燃气热水器的安装和材料费用。
+价值敏感型顾客
 <\消费者类型>
 
 <性格特征>
@@ -147,12 +149,14 @@ ALL_TASKS = [
 
 ### 这是你的目标：
 <意图一>
-你购买了一款商品：[美的【M10S Max】无冷感无冷凝恒温增压爆款](https://item.jd.com/100042754736.html?sdx=ehi-lLxFuJiE6JnIYIpei8AitzeRRHsgmjYZ4ukJEdyMdZnQK5xZ53jtoU8&sdx=ehi-lLxFuJiE6JnIYIpei8AitzeRRHsgmjYZ4ukJEdyMdZnQK5xY7njhp04)，
-想要了解安装是否免费？。
+你购买了一款商品：https://item.jd.com/100042754736.html?sdx=ehi-lLxFuJiE6JnIYIpei8AitzeRRHsgmjYZ4ukJEdyMdZnQK5xZ53jtoU8&sdx=ehi-lLxFuJiE6JnIYIpei8AitzeRRHsgmjYZ4ukJEdyMdZnQK5xY7njhp04，想要了解安装是否免费。
 <\意图一>
 <意图二>
-你希望客服给你加急订单313021098954
+之后，你查询订单313021098954的发货情况。
 <\意图二>
+<意图三>
+最后，你希望加急发货。
+<\意图三>
 """
 ,
         metadata= Validation(
@@ -186,7 +190,7 @@ ALL_TASKS = [
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
         instruction = """
-### 你现在正在网上购物。
+
 
 ### 这是你的画像：
 <消费者类型>
@@ -236,7 +240,7 @@ ALL_TASKS = [
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
         instruction = """
-### 你现在正在网上购物。
+
 
 ### 这是你的画像：
 <消费者类型>
@@ -289,7 +293,7 @@ ALL_TASKS = [
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
         instruction = """
-### 你现在正在网上购物。
+
 
 ### 这是你的画像：
 <消费者类型>
@@ -355,7 +359,7 @@ ALL_TASKS = [
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
         instruction = """
-### 你现在正在网上购物。
+
 
 ### 这是你的画像：
 <消费者类型>

@@ -23,8 +23,8 @@ def manage_ecard(data, platform: str, user_id: str, action: str, product_id: str
         if not product:
             return data, f"没有找到商品{product_id}的信息"
         product_price = product.get('商品价格', 0)
-        if product_price * quantity > user_info["电子卡余额"]:
-            return data, f"用户{user_id}的电子卡余额为{user_info['电子卡余额']}元, 无法购买{quantity}件商品{product_id} （一共需要{product_price} * {quantity} = {product_price * quantity}元）"
-        else:
-            data['users_info'][user_id]['电子卡余额'] -= product_price * quantity
-            return data, f"已购买{quantity}件商品{product_id}，用户{user_id}的电子卡余额为{data['users_info'][user_id]['电子卡余额']}元"
+        # if product_price * quantity > user_info["电子卡余额"]:
+        #     return data, f"用户{user_id}的电子卡余额为{user_info['电子卡余额']}元, 无法购买{quantity}件商品{product_id} （一共需要{product_price} * {quantity} = {product_price * quantity}元）"
+        # else:
+        data['users_info'][user_id]['电子卡余额'] -= product_price * quantity
+        return data, f"已购买{quantity}件商品{product_id}，用户{user_id}的电子卡余额为{data['users_info'][user_id]['电子卡余额']}元"

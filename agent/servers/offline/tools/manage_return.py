@@ -11,14 +11,18 @@ def manage_return(data, platform: str, shop_id: str, order_id: str, user_id: str
     order_status = order.get("订单状态", "")
     if action == '查询':
         if order_status == '已签收':
-            return data, "可以申请退货"
+            return data, f"订单状态为{order_status}，可以申请退货"
         else:
             return data, f"订单状态为{order_status}，不可以申请退货"
-    elif action == '处理':
-        if order_status == '已签收':
-            data["orders"][platform][shop_id][user_id][order_id]["订单状态"] = "已退货"
-            return data, "退货申请已进行处理"
-        else:
-            return data, f"订单状态为{order_status}，不可以申请退货"
+    elif action == '退货':
+        
+        # if order_status == '已签收':
+        #     data["orders"][platform][shop_id][user_id][order_id]["订单状态"] = "已退货"
+        #     return data, "退货申请已进行处理"
+        # else:
+        #     return data, f"订单状态为{order_status}，不可以申请退货"
+        
+        data["orders"][platform][shop_id][user_id][order_id]["订单状态"] = "已退货"
+        return data, "退货申请已进行处理"
     else:
         return data, "无效的操作"

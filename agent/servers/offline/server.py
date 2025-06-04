@@ -147,8 +147,8 @@ def manage_return_tool(
         Field(..., description="用户ID")
     ],
     action: Annotated[
-        Literal["查询", "处理"],
-        Field(..., description="操作类型，'查询'为查询退货信息，'处理'为处理退货申请")
+        Literal["查询", "退货"],
+        Field(..., description="操作类型，'查询'为查询退货信息，'退货'为处理退货申请")
     ]
 ) -> str:
     """
@@ -181,16 +181,20 @@ def manage_exchange_tool(
         str,
         Field(..., description="原商品ID")
     ],
+    action: Annotated[
+        Literal["查询", "换货"],
+        Field(..., description="操作类型，'查询'为查询换货信息，'换货'为处理换货申请")
+    ],
     exchange_product_id: Annotated[
         str,
-        Field(..., description="换货商品ID")
-    ]
+        Field(None, description="换货商品ID")
+    ] = None
 ) -> str:
     """
     用于处理换货服务。当用户需要提交换货申请时，可以调用此工具。
     """
     global data
-    data, result = manage_exchange(data = data, platform = platform, shop_id = shop_id, order_id = order_id, user_id = user_id, original_product_id = original_product_id, exchange_product_id = exchange_product_id)
+    data, result = manage_exchange(data = data, platform = platform, shop_id = shop_id, order_id = order_id, user_id = user_id, original_product_id = original_product_id, exchange_product_id = exchange_product_id, action = action)
     set_data(data)
     return result
 
@@ -240,7 +244,7 @@ def get_gift_info_tool(
     用于获取赠品信息。当用户询问赠品相关问题时，可以调用此工具。
     """
     global data
-    data, result = get_gift_info(data)
+    data, result = get_gift_info(data= data, platform = platform, shop_id = shop_id, product_id = product_id)
     set_data(data)
     return result
 
@@ -483,17 +487,7 @@ def register_cashback_by_review_tool(
     ]
 ) -> str:
     """
-    处理电商平台晒单返现的查询与登记流程。
-    
-    操作流程：
-    1. 当action为'查询'时：
-        - 检查系统是否已有该订单的晒单记录
-        - 返回当前晒单状态（已晒单/未晒单）
-    
-    2. 当action为'返现'时：
-        - 若系统无晒单记录，会要求用户提供晒单凭证（如截图链接）
-        - 你需要通过调用工具验证凭证有效后（比如调用图像工具来验证截图链接的内容），才可以登记晒单信息并触发返现流程
-        - 有效的截图内容必须包含用户的评论信息
+    处理电商平台晒单返现的查询与返现流程。
     """
     global data
     data, result = register_cashback_by_review(data = data, platform = platform, shop_id = shop_id, user_id = user_id, order_id = order_id, action = action)
