@@ -1,9 +1,9 @@
 from .utils import get_order
 import json
 
-
 # 可取消状态枚举：待付款，已付款，处理中
 # 可修改地址，手机号状态枚举：待付款,已付款,处理中
+
 def manage_order(data, platform: str, order_id: str, shop_id: str, user_id: str, action: str, address: str = None, phone_number: str = None):
     order = get_order(data, platform, shop_id, user_id, order_id)
     if not order:

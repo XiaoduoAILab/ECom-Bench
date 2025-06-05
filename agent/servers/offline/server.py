@@ -369,6 +369,10 @@ def manage_order_tool(
     set_data(data)
     return result
 
+# # 下订单
+# @mcp.tool()
+# def 
+
 @mcp.tool()
 def schedule_service_tool(
     platform: Annotated[
@@ -568,9 +572,6 @@ def transfer_to_specialist_tool(
     return result
 
 
-
-
-    
 def set_data(data):
     for file_name, file_data in data.items():
         file_path = os.path.join(cache_dir, file_name + '.json')

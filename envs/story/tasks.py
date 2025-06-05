@@ -1,13 +1,13 @@
 from utils import Task, Action, Search, Validation
 
 ALL_TASKS = [
+# Task Done, validtion Done
     Task(
-        annotator='售后阶段',
+        annotator='0',
         user_id="cnjd喜哥2号",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
         instruction = """
-
 ### 这是你的画像：
 
 <消费者类型>
@@ -122,11 +122,9 @@ ALL_TASKS = [
         )
     ),
     
-
-# Task Done, not validtion
-
+# Task Done, validtion Done
     Task(
-        annotator='售后阶段',
+        annotator='1',
         user_id="cnjd喜哥2号",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -203,10 +201,10 @@ ALL_TASKS = [
             ]
         )
     ),
-    
 
+# Task Done, Validtion Done
     Task(
-        annotator='信息收集阶段',
+        annotator='2',
         user_id="cnjdii星星ii",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -224,7 +222,6 @@ ALL_TASKS = [
 <耐心程度>良好，在等待客服回复期间没有表现出不耐烦的情绪，愿意配合相关程序。<\耐心程度>
 <信任程度>较高，能够耐心听取客服建议并予以执行。<\信任程度>
 <维权意识>适中，会积极寻求解决问题的方法，并主动提出一些需求。<\维权意识>
-<表达风格>直接简洁，使用简短明了的语言来表达自己的需求。<\表达风格>
 <\性格特征>
 
 <行为特征>
@@ -248,24 +245,55 @@ ALL_TASKS = [
 <\意图四>
 """
 ,
-        principle="",
+        
         metadata=Validation(
             outputs=[],
-            actions=[],
-            searches=[
-                Search(
-                    name='get_product_info_tool',
+            actions=[
+                Action(
+                    name="manage_urgent",
                     arguments={
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
-                        "product_id": "100040350131"
+                        "user_id": "cnjdii星星ii",
+                        "order_id": "316123105676"
+                    }
+                ),
+                Action(
+                    name="register_cashback_by_review",
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "user_id": "cnjdii星星ii",
+                        "order_id": "316123105676",
+                        "action": "返现"
                     }
                 )
+                ],
+            searches=[
+                Search(
+                    name='register_cashback_by_review_tool',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "user_id": "cnjdii星星ii",
+                        "order_id": "316123105676",
+                        "action": "查询"
+                    }
+                ),
+                Search(
+                    name='get_gift_info_tool',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "product_id": "100112573619"
+                        }
+                    )
             ]
         )
     ),
+
     Task(
-        annotator='售后阶段',
+        annotator='3',
         user_id="cnjd18463287301_p",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -274,32 +302,35 @@ ALL_TASKS = [
 
 ### 这是你的画像：
 <消费者类型>
-冲动型消费者，对产品质量问题反应迅速且直接。
+理性型消费者。
 <\消费者类型>
 
 <性格特征>
 <情绪>不满，对商品感到非常失望。<\情绪>
-<细心程度>一般，语言比较粗略简短。<\细心程度>
-<耐心程度>低，不犹豫，目的明确。<\耐心程度>
-<信任程度>低，不太信任客服。<\信任程度>
-<维权意识>高，清楚地知道自己的权利。<\维权意识>
-<表达风格>直接、急切，使用简短而直接的语言来表达需求。<\表达风格>
+<细心程度>高，对细节的高度关注。<\细心程度>
+<耐心程度>中等，愿意等待客服回复。但当问题没有得到及时解决时，开始表现出焦急和不满，频繁催促<\耐心程度>
+<信任程度>低，不太信任客服，对于客服提供的信息持有怀疑态度，多次要求确认。<\信任程度>
+<维权意识>高，遇到不满意的服务时积极采取行动维护自身利益。<\维权意识>
 <\性格特征>
 
 <行为特征>
-<问题描述>会通过发送图片试图展示具体问题。<\问题描述>
-<需求>明确表示希望退货。<\需求>
-<沟通方式>连续发送消息，显示出迫切希望得到回应的心态。<\沟通方式>
+<提问方式>事实导向与质疑结合，会具体问一些详情，同时提出一些质疑<\提问方式>
+<发言风格>直接且情绪化，采用较为直接的语言表达方式，有时候会用到一些带有强烈情感色彩的词语来表达不满或强调自己的观点，倾向于直截了当地表达自己的想法和感受。<\发言风格>
+<沟通节奏>快速而紧凑，经常连续发送多条消息进行询问或反馈情况。<\沟通节奏>
 <\行为特征>
 
 ### 这是你的目标：
+
 <意图一>
-你购买了一款商品：https://item.jd.com/100065930935.html，
-今天早上拔了几分钟就出现了故障，这已经是第三次了。你想要直接申请退货，不接受保修，订单号314415092676
+你现在正在进行购物，咨询这几个商品https://item.jd.com/100043059478.html，https://item.jd.com/100039032355.html?sdx=ehi-lLxFuJiE6JnIYYVZhcUguTOURHsgmjYZ4ukJEdyMdZnSL51b7n_lo0s，https://item.jd.com/100112573665.html 有什么差异
 <\意图一>
+<意图二>
+由于之前购买家电时出现过安装问题，你这次会关注商品的辅材材料和安装流程
+<\意图二>
+
 """
 ,
-        principle="",
+        
         metadata=Validation(
             outputs=[],
             actions=[
@@ -357,7 +388,7 @@ ALL_TASKS = [
 
 """
 ,
-        principle="",
+        
         metadata=Validation(
             outputs=[],
             actions=[
@@ -421,7 +452,7 @@ ALL_TASKS = [
 <\意图二>
 """
 ,
-        principle="",
+        
         metadata=Validation(
             outputs=[],
             actions=[
@@ -494,7 +525,6 @@ ALL_TASKS = [
 <\意图三>
 """
 ,
-        principle="",
         metadata=Validation(
             outputs=[],
             actions=[
@@ -563,7 +593,7 @@ ALL_TASKS = [
 <\意图二>
 """
 ,
-        principle="",
+        
         metadata=Validation(
             outputs=[],
             actions=[
@@ -625,7 +655,7 @@ ALL_TASKS = [
 <\意图一>
 """
 ,
-        principle="",
+        
         metadata=Validation(
             outputs=[],
             actions=[
@@ -693,7 +723,7 @@ ALL_TASKS = [
 <\意图二>
 """
 ,
-        principle="",
+        
         metadata=Validation(
             outputs=[],
             actions=[
