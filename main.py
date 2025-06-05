@@ -142,7 +142,7 @@ async def run(config: RunConfig) -> List:
 
     display_metrics(all_env_results) 
 
-    with open(ckpt_path, "w") as f:
+    with open(ckpt_path, "w", encoding="utf-8") as f:
         json.dump([result.model_dump() for result in all_env_results], f, indent=2, ensure_ascii=False)
         console_verbose.print(f"\n[blue]📄 Results saved to {ckpt_path}[/blue]\n")  # Saved result info
 

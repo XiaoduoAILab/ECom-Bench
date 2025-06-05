@@ -167,6 +167,13 @@ class LLM(ABC):
                 model="moonshot-v1-32k",
                 temperature=self.temperature
             )
+        elif self.model_name == 'qwenvlmax':
+            self.llm = ChatOpenAI(
+                base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+                api_key="sk-d74f4f3190c84ff9a2bf4fee33c8a248",
+                model="qwen-vl-max-0809",
+                temperature=self.temperature
+            )
         else:
             raise ValueError(f"Unsupported model: {self.model_name}")
                 

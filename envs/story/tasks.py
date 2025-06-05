@@ -1,7 +1,6 @@
 from utils import Task, Action, Search, Validation
 
 ALL_TASKS = [
-# Task Done, not validtion
     Task(
         annotator='售后阶段',
         user_id="cnjd喜哥2号",
@@ -168,22 +167,37 @@ ALL_TASKS = [
             outputs=[],
             actions=[
                 Action(
-                name="manage_urgent",
-                arguments={
-                    "platform": "jd",
-                    "shop_id": "5de650c946e7c3001814990f",
-                    "user_id": "cnjd喜哥2号",
-                    "order_id": "313021098954"
-                }
+                    name="manage_urgent",
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "user_id": "cnjd喜哥2号",
+                        "order_id": "313271663680"
+                    }
+                ),
+                Action(
+                    name="manage_exchange",
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "user_id": "cnjd喜哥2号",
+                        "order_id": "313271663680",
+                        "original_product_id": "100112573625",
+                        "exchange_product_id": "100112573624",
+                        "action": "换货"
+                    }
                 )
             ],
             searches=[
                 Search(
-                    name = 'get_installation_service_info_tool',
+                    name = 'manage_exchange_tool',
                     arguments={
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
-                        "product_id": "100042754736"
+                        "order_id": "313271663680",
+                        "user_id": "cnjd喜哥2号",
+                        "original_product_id": "100112573625",
+                        "action": "查询"
                     }
                 )
             ]
