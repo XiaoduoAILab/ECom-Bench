@@ -17,8 +17,8 @@ from .manage_urgent import manage_urgent
 from .register_cashback_by_review import register_cashback_by_review
 from .schedule_service import schedule_service
 from .transfer_to_specialist import transfer_to_specialist
-
-
+from .get_user_orders_info import get_user_orders_info
+from .get_auxiliary_materials_info import get_auxiliary_materials_info
 
 
 
@@ -66,7 +66,9 @@ class ActionTools:
             "manage_urgent": manage_urgent,
             "register_cashback_by_review": register_cashback_by_review,
             "schedule_service": schedule_service,
-            "transfer_to_specialist": transfer_to_specialist
+            "transfer_to_specialist": transfer_to_specialist,
+            "get_user_orders_info": get_user_orders_info,
+            "get_auxiliary_materials_info": get_auxiliary_materials_info,
         }
         # 保存工具函数名称列表，方便查询
         self.tools_names = list(self.tools_dict.keys())

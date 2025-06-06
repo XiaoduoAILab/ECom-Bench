@@ -42,7 +42,6 @@ def format_product(product):
         "商品名称": product["商品名称"],
         "商品状态": product["商品状态"],
         "商品价格": product["商品价格"],
-        "商品描述": product["商品描述"],
-        "辅材材料": product["辅材材料"],
+        "商品描述": product["商品描述"]
     }
     return product_formatted

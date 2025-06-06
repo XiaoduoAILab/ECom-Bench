@@ -8,7 +8,7 @@ ecard_service = f"""
 京东E卡凭借其便捷性、安全性和广泛的适用范围，成为京东用户喜爱的支付方式之一。
 """
 
-def manage_ecard(data, platform: str, user_id: str, action: str, product_id: str = None, quantity: int = None, shop_id: str = None):
+def manage_ecard(data, platform: str, user_id: str, action: str, product_id: str = None, quantity: int = None, shop_id: str = None, amount = 0):
     user_info = get_user_info(data, user_id)
     if not user_info:
         return data, f"没有找到用户{user_id}的信息"
@@ -28,3 +28,6 @@ def manage_ecard(data, platform: str, user_id: str, action: str, product_id: str
         # else:
         data['users_info'][user_id]['电子卡余额'] -= product_price * quantity
         return data, f"已购买{quantity}件商品{product_id}，用户{user_id}的电子卡余额为{data['users_info'][user_id]['电子卡余额']}元"
+    elif action == '退款':
+        data['users_info'][user_id]['电子卡余额'] += amount
+        return data, f"已退款{amount}元，用户{user_id}的电子卡余额为{data['users_info'][user_id]['电子卡余额']}元"
