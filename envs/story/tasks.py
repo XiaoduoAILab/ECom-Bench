@@ -507,7 +507,7 @@ ALL_TASKS = [
         )
     ),
     
-# 退货
+# Task Done, Validtion Done
         Task(
         annotator='5',
         user_id="cnjd18463287301_p",
@@ -538,33 +538,34 @@ ALL_TASKS = [
 ### 这是你的目标：
 
 <意图一>
-你之前购买了商品https://item.jd.com/100133171244.html，想问问维修服务
+由于购买的商品100138589935出现了安装问题，你向客服咨询维修政策，你仅仅只是咨询，不希望进行预约服务。
 <\意图一>
 <意图二>
-此外，你自己买了一个角阀，想向客服询问需不需要这个辅材材料
+最后，你希望提交订单232400272153的退货申请，并让客服帮你操作。
 <\意图二>
-<意图三>
-由于以前购买的家电在安装上出现了问题，你又仔细询问了https://item.jd.com/100133171244.html的安装流程
-<\意图三>
-<意图四>
-最后，你希望预约安装服务，名字潘宛丘，电话10080895692，时间是周日
-<\意图四>
+
 """
 ,
         metadata=Validation(
             outputs=[],
             actions=[
                 Action(
-                    name = 'schedule_service',
+                    name ='manage_return',
                     arguments={
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
                         "user_id": "cnjd18463287301_p",
-                        "order_id": "314415092676",
-                        "user_name": "潘宛丘",
-                        "phone_number": "10080895692",
-                        "service_type": "安装",
-                        "service_time": "周日"
+                        "order_id": "232400272153",
+                    }
+                ),
+                Action(
+                    name ='manage_ecard',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "user_id": "cnjd18463287301_p",
+                        "action": "退款",
+                        "amount": 3999
                     }
                 )
             ],
@@ -574,28 +575,13 @@ ALL_TASKS = [
                     arguments={
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
-                        "product_id": "100133171244"
-                    }
-                ),
-                Search(
-                    name='get_auxiliary_materials_info_tool',
-                    arguments={
-                        "platform": "jd",
-                        "shop_id": "5de650c946e7c3001814990f",
-                        "product_id": "100133171244"
-                    }
-                ),
-                Search(
-                    name='get_installation_service_info_tool',
-                    arguments={
-                        "platform": "jd",
-                        "shop_id": "5de650c946e7c3001814990f",
-                        "product_id": "100133171244"
+                        "product_id": "100138589935"
                     }
                 )
             ]
         )
     ),
+    
     Task(
         annotator='6',
         user_id="cnjd林韵佩",
