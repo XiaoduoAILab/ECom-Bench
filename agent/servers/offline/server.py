@@ -673,32 +673,6 @@ def parse_args():
     parser.add_argument("--cache_dir", type=str, default="cache", help="Cache directory")
     return parser.parse_args()
 
-
-@mcp.tool()
-def get_aftersale_info_tool(goods_id: str, summarized_query: str, history_messages: List[Dict[str, str]]) -> str:
-    """
-    售后信息回答工具：仅在以下情况调用：
-    1. 买家对售后相关问题提问，需要根据产品说明书依据回答时
-
-    否则不应调用此工具，避免无效请求。
-
-    Args:
-        goods_id (str): 商品ID。
-        summarized_query (str): 从对话中提炼的核心问题。
-        history_messages (List[Dict]): 完整对话历史，格式为：
-            [
-                {"role": "user", "content": "图片链接或文字描述"},
-                {"role": "assistant", "content": "回复内容"},
-                ...
-            ]
-
-    Returns:
-        str: 对图片的忠实描述，格式为：
-            - 从数据库中获取信息后对用户的回答，并给出依据信息所处的位置。
-            - 若无对应信息：返回“无对应商品信息”。
-    """
-    return get_aftersale_info(goods_id, summarized_query, history_messages)
-
 if __name__ == "__main__":
     args = parse_args()
     cache_dir = args.cache_dir
