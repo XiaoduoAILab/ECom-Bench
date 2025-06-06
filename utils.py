@@ -13,7 +13,9 @@ os.environ["AZURE_OPENAI_API_KEY"] = '0ff535d339e44592b42256a1e2a4cda3'
 os.environ["ZHIPUAI_API_KEY"] =  '2d00fac6fbc0408db8bd096b9b704a41.9Hje9rgehzpa22ku'
 
 
-
+class ProductInfo(BaseModel):
+    product_id:str
+    quantity: int
 class Task(BaseModel):
     annotator:str
     user_id: str
@@ -21,8 +23,6 @@ class Task(BaseModel):
     platform: str
     instruction: str
     metadata:Optional[Any] = None
-    
-
     
 class Search(BaseModel):
     name:str

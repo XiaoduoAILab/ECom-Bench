@@ -1,4 +1,4 @@
-from utils import Task, Action, Search, Validation
+from utils import Task, Action, Search, Validation, ProductInfo
 
 ALL_TASKS = [
 # Task Done, validtion Done
@@ -291,9 +291,135 @@ ALL_TASKS = [
             ]
         )
     ),
-
+# Task Done, Validtion Done
     Task(
         annotator='3',
+        user_id="cnjd18463287301_p",
+        shop_id="5de650c946e7c3001814990f",
+        platform="jd",
+        instruction = """
+### 这是你的画像：
+<消费者类型>
+理性型消费者。
+<\消费者类型>
+
+<性格特征>
+<情绪>不满，对商品感到非常失望。<\情绪>
+<细心程度>高，对细节的高度关注。<\细心程度>
+<耐心程度>中等，愿意等待客服回复。但当问题没有得到及时解决时，开始表现出焦急和不满，频繁催促<\耐心程度>
+<信任程度>低，不太信任客服，对于客服提供的信息持有怀疑态度，多次要求确认。<\信任程度>
+<维权意识>高，遇到不满意的服务时积极采取行动维护自身利益。<\维权意识>
+<\性格特征>
+
+<行为特征>
+<提问方式>事实导向与质疑结合，会具体问一些详情，同时提出一些质疑<\提问方式>
+<发言风格>直接且情绪化，采用较为直接的语言表达方式，有时候会用到一些带有强烈情感色彩的词语来表达不满或强调自己的观点，倾向于直截了当地表达自己的想法和感受。<\发言风格>
+<沟通节奏>快速而紧凑，经常连续发送多条消息进行询问或反馈情况。<\沟通节奏>
+<\行为特征>
+
+### 这是你的目标：
+
+<意图一>
+你现在正在进行购物，咨询这几个商品https://item.jd.com/100043059478.html，https://item.jd.com/100039032355.html?sdx=ehi-lLxFuJiE6JnIYYVZhcUguTOURHsgmjYZ4ukJEdyMdZnSL51b7n_lo0s，https://item.jd.com/100112573665.html 有什么差异
+<\意图一>
+<意图二>
+由于之前购买家电时出现过安装问题，你会一一咨询这三个商品的安装流程
+<\意图二>
+<意图三>
+之后，你希望买一个专门用于厨房的热水器，并让客服帮你下单购买这个商品
+<\意图三>
+<意图四>
+然后，你希望使用自己的ecard进行支付，并让客服进行操作
+<\意图四>
+<意图五>
+最后，你希望预约安装服务，订单ID：1234567890，名字潘宛丘，电话10080895692，时间是周日
+<\意图五>
+"""
+,
+        metadata=Validation(
+            outputs=[],
+            actions=[
+                Action(
+                    name="manage_order",
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "user_id": "cnjd18463287301_p",
+                        "action": "增加",
+                        "payment": "ecard",
+                        "product_info_list":[
+                            ProductInfo(
+                                product_id="100039032355",
+                                quantity=1
+                            )
+                        ]
+                    }
+                ),
+                Action(
+                    name="manage_ecard",
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "user_id": "cnjd18463287301_p",
+                        "action": "余额使用",
+                        "product_id": "100039032355",
+                        "quantity": 1
+                    }
+                ),
+                Action(
+                    name="schedule_service",
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "user_id": "cnjd18463287301_p",
+                        "order_id": "1234567890",
+                        "user_name": "潘宛丘",
+                        "phone_number": "10080895692",
+                        "service_type": "安装",
+                        "service_time": "周日"
+                    }
+                )
+            ],
+            searches=[
+                Search(
+                    name='compare_products_info_tool',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "product_ids": ["100043059478", "100039032355", "100112573665"]
+                    }
+                ),
+                Search(
+                    name='get_installation_service_info_tool',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "product_id": "100112573665"
+                    }
+                ),
+                Search(
+                    name='get_installation_service_info_tool',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "product_id": "100043059478"
+                    }
+                ),
+                Search(
+                    name='get_installation_service_info_tool',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "product_id": "100039032355"
+                    }
+                )
+            ]
+        )
+    ),
+
+# Task Done, Validtion Done
+    Task(
+        annotator='4',
         user_id="cnjd18463287301_p",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -322,40 +448,160 @@ ALL_TASKS = [
 ### 这是你的目标：
 
 <意图一>
-你现在正在进行购物，咨询这几个商品https://item.jd.com/100043059478.html，https://item.jd.com/100039032355.html?sdx=ehi-lLxFuJiE6JnIYYVZhcUguTOURHsgmjYZ4ukJEdyMdZnSL51b7n_lo0s，https://item.jd.com/100112573665.html 有什么差异
+你之前购买了商品https://item.jd.com/100133171244.html，想问问维修服务
 <\意图一>
 <意图二>
-由于之前购买家电时出现过安装问题，你这次会关注商品的辅材材料和安装流程
+此外，你自己买了一个角阀，想向客服询问需不需要这个辅材材料
 <\意图二>
-
+<意图三>
+由于以前购买的家电在安装上出现了问题，你又仔细询问了https://item.jd.com/100133171244.html的安装流程
+<\意图三>
+<意图四>
+最后，你希望预约安装服务，名字潘宛丘，电话10080895692，时间是周日
+<\意图四>
 """
 ,
-        
         metadata=Validation(
             outputs=[],
             actions=[
                 Action(
-                    name="manage_return",
+                    name = 'schedule_service',
                     arguments={
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
-                        "order_id": "314415092676",
                         "user_id": "cnjd18463287301_p",
-                        "action": "处理"
+                        "order_id": "314415092676",
+                        "user_name": "潘宛丘",
+                        "phone_number": "10080895692",
+                        "service_type": "安装",
+                        "service_time": "周日"
                     }
                 )
             ],
-            searches=[]
+            searches=[
+                Search(
+                    name='get_repair_info_tool',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "product_id": "100133171244"
+                    }
+                ),
+                Search(
+                    name='get_auxiliary_materials_info_tool',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "product_id": "100133171244"
+                    }
+                ),
+                Search(
+                    name='get_installation_service_info_tool',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "product_id": "100133171244"
+                    }
+                )
+            ]
         )
     ),
-    Task(
-        annotator='购买后阶段',
-        user_id="cnjd林韵佩",
+    
+# 退货
+        Task(
+        annotator='5',
+        user_id="cnjd18463287301_p",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
         instruction = """
 
 
+### 这是你的画像：
+<消费者类型>
+理性型消费者。
+<\消费者类型>
+
+<性格特征>
+<情绪>不满，对商品感到非常失望。<\情绪>
+<细心程度>高，对细节的高度关注。<\细心程度>
+<耐心程度>中等，愿意等待客服回复。但当问题没有得到及时解决时，开始表现出焦急和不满，频繁催促<\耐心程度>
+<信任程度>低，不太信任客服，对于客服提供的信息持有怀疑态度，多次要求确认。<\信任程度>
+<维权意识>高，遇到不满意的服务时积极采取行动维护自身利益。<\维权意识>
+<\性格特征>
+
+<行为特征>
+<提问方式>事实导向与质疑结合，会具体问一些详情，同时提出一些质疑<\提问方式>
+<发言风格>直接且情绪化，采用较为直接的语言表达方式，有时候会用到一些带有强烈情感色彩的词语来表达不满或强调自己的观点，倾向于直截了当地表达自己的想法和感受。<\发言风格>
+<沟通节奏>快速而紧凑，经常连续发送多条消息进行询问或反馈情况。<\沟通节奏>
+<\行为特征>
+
+### 这是你的目标：
+
+<意图一>
+你之前购买了商品https://item.jd.com/100133171244.html，想问问维修服务
+<\意图一>
+<意图二>
+此外，你自己买了一个角阀，想向客服询问需不需要这个辅材材料
+<\意图二>
+<意图三>
+由于以前购买的家电在安装上出现了问题，你又仔细询问了https://item.jd.com/100133171244.html的安装流程
+<\意图三>
+<意图四>
+最后，你希望预约安装服务，名字潘宛丘，电话10080895692，时间是周日
+<\意图四>
+"""
+,
+        metadata=Validation(
+            outputs=[],
+            actions=[
+                Action(
+                    name = 'schedule_service',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "user_id": "cnjd18463287301_p",
+                        "order_id": "314415092676",
+                        "user_name": "潘宛丘",
+                        "phone_number": "10080895692",
+                        "service_type": "安装",
+                        "service_time": "周日"
+                    }
+                )
+            ],
+            searches=[
+                Search(
+                    name='get_repair_info_tool',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "product_id": "100133171244"
+                    }
+                ),
+                Search(
+                    name='get_auxiliary_materials_info_tool',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "product_id": "100133171244"
+                    }
+                ),
+                Search(
+                    name='get_installation_service_info_tool',
+                    arguments={
+                        "platform": "jd",
+                        "shop_id": "5de650c946e7c3001814990f",
+                        "product_id": "100133171244"
+                    }
+                )
+            ]
+        )
+    ),
+    Task(
+        annotator='6',
+        user_id="cnjd林韵佩",
+        shop_id="5de650c946e7c3001814990f",
+        platform="jd",
+        instruction = """
 ### 这是你的画像：
 <消费者类型>
 实用型消费者，关注产品的具体规格（如烟管直径），更关心产品的实际使用价值而非外观或其他非功能性因素。

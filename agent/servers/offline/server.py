@@ -1,5 +1,5 @@
 from typing import List, Dict, Annotated, Literal
-from pydantic import Field
+from pydantic import Field, BaseModel
 import os
 import json
 from mcp.server.fastmcp import FastMCP
@@ -22,12 +22,37 @@ from tools import register_cashback_by_review
 from tools import schedule_service
 from tools import transfer_to_specialist
 from tools import set_up_logger
+from tools import get_user_orders_info
+from tools import get_auxiliary_materials_info
 
 
 mcp = FastMCP("service")
 data = None
 logger = None
 cache_dir = None
+
+@mcp.tool()
+def get_user_orders_info_tool(
+    platform: Annotated[
+        str,
+        Field(..., description="电商平台")
+    ],
+    shop_id: Annotated[
+        str,
+        Field(..., description="店铺ID")
+    ],
+    user_id: Annotated[
+        str,
+        Field(..., description="用户ID")
+    ]
+) -> str:
+    """
+    用于根据用户ID获取用户所有的订单信息。
+    """
+    global data
+    data, result = get_user_orders_info(data = data, platform = platform, shop_id = shop_id, user_id = user_id)
+    set_data(data)
+    return result
 
 @mcp.tool()
 def get_logistics_info_tool(
@@ -226,6 +251,30 @@ def manage_urgent_tool(
     return result
 
 @mcp.tool()
+
+def get_auxiliary_materials_info_tool(
+    platform: Annotated[
+        str,
+        Field(..., description="电商平台")
+    ],
+    shop_id: Annotated[
+        str,
+        Field(..., description="店铺ID")
+    ],
+    product_id: Annotated[
+        str,
+        Field(..., description="商品ID")
+    ]
+) -> str:
+    """
+    用于获取商品的辅材信息。当用户询问商品辅材信息时，可以调用此工具。
+    """
+    global data
+    data, result = get_auxiliary_materials_info(data = data, platform = platform, shop_id = shop_id, product_id = product_id)
+    set_data(data)
+    return result
+
+@mcp.tool()
 def get_gift_info_tool(
     platform: Annotated[
         str,
@@ -259,8 +308,8 @@ def manage_ecard_tool(
         Field(..., description="用户ID")
     ],
     action: Annotated[
-        Literal["信息查询", "余额使用", "余额查询"],
-        Field(..., description="操作类型，可选值：信息查询（查询ecard相关信息）、余额使用、余额查询")
+        Literal["信息查询", "余额使用", "余额查询", "退款"],
+        Field(..., description="操作类型，可选值：信息查询（查询ecard相关信息）、余额使用、余额查询、退款")
     ],
     shop_id: Annotated[
         str,
@@ -273,13 +322,17 @@ def manage_ecard_tool(
     quantity: Annotated[
         int,
         Field(None, description="商品购买数量（仅在action为余额使用时必填）")
+    ] = None,
+    amount: Annotated[
+        float,
+        Field(0, description="退款金额（仅在action为退款时必填）")
     ] = None
 ) -> str:
     """
-    用于管理京东E卡信息（查询服务、使用、余额查询）。当用户提出有关京东E卡相关问题时，可以调用此工具。
+    用于管理京东E卡信息（查询服务、使用、余额查询、退款）。当用户提出有关京东E卡相关问题时，可以调用此工具。
     """
     global data
-    data, result = manage_ecard(data = data, platform = platform, user_id = user_id, action = action, product_id = product_id, quantity = quantity, shop_id = shop_id)
+    data, result = manage_ecard(data = data, platform = platform, user_id = user_id, action = action, product_id = product_id, quantity = quantity, shop_id = shop_id, amount = amount)
     set_data(data)
     return result
 
@@ -299,7 +352,7 @@ def get_installation_service_info_tool(
     ]
 ) -> str:
     """
-    用于获取安装服务信息或问题。当用户询问安装服务时，可以调用此工具。
+    用于获取商品安装服务信息或问题。当用户询问安装服务，安装流程时，可以调用此工具。
     """
     global data
     data, result = get_installation_service_info(data = data, platform = platform, shop_id = shop_id, product_id = product_id)
@@ -322,22 +375,29 @@ def get_product_info_tool(
     ]
 ) -> str:
     """
-    用于获取商品详情（属性、质保、噪音、辅材,）。当用户询问商品信息时，可以调用此工具。
+    用于获取商品详情。当用户询问商品信息时，可以调用此工具。
     """
     global data
     data, result = get_product_info(data = data, platform = platform, shop_id = shop_id, product_id = product_id)
     set_data(data)
     return result
 
+class ProductInfo(BaseModel):
+    product_id: Annotated[
+        str,
+        Field(..., description="商品ID")
+    ]
+    quantity: Annotated[
+        int,
+        Field(..., description="商品数量")
+    ]
+    
+
 @mcp.tool()
 def manage_order_tool(
     platform: Annotated[
         str,
         Field(..., description="电商平台")
-    ],
-    order_id: Annotated[
-        str,
-        Field(..., description="订单ID")
     ],
     shop_id: Annotated[
         str,
@@ -348,9 +408,17 @@ def manage_order_tool(
         Field(..., description="用户ID")
     ],
     action: Annotated[
-        Literal["查询", "取消", "修改"],
-        Field(..., description="操作类型，可选值：查询、取消、修改（地址/手机号）")
+        Literal["查询", "取消", "修改", "增加"],
+        Field(..., description="操作类型，可选值：查询、取消、修改（地址/手机号）、增加（下订单）")
     ],
+    payment: Annotated[
+        Literal["银行卡", "ecard", "微信", "支付宝"],
+        Field('支付宝', description="支付方式（仅在action为增加时选填）")
+    ] = None,
+    order_id: Annotated[
+        str,
+        Field(None, description="订单ID（仅在action为查询、取消、修改时选填）")
+    ] = None,
     address: Annotated[
         str,
         Field(None, description="新收货地址（仅在action为修改时选填）")
@@ -358,20 +426,20 @@ def manage_order_tool(
     phone_number: Annotated[
         str,
         Field(None, description="新手机号（仅在action为修改时选填）")
+    ] = None,
+    product_info_list: Annotated[
+        List[ProductInfo],
+        Field(None, description="商品信息（仅在action为增加时选填）")
     ] = None
 ) -> str:
     """
-    用于管理订单信息，包括查询订单、取消订单（需要向用户再次确认）、修改订单（地址、手机号）操作。
+    用于管理订单信息，包括查询订单、取消订单（需要向用户再次确认）、修改订单（地址、手机号）、下订单操作。
     订单的信息包括用户购买的商品，收货地址等具体信息
     """
     global data
-    data, result = manage_order(data = data, platform = platform, order_id = order_id, shop_id = shop_id, user_id = user_id, action = action, address = address, phone_number = phone_number)
+    data, result = manage_order(data = data, platform = platform, order_id = order_id, shop_id = shop_id, user_id = user_id, action = action, address = address, phone_number = phone_number, product_info_list = product_info_list, payment = payment)
     set_data(data)
     return result
-
-# # 下订单
-# @mcp.tool()
-# def 
 
 @mcp.tool()
 def schedule_service_tool(
@@ -548,6 +616,7 @@ def manage_invoice_tool(
     set_data(data)
     return result
 
+
 @mcp.tool()
 def transfer_to_specialist_tool(
     platform: Annotated[
@@ -572,6 +641,9 @@ def transfer_to_specialist_tool(
     return result
 
 
+
+
+    
 def set_data(data):
     for file_name, file_data in data.items():
         file_path = os.path.join(cache_dir, file_name + '.json')
@@ -601,6 +673,31 @@ def parse_args():
     parser.add_argument("--cache_dir", type=str, default="cache", help="Cache directory")
     return parser.parse_args()
 
+
+@mcp.tool()
+def get_aftersale_info_tool(goods_id: str, summarized_query: str, history_messages: List[Dict[str, str]]) -> str:
+    """
+    售后信息回答工具：仅在以下情况调用：
+    1. 买家对售后相关问题提问，需要根据产品说明书依据回答时
+
+    否则不应调用此工具，避免无效请求。
+
+    Args:
+        goods_id (str): 商品ID。
+        summarized_query (str): 从对话中提炼的核心问题。
+        history_messages (List[Dict]): 完整对话历史，格式为：
+            [
+                {"role": "user", "content": "图片链接或文字描述"},
+                {"role": "assistant", "content": "回复内容"},
+                ...
+            ]
+
+    Returns:
+        str: 对图片的忠实描述，格式为：
+            - 从数据库中获取信息后对用户的回答，并给出依据信息所处的位置。
+            - 若无对应信息：返回“无对应商品信息”。
+    """
+    return get_aftersale_info(goods_id, summarized_query, history_messages)
 
 if __name__ == "__main__":
     args = parse_args()
