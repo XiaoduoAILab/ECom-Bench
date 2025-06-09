@@ -29,7 +29,7 @@ def parse_args() -> RunConfig:
     parser.add_argument(
         "--agent-model",
         type=str,
-        default="deepseek-v3",
+        default="qwen",
         help="The model to use for the agent simulator",
     )
     parser.add_argument(
