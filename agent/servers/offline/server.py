@@ -225,7 +225,7 @@ def manage_exchange_tool(
     ],
     exchange_product_id: Annotated[
         str,
-        Field(None, description="换货商品ID")
+        Field(None, description="换货商品ID，仅在action为'换货'时必填")
     ] = None
 ) -> str:
     """
@@ -426,23 +426,23 @@ def manage_order_tool(
     ],
     payment: Annotated[
         Literal["银行卡", "京东E卡", "微信", "支付宝"],
-        Field('支付宝', description="支付方式（仅在action为增加时选填）")
+        Field('支付宝', description="支付方式（仅在action为增加时必填）")
     ] = None,
     order_id: Annotated[
         str,
-        Field(None, description="订单ID（仅在action为查询、取消、修改时选填）")
+        Field(None, description="订单ID（仅在action为查询、取消、修改时必填）")
     ] = None,
     address: Annotated[
         str,
-        Field(None, description="新收货地址（仅在action为修改时选填）")
+        Field(None, description="新收货地址（仅在action为修改时必填）")
     ] = None,
     phone_number: Annotated[
         str,
-        Field(None, description="新手机号（仅在action为修改时选填）")
+        Field(None, description="新手机号（仅在action为修改时必填）")
     ] = None,
     product_info_list: Annotated[
         List[ProductInfo],
-        Field(None, description="商品信息（仅在action为增加时选填）")
+        Field(None, description="商品信息（仅在action为增加时必填）")
     ] = None
 ) -> str:
     """
