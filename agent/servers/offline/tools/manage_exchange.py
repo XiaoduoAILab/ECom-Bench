@@ -29,5 +29,5 @@ def manage_exchange(data, platform, shop_id, order_id, user_id, original_product
         if original_product_index is None:
             return data, f"订单{order_id}购买的商品中没有找到商品{original_product_id}"
         data['orders'][platform][shop_id][user_id][order_id]['订单商品列表'][original_product_index]['商品ID'] = exchange_product_id
-        return data, f"订单{order_id}商品{original_product_id}换货成功，换货后的商品ID为{exchange_product_id}"
+        return data, f"订单{order_id}商品{original_product_id}换货成功，换货后的商品ID为{exchange_product_id}。"
             

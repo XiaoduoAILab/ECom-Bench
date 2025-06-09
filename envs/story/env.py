@@ -8,6 +8,7 @@ from typing import Dict, List, Optional, Dict, Tuple
 from langchain_mcp_adapters.client import MultiServerMCPClient
 import time
 import os
+import traceback
 import json
 import hashlib
 class MockStoryEnv(Env):
@@ -69,7 +70,7 @@ class MockStoryEnv(Env):
             self.console_verbose.log(f"\n[bold green]任务ID: {self.task_index}[/bold green]")  # Task ID
             service_response = "亲，需要什么帮助吗？"
             self.session.append({"role": "assistant", "content": service_response})
-            for _ in range(30):
+            for loop in range(30):
                 customer_response = await self.customer.call(service_response)
                 self.console_verbose.log(f"\n[bold magenta]===============Customer response:===============\n{customer_response}[/bold magenta]")
                 self.session.append({"role": "user", "content": customer_response})
@@ -77,16 +78,16 @@ class MockStoryEnv(Env):
                     break
                 start_time = time.time()
                 service_response = await self.service.call(customer_response)
+                while len(service_response) == 0:
+                    service_response = await self.service.call(customer_response)
                 end_time = time.time()
                 self._save_tool_calls(self.service.detail_messages[-1])
                 self.elapsed_time.append(round(end_time - start_time, 3))
                 self.session.append({"role": "assistant", "content": service_response})
                 self.console_verbose.log(f"\n[bold brown]===============Service response:===============\n{service_response}[/bold brown]")           
             self.console_verbose.log(f"\n[bold blue]=== 任务执行完成 ===[/bold blue]")  # Task execution complete
-        
-        self.original_data = self._load_data(base_dir=self.data_dir)
-        self.modified_data = self._load_data(base_dir=self.cache_dir)
-        self._remove_isolated_data()
+        if loop > 29:
+            print("warning!!! 任务执行时间超过30轮")
         reward = self.calculate_reward(self.session, self.elapsed_time, 1)
         return reward, self.session
     
@@ -148,12 +149,50 @@ class MockStoryEnv(Env):
         return reward
     
     def calculate_actions_reward(self):
-        # 计算original_data和modified_data的哈希值
-        self._actions_to_tools()
-        original_data_hash = hashlib.sha256(json.dumps(self.original_data).encode('utf-8')).hexdigest()
-        modified_data_hash = hashlib.sha256(json.dumps(self.modified_data).encode('utf-8')).hexdigest()
+        self.original_data = self._load_data(base_dir=self.data_dir)
+        self.modified_data = self._load_data(base_dir=self.cache_dir)
+        self._remove_isolated_data()
+        if len(self.task.metadata.actions) > 0:
+            self._actions_to_tools()
+        
+        # 标准化数据以确保一致的hash计算
+        def normalize_data(data):
+            """递归标准化数据结构，确保相同内容产生相同hash"""
+            if isinstance(data, dict):
+                # 对字典按键排序，并递归标准化值
+                return {k: normalize_data(v) for k, v in sorted(data.items())}
+            elif isinstance(data, list):
+                # 对列表元素进行标准化并排序（如果元素可比较）
+                normalized_list = [normalize_data(item) for item in data]
+                try:
+                    # 尝试对列表排序以确保一致性
+                    if all(isinstance(item, (str, int, float)) for item in normalized_list):
+                        return sorted(normalized_list)
+                    elif all(isinstance(item, dict) for item in normalized_list):
+                        # 对字典列表按字典的字符串表示排序
+                        return sorted(normalized_list, key=lambda x: json.dumps(x, sort_keys=True))
+                    else:
+                        return normalized_list
+                except (TypeError, ValueError):
+                    # 如果无法排序，保持原顺序
+                    return normalized_list
+            else:
+                return data
+            
+        # 标准化数据
+        normalized_original = normalize_data(self.original_data)
+        normalized_modified = normalize_data(self.modified_data)
+        
+        # 计算标准化后的hash
+        original_data_hash = hashlib.sha256(
+            json.dumps(normalized_original, sort_keys=True, ensure_ascii=False).encode('utf-8')
+        ).hexdigest()
+        modified_data_hash = hashlib.sha256(
+            json.dumps(normalized_modified, sort_keys=True, ensure_ascii=False).encode('utf-8')
+        ).hexdigest()
+        
         return original_data_hash == modified_data_hash
-    
+
     def _actions_to_tools(self):
         action_tools = ActionTools()
         actions = self.task.metadata.actions
@@ -174,8 +213,13 @@ class MockStoryEnv(Env):
     def calculate_searches_reward(self):
         service_data_hash = set()
         for tool_call in self.tool_calls:
-            tool_call['function']['arguments'] = json.loads(tool_call['function']['arguments'])
-            service_data_hash.add(self._function_to_hash(tool_call['function']))
+            try:
+                tool_call['function']['arguments'] = json.loads(tool_call['function']['arguments'])
+                service_data_hash.add(self._function_to_hash(tool_call['function']))
+            except:
+                traceback.print_exc()
+                # self.console_verbose.log(f"\n[bold red]wrong format tool_call:\n{json.dumps(tool_call, ensure_ascii=False, indent=2)}[/bold red]")
+                continue
         search_data_hash = set()
         for search in self.task.metadata.searches:
             search_data_hash.add(self._function_to_hash(search.model_dump()))

@@ -24,12 +24,29 @@ from tools import transfer_to_specialist
 from tools import set_up_logger
 from tools import get_user_orders_info
 from tools import get_auxiliary_materials_info
-
+from tools import get_user_info
 
 mcp = FastMCP("service")
 data = None
 logger = None
 cache_dir = None
+
+
+@mcp.tool()
+def get_user_info_tool(
+    user_id: Annotated[
+        str,
+        Field(..., description="用户ID")
+    ]
+) -> str:
+    """
+    用于获取默认的用户信息。当需要查询用户保存的相关用户信息时，可以调用此工具。
+    """
+    global data
+    data, result = get_user_info(data = data, user_id = user_id)
+    set_data(data)
+    return result
+    
 
 @mcp.tool()
 def get_user_orders_info_tool(

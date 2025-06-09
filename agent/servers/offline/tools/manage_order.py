@@ -52,7 +52,7 @@ def manage_order(data, platform: str, shop_id: str, user_id: str, action: str, o
         if user_id not in data["orders"][platform][shop_id]:
             data["orders"][platform][shop_id][user_id] = {}
         data["orders"][platform][shop_id][user_id][order_id] = order
-        return data, f"订单{order_id}已增加"
+        return data, f"订单{order_id}已增加,具体订单内容：{json.dumps(order, ensure_ascii=False)}"
     order = get_order(data, platform, shop_id, user_id, order_id)
     if not order:
         return data, f"没有找到订单{order_id}的信息"
@@ -60,7 +60,7 @@ def manage_order(data, platform: str, shop_id: str, user_id: str, action: str, o
         return data, json.dumps(order, ensure_ascii=False)
     elif action == '取消':
         data["orders"][platform][shop_id][user_id][order_id]["订单状态"] = "已取消"
-        return data, f"订单{order_id}已取消"
+        return data, f"订单{order_id}已取消，取消的订单是{json.dumps(order, ensure_ascii=False)}"
     elif action == '修改':
         if not address and not phone_number:
             return data, f"新地址和新手机号都为空，无法修改"
@@ -68,7 +68,7 @@ def manage_order(data, platform: str, shop_id: str, user_id: str, action: str, o
             data["orders"][platform][shop_id][user_id][order_id]["收货地址"]["详细地址"] = address
         if phone_number:
             data["orders"][platform][shop_id][user_id][order_id]["收货地址"]["电话号码"] = phone_number
-        return data, f"订单{order_id}的地址和手机号已修改"
+        return data, f"订单{order_id}的地址和手机号已修改，修改后的订单是{json.dumps(order, ensure_ascii=False)}"
     else:
         return data, f"不支持的操作{action}"
             

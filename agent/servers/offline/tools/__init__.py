@@ -19,7 +19,7 @@ from .schedule_service import schedule_service
 from .transfer_to_specialist import transfer_to_specialist
 from .get_user_orders_info import get_user_orders_info
 from .get_auxiliary_materials_info import get_auxiliary_materials_info
-
+from .get_user_info import get_user_info
 
 
 import logging
@@ -69,6 +69,7 @@ class ActionTools:
             "transfer_to_specialist": transfer_to_specialist,
             "get_user_orders_info": get_user_orders_info,
             "get_auxiliary_materials_info": get_auxiliary_materials_info,
+            "get_user_info": get_user_info
         }
         # 保存工具函数名称列表，方便查询
         self.tools_names = list(self.tools_dict.keys())
