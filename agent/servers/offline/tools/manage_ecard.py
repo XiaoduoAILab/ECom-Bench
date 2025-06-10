@@ -1,4 +1,4 @@
-from .utils import get_user_info, get_product_detail
+from .utils import get_user, get_product_detail
 
 ecard_service = f"""
 京东E卡是京东商城发行的电子预付卡，可用于购买京东自营商品，涵盖数码家电、服饰美妆、家居日用等多种品类。
@@ -9,7 +9,7 @@ ecard_service = f"""
 """
 
 def manage_ecard(data, platform: str, user_id: str, action: str, product_id: str = None, quantity: int = None, shop_id: str = None, amount:float = 0):
-    user_info = get_user_info(data, user_id)
+    user_info = get_user(data, user_id)
     if not user_info:
         return data, f"没有找到用户{user_id}的信息"
     if action == '信息查询':

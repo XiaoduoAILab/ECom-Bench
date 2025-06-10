@@ -29,7 +29,7 @@ def get_discount(data, platform: str, shop_id: str):
         return None
     return discount
 
-def get_user_info(data, user_id: str):
+def get_user(data, user_id: str):
     user_data = data.get("users_info", {})
     user = user_data.get(user_id, {})
     if not user:
