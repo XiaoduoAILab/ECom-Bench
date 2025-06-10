@@ -211,8 +211,6 @@ class MockStoryEnv(Env):
                         self.tool_calls.append(tool_call)
     
     def calculate_searches_reward(self):
-        if len(self.task.metadata.searches) == 0:
-            return True
         service_data_hash = set()
         for tool_call in self.tool_calls:
             try:
@@ -243,8 +241,6 @@ class MockStoryEnv(Env):
         return data_hash
         
     def calculate_outputs_reward(self):
-        if len(self.task.metadata.outputs) == 0:
-            return True
         long_string = "".join([msg['content'] for msg in self.session if msg['role'] == 'assistant'])
         return all([output in long_string for output in self.task.metadata.outputs])
             
