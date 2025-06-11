@@ -2,7 +2,7 @@ from utils import Task, Action, Search, Validation, ProductInfo
 
 ALL_TASKS = [
     Task(
-        annotator='0',
+        annotator='30',
         user_id="cnjdshj沈华建",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -81,7 +81,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='1',
+        annotator='31',
         user_id="cnjdjd_7271809d790f9",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -110,10 +110,10 @@ ALL_TASKS = [
 你购买了燃热，订单号312635190435。这款商品是冷凝水，不满足你的需求。你需要申请退货
 <\意图一>
 <意图二>
-你下单了一块新的燃热，你想问这款燃热是否发货了，预计多久能到达
+你下单了一块新的燃热，订单号312491584462，你想问这款燃热是否发货了，预计多久能到达
 <\意图二>
 <意图三>
-你想确认是否可以预约周五的安装服务，订单号312491584462，电话号码17325959911
+你想确认是否可以预约周五的安装服务，订单号312491584462，电话号码17325959911（注意，你不会透露包括姓名，电话号码等信息给客服，你会要求客服自己查询）
 <\意图三>
 """
 ,
@@ -148,7 +148,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='2',
+        annotator='32',
         user_id="cnjdjingjing20143",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -210,7 +210,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='3',
+        annotator='33',
         user_id="cnjdzhongx520970",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -288,7 +288,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='4',
+        annotator='34',
         user_id="cnjd13501206383_p",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -374,7 +374,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='5',
+        annotator='35',
         user_id="cnjd13501206383_p",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -447,7 +447,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='6',
+        annotator='36',
         user_id="cnjd数码精灵兆亮",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -520,7 +520,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='7',
+        annotator='37',
         user_id="cnjd数码精灵兆亮",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -582,7 +582,7 @@ ALL_TASKS = [
             ],
             searches=[
                 Search(
-                    name="get_exchange_info_tool",
+                    name="manage_exchange_tool",
                     arguments={
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
@@ -596,7 +596,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='8',
+        annotator='38',
         user_id="cnjd24271992-814348",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -672,7 +672,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='9',
+        annotator='39',
         user_id="cnjd24271992-814348",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -737,7 +737,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='10',
+        annotator='40',
         user_id="cnjdbelieve_yx_m",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -815,7 +815,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='11',
+        annotator='41',
         user_id="cnjd波波豆",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -880,7 +880,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='12',
+        annotator='42',
         user_id="cnjd波波豆",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -929,7 +929,7 @@ ALL_TASKS = [
                         "shop_id": "5de650c946e7c3001814990f",
                         "user_id": "cnjd波波豆",
                         "order_id": "311324806024",
-                        "phone_number": "13556729880",
+                        "phone_number": "15135362990",
                         "service_type": "维修",
                         "user_name": "康清扬",
                         "service_time": "周三"
@@ -958,7 +958,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='13',
+        annotator='43',
         user_id="cnjd波波豆",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -993,7 +993,7 @@ ALL_TASKS = [
 在了解信息后，你决定下单购买这款电热水器，计划使用京东E卡作为支付方式，并要求客服帮你执行下单操作
 <\意图三>
 <意图四>
-最后，你希望预约该商品的安装服务，时间是周四。
+最后，你希望预约该商品的安装服务，时间是周四（注意，你不会透露包括姓名，电话号码等信息给客服，你会要求客服自己查询）。
 <\意图四>
 """
 ,
@@ -1072,7 +1072,7 @@ ALL_TASKS = [
     ),
 #做一个物流的
     Task(
-        annotator='14',
+        annotator='44',
         user_id="cnjd波波豆",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -1125,23 +1125,17 @@ ALL_TASKS = [
                         'action': '取消',
                         'shop_id': '5de650c946e7c3001814990f',
                         'order_id': '310995404460',
-                        'product_id': '100042045930'
                     }
                 ),
                 Action(
-                    name='manage_order',
+                    name="manage_ecard",
                     arguments={
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
                         "user_id": "cnjd波波豆",
-                        'action': "增加",
-                        'payment':'京东E卡',
-                        'product_info_list': [
-                            ProductInfo(
-                                product_id='100042045930',
-                                quantity=1
-                            )
-                        ]
+                        "action": "退款",
+                        "product_id": "100064645330",
+                        "amount": 2009.00  
                     }
                 )       
             ],
@@ -1161,15 +1155,15 @@ ALL_TASKS = [
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
                         "product_id": "100064645330",
-                        "user_id": "cnjd波波豆",
                     }
                 ),
                 Search(
-                    name='get_logistics_info_tool',
+                    name='manage_order_tool',
                     arguments={
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
                         "order_id": "310995404460",
+                        "action": "查询",
                         "user_id": "cnjd波波豆",
                     }
                 )
@@ -1177,7 +1171,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='15',
+        annotator='45',
         user_id="cnjd13330062133_p",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -1203,7 +1197,7 @@ ALL_TASKS = [
 
 ### 这是你的目标：
 <意图一>
-你已经购买了燃热，你想确认你的订单315302660376中商品对应的安装说明。
+你已经购买了燃热，你想确认你的订单315302660376中商品100129027686对应的安装说明。
 <\意图一>
 <意图二>
 在确认安装说明之后，你觉得自己没有出现安装错误，但刚装好一天就报F001错误了，你想问这是为什么
@@ -1212,7 +1206,7 @@ ALL_TASKS = [
 你想预约维修服务，来解决问题，预约时间为周一。
 <\意图三>
 <意图四>
-你想确认答应赠送的风扇要怎么获取
+你想确认答应赠送的风扇的获取方法。
 <\意图四>
 
 """
@@ -1249,7 +1243,7 @@ ALL_TASKS = [
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
                         "product_id": "100129027686",
-                        "user_id": "cnjd13330062133_p",
+                        "fault_code": "F001",
                     }
                 ),
                 Search(
@@ -1264,7 +1258,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='16',
+        annotator='46',
         user_id="cnjd13330062133_p",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -1290,13 +1284,13 @@ ALL_TASKS = [
 
 ### 这是你的目标：
 <意图一>
-你已经购买了燃热，订单号315302660376。但你拿回家之后发现，这个是16L的，你觉得有点偏小，你想请求换货。
+你已经购买了燃热，订单号315302660376，商品ID100129027686。但你拿回家之后发现，这个是16L的，你觉得有点偏小，你想请求换货。
 <\意图一>
 <意图二>
 换货商品里面你想确认有没有比当前容量大的商品，如果有，你同意换货。
 <\意图二>
 <意图三>
-如果换货失败，你将退款退货，准备下单新的商品。
+如果换货失败，你将退款退货，准备下单新的商品100002047744。
 <\意图三>
 <意图四>
 在购买前，你还是想确定一下，你新看上的商品容量是不是更大，并且有没有赠品。
@@ -1318,7 +1312,7 @@ ALL_TASKS = [
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
                         "user_id": "cnjd13330062133_p",
-                        "order_id": "314902651602",
+                        "order_id": "315302660376",
                     }
                 ),
                 Action(
@@ -1328,7 +1322,6 @@ ALL_TASKS = [
                         "shop_id": "5de650c946e7c3001814990f",
                         "user_id": "cnjd13330062133_p",
                         "action": "退款",
-                        "product_id": "100129027686",
                         "amount": 2009.00  
                     }
                 ),
@@ -1382,27 +1375,18 @@ ALL_TASKS = [
                     }
                 ),
                 Search(
-                    name='get_fault_code_info_tool',
-                    arguments={
-                        "platform": "jd",
-                        "shop_id": "5de650c946e7c3001814990f",
-                        "product_id": "100129027686",
-                        "user_id": "cnjd13330062133_p",
-                    }
-                ),
-                Search(
                     name='get_gift_info_tool',
                     arguments={
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
-                        "product_id": "100129027686",
+                        "product_id": "100002047744",
                     }
                 )
             ]
         )
     ),
     Task(
-        annotator='17',
+        annotator='47',
         user_id="cnjdjd_66ea38a7829e1",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -1428,7 +1412,7 @@ ALL_TASKS = [
 
 ### 这是你的目标：
 <意图一>
-你已经购买了燃热，订单号313672076398。往常安装热水器都是在洗手间安装的，这次你想问这款燃热可以安装在同样的位置吗？
+你已经购买了燃热，订单号313672076398，商品ID100148801459。往常安装热水器都是在洗手间安装的，这次你想问这款燃热可以安装在同样的位置吗？
 <\意图一>
 <意图二>
 你想询问安装时辅材有哪些
@@ -1479,7 +1463,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='18',
+        annotator='48',
         user_id="cnjdjd_66ea38a7829e1",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -1505,13 +1489,13 @@ ALL_TASKS = [
 
 ### 这是你的目标：
 <意图一>
-你已经购买了燃热，订单号315302660376。你觉得这个产品很不错，已经完成了返现评价。你会给客服一张图验证，https://dd-static.jd.com/ddimgp/jfs/t20260528/280781/10/25581/172166/6808a980F4fea4867/cf783a9a7acc8c2d.jpg
+你已经购买了燃热，订单号313672076398。你觉得这个产品很不错，已经完成了返现评价。你会给客服一张图验证，https://dd-static.jd.com/ddimgp/jfs/t20260528/280781/10/25581/172166/6808a980F4fea4867/cf783a9a7acc8c2d.jpg
 <\意图一>
 <意图二>
 如果验证通过，你需要登记返现。
 <\意图二>
 <意图三>
-完成返现的话，你考虑给自己父母也买一台，但你想买一台更大一些的商品。你看上了100129027686、100192762770和100002047744，要客服帮你筛选一下。
+完成返现的话，你考虑给自己父母也买一台，但你想买一台容量更大一些的商品。你看上了100129027686、100192762770和100002047744，要客服帮你筛选一下。
 <\意图三>
 <意图四>
 如果都满足，选一个最大的产品购买。
@@ -1530,7 +1514,7 @@ ALL_TASKS = [
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
                         "user_id": "cnjdjd_66ea38a7829e1",
-                        "order_id": "315302660376",
+                        "order_id": "313672076398",
                         "action": "返现"
                     }
                 ),
@@ -1569,7 +1553,7 @@ ALL_TASKS = [
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
                         "user_id": "cnjdjd_66ea38a7829e1",
-                        "order_id": "315302660376",
+                        "order_id": "313672076398",
                         "action": "查询"
                     }
                 ),
@@ -1585,7 +1569,7 @@ ALL_TASKS = [
         )
     ),
     Task(
-        annotator='19',
+        annotator='49',
         user_id="cnjdjd_66ea38a7829e1",
         shop_id="5de650c946e7c3001814990f",
         platform="jd",
@@ -1611,7 +1595,7 @@ ALL_TASKS = [
 
 ### 这是你的目标：
 <意图一>
-你已经购买了燃热，订单号315302660376。但你拿回家之后发现，这个是16L的，你觉得有点偏小，你想请求换货。
+你已经购买了燃热，订单号313672076398，商品ID100148801459。但你拿回家之后发现，这个是14L的，你觉得有点偏小，你想请求换货。
 <\意图一>
 <意图二>
 换货商品里面你想确认有没有比当前容量大的商品，如果有，你同意换货。
@@ -1629,7 +1613,7 @@ ALL_TASKS = [
                     arguments={
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
-                        "order_id": "315302660376",
+                        "order_id": "313672076398",
                         "user_id": "cnjdjd_66ea38a7829e1",
                         "action": "换货",
                         "original_product_id": "100148801459",
@@ -1643,7 +1627,7 @@ ALL_TASKS = [
                     arguments={
                         "platform": "jd",
                         "shop_id": "5de650c946e7c3001814990f",
-                        "order_id": "315302660376",
+                        "order_id": "313672076398",
                         "user_id": "cnjdjd_66ea38a7829e1",
                         "action": "查询",
                         "original_product_id": "100148801459"
