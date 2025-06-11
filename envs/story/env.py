@@ -10,6 +10,7 @@ import time
 import os
 import traceback
 import json
+import asyncio
 import hashlib
 class MockStoryEnv(Env):
     def __init__(
@@ -36,60 +37,67 @@ class MockStoryEnv(Env):
         
     async def a_run(self, user_strategy, agent_strategy) -> Tuple[float, List[Dict]]:
         self._create_isolated_data()
-        async with MultiServerMCPClient({
-        "service": {
-            "command": "python",
-            "args": [
-                os.path.join(OFFLINE_SERVER_DIR, "server.py"),
-                "--cache_dir",self.cache_dir
-                ],
-            "transport": "stdio",
-        }
-        }) as client_service:
-            match user_strategy:
-                case 'human':
-                    from user import UserHuman as User
-                case 'based':
-                    from user import UserBased as User
-                case 'cot':
-                    from user import UserCoT as User
-                case _:
-                    raise ValueError(f"Unknown user strategy: {user_strategy}")
-            match agent_strategy:
-                case 'llm':
-                    from agent import AgentLangChain as Agent
-                case 'human':
-                    from agent import AgentHuman as Agent
-                case _:
-                    raise ValueError(f"Unknown agent strategy: {agent_strategy}")
-            self.customer = User(self.user_model)
-            self.service = Agent(agent_model=self.agent_model, mcp_tools=client_service.get_tools())
-            self.customer.load_system_prompt(self.user_wiki.format(instruction=self.task.instruction))
-            self.service.load_system_prompt(self.agent_wiki.format(platform=self.task.platform, shop_id=self.task.shop_id, user_id = self.task.user_id))
-            self.console_verbose.log(f"\n[bold blue]=== 开始执行任务 ===[/bold blue]")  # Task execution start
-            self.console_verbose.log(f"\n[bold green]任务ID: {self.task_index}[/bold green]")  # Task ID
-            service_response = "亲，需要什么帮助吗？"
-            self.session.append({"role": "assistant", "content": service_response})
-            for loop in range(30):
-                customer_response = await self.customer.call(service_response)
-                self.console_verbose.log(f"\n[bold magenta]===============Customer response:===============\n{customer_response}[/bold magenta]")
-                self.session.append({"role": "user", "content": customer_response})
-                if self._is_done(customer_response):
-                    break
-                start_time = time.time()
-                service_response = await self.service.call(customer_response)
-                while len(service_response) == 0:
-                    service_response = await self.service.call(customer_response)
-                end_time = time.time()
-                self._save_tool_calls(self.service.detail_messages[-1])
-                self.elapsed_time.append(round(end_time - start_time, 3))
+        try:
+            async with MultiServerMCPClient({
+            "service": {
+                "command": "python",
+                "args": [
+                    os.path.join(OFFLINE_SERVER_DIR, "server.py"),
+                    "--cache_dir",self.cache_dir
+                    ],
+                "transport": "stdio",
+            }
+            }) as client_service:
+                match user_strategy:
+                    case 'human':
+                        from user import UserHuman as User
+                    case 'based':
+                        from user import UserBased as User
+                    case 'cot':
+                        from user import UserCoT as User
+                    case _:
+                        raise ValueError(f"Unknown user strategy: {user_strategy}")
+                match agent_strategy:
+                    case 'llm':
+                        from agent import AgentLangChain as Agent
+                    case 'human':
+                        from agent import AgentHuman as Agent
+                    case _:
+                        raise ValueError(f"Unknown agent strategy: {agent_strategy}")
+                self.customer = User(self.user_model)
+                self.service = Agent(agent_model=self.agent_model, mcp_tools=client_service.get_tools())
+                self.customer.load_system_prompt(self.user_wiki.format(instruction=self.task.instruction))
+                self.service.load_system_prompt(self.agent_wiki.format(platform=self.task.platform, shop_id=self.task.shop_id, user_id = self.task.user_id))
+                self.console_verbose.log(f"\n[bold blue]=== 开始执行任务 ===[/bold blue]")  # Task execution start
+                self.console_verbose.log(f"\n[bold green]任务ID: {self.task_index}[/bold green]")  # Task ID
+                service_response = "亲，需要什么帮助吗？"
                 self.session.append({"role": "assistant", "content": service_response})
-                self.console_verbose.log(f"\n[bold brown]===============Service response:===============\n{service_response}[/bold brown]")           
-            self.console_verbose.log(f"\n[bold blue]=== 任务执行完成 ===[/bold blue]")  # Task execution complete
-        if loop > 29:
-            print("warning!!! 任务执行时间超过30轮")
-        reward = self.calculate_reward(self.session, self.elapsed_time, 1)
-        return reward, self.session
+                for loop in range(30):
+                    customer_response = await self.customer.call(service_response)
+                    self.console_verbose.log(f"\n[bold magenta]===============Customer response:===============\n{customer_response}[/bold magenta]")
+                    self.session.append({"role": "user", "content": customer_response})
+                    if self._is_done(customer_response):
+                        break
+                    start_time = time.time()
+                    service_response = await self.service.call(customer_response)
+                    while len(service_response) == 0:
+                        service_response = await self.service.call(customer_response)
+                    end_time = time.time()
+                    self._save_tool_calls(self.service.detail_messages[-1])
+                    self.elapsed_time.append(round(end_time - start_time, 3))
+                    self.session.append({"role": "assistant", "content": service_response})
+                    self.console_verbose.log(f"\n[bold brown]===============Service response:===============\n{service_response}[/bold brown]")           
+                self.console_verbose.log(f"\n[bold blue]=== 任务执行完成 ===[/bold blue]")  # Task execution complete
+            if loop > 29:
+                print("warning!!! 任务执行时间超过30轮")
+            reward = self.calculate_reward(self.session, self.elapsed_time, 1)
+            return reward, self.session
+        except Exception as e:
+            self.console_verbose.log(f"[red]异步资源管理错误: {str(e)}[/red]")
+            return 0.0, [{"error": str(e)}]
+        finally:
+            # 确保资源清理
+            await asyncio.sleep(0.1)  # 给异步资源一些时间清理
     
     def _is_done(self, message: str) -> bool:
         if ("###STOP###" in message and abs(len(message.strip()) - len("###STOP###")) <= 3) or \

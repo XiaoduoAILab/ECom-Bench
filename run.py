@@ -5,6 +5,8 @@ from utils import RunConfig
 from main import run
 import asyncio
 from rich.console import Console
+import signal
+import sys
 console = Console()
 
 
@@ -93,6 +95,20 @@ async def main():
     config = parse_args()
     await run(config)
 
+def signal_handler(sig, frame):
+    console.print("[yellow]程序正在退出，清理资源...[/yellow]")
+    sys.exit(0)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        console.print("[yellow]程序被用户中断[/yellow]")
+    except Exception as e:
+        console.print(f"[red]程序执行错误: {e}[/red]")
+    finally:
+        # 忽略退出时的事件循环错误
+        import warnings
+        warnings.filterwarnings("ignore", category=RuntimeWarning, message=".*Event loop is closed.*")

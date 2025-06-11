@@ -1,4 +1,4 @@
-from .utils import get_order, get_user_info, get_product_detail
+from .utils import get_order, get_user, get_product_detail
 import json
 
 # 可取消状态枚举：待付款，已付款，处理中
@@ -9,7 +9,7 @@ def manage_order(data, platform: str, shop_id: str, user_id: str, action: str, o
         order_id = '1234567890'
         if len(product_info_list) == 0:
             return data, f"商品列表为空，无法进行下单"
-        user_info = get_user_info(data, user_id)
+        user_info = get_user(data, user_id)
         if not user_info:
             return data, f"没有找到用户{user_id}的信息"
         recipient = {

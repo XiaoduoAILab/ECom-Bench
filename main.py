@@ -64,12 +64,7 @@ async def run(config: RunConfig) -> List:
                     task_index=idx
                 )
                 try:
-                    # 创建事件循环并运行协程
-                    loop = asyncio.new_event_loop()
-                    asyncio.set_event_loop(loop)
-                    reward, traj = loop.run_until_complete(isolated_env.a_run(user_strategy=config.user_strategy, agent_strategy=config.agent_strategy))
-                    loop.close()
-                    
+                    reward, traj = asyncio.run(isolated_env.a_run(user_strategy=config.user_strategy, agent_strategy=config.agent_strategy))
                     task_result_str = (
                         f"✅" if reward > 0 else f"❌",
                         f"task_id={idx}",
