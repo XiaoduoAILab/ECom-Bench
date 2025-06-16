@@ -10,7 +10,7 @@ from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 from rich.progress import Progress
 from envs import get_env
-from utils import RunConfig, console_verbose, EnvRunResult
+from utils import RunConfig, console_verbose, EnvRunResult, DetailReward
 import traceback
 import asyncio  # 添加asyncio导入，用于处理协程
 
@@ -64,7 +64,7 @@ async def run(config: RunConfig) -> List:
                     task_index=idx
                 )
                 try:
-                    reward, traj = asyncio.run(isolated_env.a_run(user_strategy=config.user_strategy, agent_strategy=config.agent_strategy))
+                    reward, traj, detail_reward = asyncio.run(isolated_env.a_run(user_strategy=config.user_strategy, agent_strategy=config.agent_strategy))
                     task_result_str = (
                         f"✅" if reward > 0 else f"❌",
                         f"task_id={idx}",
@@ -82,21 +82,14 @@ async def run(config: RunConfig) -> List:
                         # result.info,
                         # "\n[dim]-----------------------------------------------------------------[/dim]"
                     )
-                    
-
-                    
-                # with lock:
-                #     data = []
-                #     if os.path.exists(ckpt_path):
-                #         with open(ckpt_path, "r") as f:
-                #             data = json.load(f)
-                #     with open(ckpt_path, "w") as f:
-                #         json.dump(data +  [env_run_result.model_dump()], f, indent=2, ensure_ascii=False)
                 env_run_result = EnvRunResult(
                         reward=reward,
                         task_id=idx,
                         traj=traj,
-                        trial=i
+                        trial=i,
+                        detail_reward=DetailReward(
+                            **detail_reward
+                        )
                     )
                 return (env_run_result, task_result_str)
             
@@ -155,7 +148,7 @@ async def run(config: RunConfig) -> List:
 def display_metrics(results: List[EnvRunResult]) -> None:
     
     def is_successful(reward: float) -> bool:
-        return 0.5+1e-6 < reward <= (1 + 1e-6)
+        return 0+1e-6 < reward <= (1 + 1e-6)
 
     num_trials = len(set([r.trial for r in results]))
     rewards = [r.reward for r in results]

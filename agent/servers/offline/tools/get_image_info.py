@@ -3,11 +3,13 @@ from .apis import OnlineLLMApi
 from .config import get_config
 MULTIMODAL_TYPES = ['doubao-pro', 'qwenvlmax', 'gpt4omini', 'kimi-8k', 'kimi-32k', 'kimi-128k']
     
-def get_image_info(data, summarized_query: str, needed_query:str, history_messages: List[Dict]):
+def get_image_info(data, summarized_query: str, needed_query:str, history_messages: str):
     """
     Returns:
         图片信息的格式化字符串
     """
+    if not history_messages or len(history_messages)==0:
+        return data, f"参数history_messages有错误，请重新输入。"
     
     input_message = f'''
     "理解对话信息中发送的图片信息和文字信息之间的关系，并给出图片中和当前主要问题有关的描述。'

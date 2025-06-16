@@ -1,4 +1,4 @@
-from .utils import get_product_detail
+from .utils import get_product_detail, get_product_base
 import json
 
 def get_auxiliary_materials_info(data, platform, shop_id, product_id):
@@ -10,4 +10,9 @@ def get_auxiliary_materials_info(data, platform, shop_id, product_id):
     auxiliary_materials = product.get("辅材材料", [])
     if not auxiliary_materials:
         return data, f"商品{product_id}没有辅材材料"
-    return data, json.dumps(auxiliary_materials, ensure_ascii=False)
+    product_base = get_product_base(data, platform, shop_id, product_id)
+    result = {
+        **product_base,
+        "辅材材料": auxiliary_materials
+    }
+    return data, json.dumps(result, ensure_ascii=False)

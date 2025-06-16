@@ -37,11 +37,18 @@ class Validation(BaseModel):
     actions: List[Action] = []
     searches: List[Search] = [] 
 
+class DetailReward(BaseModel):
+    action:int
+    search:int
+    output:int
+    time:float
+    
 class EnvRunResult(BaseModel):
     task_id: int
     reward: float
     traj: List[Dict[str, Any]]
     trial: int
+    detail_reward:DetailReward
 
 class Episode(BaseModel):
     time: datetime  # Episode(time="2025-01-03T15:33", instruction="Instruction text")
@@ -116,6 +123,13 @@ class LLM(ABC):
         elif self.model_name == 'glm-z1-air':
             self.llm = ChatZhipuAI(
                 model="glm-z1-air",
+                temperature=self.temperature
+            )
+            
+        elif self.model_name == 'glm-4-air-250414':
+            os.environ["ZHIPUAI_API_KEY"] = '626e93484e6643af9dda2f9deffe803a.rXJLatBAvI7ZwNve'
+            self.llm = ChatZhipuAI(
+                model="glm-4-air-250414",
                 temperature=self.temperature
             )
         elif self.model_name == 'deepseek-r1':

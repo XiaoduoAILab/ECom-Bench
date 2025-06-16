@@ -64,7 +64,7 @@ def get_user_orders_info_tool(
     ]
 ) -> str:
     """
-    用于根据用户ID获取用户所有的订单信息。
+    用于根据用户ID获取用户所有的订单ID。
     """
     global data
     data, result = get_user_orders_info(data = data, platform = platform, shop_id = shop_id, user_id = user_id)
@@ -133,8 +133,8 @@ def get_image_info_tool(
         Field(..., description="总结希望从图片中提取到的信息内容")
     ],
     history_messages: Annotated[
-        List[Dict[str, str]],
-        Field(..., description="对话上下文，必须包含图片完整链接。格式为：[{\"role\": \"user\", \"content\": \"图片链接或文字描述\"}, {\"role\": \"assistant\", \"content\": \"回复内容\"}, ...]")
+        str,
+        Field(..., description="对话上下文，必须包含图片完整链接。")
     ]
 ) -> str:
     """
@@ -434,11 +434,11 @@ def manage_order_tool(
     ] = None,
     address: Annotated[
         str,
-        Field(None, description="新收货地址（仅在action为修改时必填）")
+        Field(None, description="新收货地址（仅在action为修改时选填）")
     ] = None,
     phone_number: Annotated[
         str,
-        Field(None, description="新手机号（仅在action为修改时必填）")
+        Field(None, description="新手机号（仅在action为修改时选填）")
     ] = None,
     product_info_list: Annotated[
         List[ProductInfo],

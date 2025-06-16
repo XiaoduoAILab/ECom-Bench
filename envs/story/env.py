@@ -71,9 +71,12 @@ class MockStoryEnv(Env):
                 self.console_verbose.log(f"\n[bold blue]=== 开始执行任务 ===[/bold blue]")  # Task execution start
                 self.console_verbose.log(f"\n[bold green]任务ID: {self.task_index}[/bold green]")  # Task ID
                 service_response = "亲，需要什么帮助吗？"
+                customer_response = ""
                 self.session.append({"role": "assistant", "content": service_response})
                 for loop in range(30):
+                    last_customer_response = customer_response
                     customer_response = await self.customer.call(service_response)
+                    customer_response = customer_response if customer_response != last_customer_response else "###STOP###"
                     self.console_verbose.log(f"\n[bold magenta]===============Customer response:===============\n{customer_response}[/bold magenta]")
                     self.session.append({"role": "user", "content": customer_response})
                     if self._is_done(customer_response):
@@ -90,11 +93,23 @@ class MockStoryEnv(Env):
                 self.console_verbose.log(f"\n[bold blue]=== 任务执行完成 ===[/bold blue]")  # Task execution complete
             if loop > 29:
                 print("warning!!! 任务执行时间超过30轮")
-            reward = self.calculate_reward(self.session, self.elapsed_time, 1)
-            return reward, self.session
+            reward, reward_actions, reward_searches, reward_outputs, reward_time = self.calculate_reward(self.session, self.elapsed_time, 1)
+            detail_reward = {
+                'action': reward_actions,
+                'search': reward_searches,
+                'output': reward_outputs,
+                'time': reward_time,
+            }
+            return reward, self.session, detail_reward
         except Exception as e:
             self.console_verbose.log(f"[red]异步资源管理错误: {str(e)}[/red]")
-            return 0.0, [{"error": str(e)}]
+            detail_reward = {
+                'action': 0,
+                'search': 0,
+                'output': 0,
+                'time': 0,
+            }
+            return 0.0, [{"error": str(e)}], detail_reward
         finally:
             # 确保资源清理
             await asyncio.sleep(0.1)  # 给异步资源一些时间清理
@@ -102,7 +117,7 @@ class MockStoryEnv(Env):
     def _is_done(self, message: str) -> bool:
         if ("###STOP###" in message and abs(len(message.strip()) - len("###STOP###")) <= 3) or \
             ("###STOP###" in message and ('祝' in message or '再见' in message or '谢' in message)) or \
-            ("转人工" in message):
+            ("转人工" in message):  
             return True
         return False
     
@@ -154,7 +169,7 @@ class MockStoryEnv(Env):
         self.console_verbose.log(f"\n[bold green]时间奖励[0分 - 1分]: {reward_time}[/bold green]")
         reward = 1 * reward_actions * reward_searches * reward_outputs
         self.console_verbose.log(f"\n[bold green]最终计算奖励: {reward}[/bold green]")  # Reward
-        return reward
+        return reward, reward_actions, reward_searches, reward_outputs, reward_time
     
     def calculate_actions_reward(self):
         self.original_data = self._load_data(base_dir=self.data_dir)

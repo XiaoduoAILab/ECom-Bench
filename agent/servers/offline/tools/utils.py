@@ -7,6 +7,16 @@ def get_logistics(data, platform: str, shop_id: str, order_id: str, user_id: str
         return None
     return logistics
 
+def get_product_base(data, platform: str, shop_id: str, product_id: str):
+    product_data = data.get("products", {})
+    product = product_data.get(platform, {}).get(shop_id, {}).get(product_id, {})
+    if not product:
+        return None
+    return {
+        "商品ID": product["商品ID"],
+        "商品名称": product["商品名称"]
+    }
+
 def get_product_detail(data, platform: str, shop_id: str, product_id: str):
     product_data = data.get("products", {})
     product = product_data.get(platform, {}).get(shop_id, {}).get(product_id, {})

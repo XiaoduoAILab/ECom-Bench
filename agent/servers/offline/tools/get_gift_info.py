@@ -1,4 +1,4 @@
-from .utils import get_product_detail
+from .utils import get_product_detail, get_product_base
 import json
 
 def get_gift_info(data, platform, shop_id, product_id):
@@ -7,4 +7,9 @@ def get_gift_info(data, platform, shop_id, product_id):
     product = get_product_detail(data, platform, shop_id, product_id)
     if not product:
         return data, f"没有找到{platform}店铺{shop_id}的商品{product_id}的信息"
-    return data, json.dumps(product['赠品信息'], ensure_ascii=False)
+    product_base = get_product_base(data, platform, shop_id, product_id)
+    result = {
+        **product_base,
+        "赠品信息": product['赠品信息']
+    }
+    return data, json.dumps(result, ensure_ascii=False)
