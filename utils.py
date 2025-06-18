@@ -71,6 +71,7 @@ class RunConfig(BaseModel):
     seed: int = 10
     shuffle: int = 0
     verbose: bool = False
+    max_time: int = 300
 
 
 
@@ -177,8 +178,8 @@ class LLM(ABC):
         elif self.model_name == 'kimi':
             self.llm = ChatOpenAI(
                 base_url="https://api.moonshot.cn/v1",
-                api_key="sk-7rvYZKZEM9FTo98JD6Y5htTLRCHss0XuX5lDiu6yKsIbyKlJ",
-                model="moonshot-v1-32k",
+                api_key="sk-mXCG6gH91EUXY6DJlFuCSza9oBE9OWLNk90OwzO7johskVlt",
+                model="moonshot-v1-128k",
                 temperature=self.temperature
             )
         elif self.model_name == 'qwenvlmax':

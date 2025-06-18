@@ -39,6 +39,7 @@ class Env(object):
         self.agent_wiki = agent_wiki
         self.session = []
         self.elapsed_time = []
+        self.max_turn = 25
         
     def run(self) -> Tuple[float, List[Dict]]:
         self.customer = User(self.user_model)
@@ -105,7 +106,13 @@ class Env(object):
                 self.console_verbose.log(f"\n[bold blue]=== 任务执行完成 ===[/bold blue]")  # Task execution complete
                 
         reward = self.calculate_reward(self.session, self.elapsed_time, 1)
-        return reward, self.session
+        detail_reward = {
+                'action': 0,
+                'search': 0,
+                'output': 0,
+                'time': 0,
+            }
+        return reward, self.session, detail_reward
         
     def _is_done(self, message: str) -> bool:
         return "###STOP###" in message and abs(len(message.strip()) - len("###STOP###")) <= 3    

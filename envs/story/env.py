@@ -73,7 +73,7 @@ class MockStoryEnv(Env):
                 service_response = "亲，需要什么帮助吗？"
                 customer_response = ""
                 self.session.append({"role": "assistant", "content": service_response})
-                for loop in range(30):
+                for loop in range(self.max_turn):
                     last_customer_response = customer_response
                     customer_response = await self.customer.call(service_response)
                     customer_response = customer_response if customer_response != last_customer_response else "###STOP###"
@@ -91,8 +91,8 @@ class MockStoryEnv(Env):
                     self.session.append({"role": "assistant", "content": service_response})
                     self.console_verbose.log(f"\n[bold brown]===============Service response:===============\n{service_response}[/bold brown]")           
                 self.console_verbose.log(f"\n[bold blue]=== 任务执行完成 ===[/bold blue]")  # Task execution complete
-            if loop > 29:
-                print("warning!!! 任务执行时间超过30轮")
+            if loop == self.max_turn :
+                print(f"warning!!! 任务执行时间超过 {self.max_turn} 轮")
             reward, reward_actions, reward_searches, reward_outputs, reward_time = self.calculate_reward(self.session, self.elapsed_time, 1)
             detail_reward = {
                 'action': reward_actions,

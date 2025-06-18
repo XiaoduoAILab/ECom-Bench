@@ -17,6 +17,7 @@ import asyncio  # 添加asyncio导入，用于处理协程
 async def run(config: RunConfig) -> List:
     assert config.env in ["story", "recommendation", "session", "dialogue"]  
     random.seed(config.seed)
+    max_time = config.max_time
     time_str = datetime.now().strftime("%m%d%H%M%S")
     ckpt_path = f"{config.log_dir}/user-{config.user_model}_agent-{config.agent_model}_reward-{config.reward_model}_env-{config.env}_range_{config.start_index}-{config.end_index}_{time_str}.json"
     if not os.path.exists(config.log_dir):
@@ -35,8 +36,6 @@ async def run(config: RunConfig) -> List:
     )
     all_env_results = [] # num_trials 的结果, 用于记录详细信息
     all_tasks_results = [] # num_trials 的结果，用于记录是否成功
-    
-    lock = multiprocessing.Lock()
     if config.task_ids and len(config.task_ids) > 0:
         console_verbose.print(f"[yellow]Running tasks {config.task_ids} (checkpoint path: {ckpt_path})[/yellow]")  # Running tasks
     else:
@@ -53,7 +52,6 @@ async def run(config: RunConfig) -> List:
             if config.shuffle:
                 random.shuffle(idxs)
                 
-            # 修改：将异步函数改为普通函数，内部使用await处理异步调用
             def _run(idx: int) -> Tuple[float, Dict]:
                 isolated_env = get_env(
                     env_name=config.env,
@@ -64,16 +62,31 @@ async def run(config: RunConfig) -> List:
                     task_index=idx
                 )
                 try:
-                    reward, traj, detail_reward = asyncio.run(isolated_env.a_run(user_strategy=config.user_strategy, agent_strategy=config.agent_strategy))
+                    async def run_with_timeout():
+                        return await isolated_env.a_run(user_strategy=config.user_strategy, agent_strategy=config.agent_strategy)
+        
+                    reward, traj, detail_reward = asyncio.run(
+                        asyncio.wait_for(run_with_timeout(), timeout=max_time)
+                    )
                     task_result_str = (
                         f"✅" if reward > 0 else f"❌",
                         f"task_id={idx}",
                         # result.info,
                         # "\n[dim]-----------------------------------------------------------------[/dim]"
                     )
+                except asyncio.TimeoutError:
+                # 处理超时错误
+                    reward, traj = 0.0, [{"error": f"Task {idx} timed out after {max_time} seconds", "timeout": True}]
+                    detail_reward = {"action": 0, "search": 0, "output": 0, "time": max_time}
+                    
+                    console_verbose.print(f"[red]\n任务 {idx} 超时（{max_time}秒）[/red]")
+                    task_result_str = (
+                        f"⏰",  # 使用时钟emoji表示超时
+                        f"task_id={idx}",
+                    )                   
                 except Exception as e:
                     reward, traj = 0.0, [{"error": str(e), "traceback": traceback.format_exc()}]
-                    
+                    detail_reward = {"action": 0, "search": 0, "output": 0, "time": 0.0}
                     console_verbose.print(f"[red]\n处理任务 {idx} 时出错: {str(e)}[/red]")
                     console_verbose.print(traceback.format_exc())  # 这会打印完整的堆栈跟踪  
                     task_result_str = (

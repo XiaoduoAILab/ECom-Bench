@@ -14,3 +14,5 @@ openai==1.71.0
 openai-agents==0.0.9
 mcp==1.7.1
 mcp-cli==0.1.0
+pydantic
+rich
