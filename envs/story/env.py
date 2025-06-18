@@ -17,7 +17,6 @@ class MockStoryEnv(Env):
         self,
         user_model: str = "gpt-4o",
         agent_model: str = "gpt-4o",
-        reward_model: str = "gpt-4o",
         task_index: Optional[int] = None,
         console_verbose=None,
     ):
@@ -26,7 +25,6 @@ class MockStoryEnv(Env):
             user_wiki=WIKI,
             user_model=user_model,
             agent_model= agent_model,
-            reward_model=reward_model,
             task_index=task_index,
         )
         self.console_verbose = console_verbose
@@ -35,7 +33,7 @@ class MockStoryEnv(Env):
         os.makedirs(self.data_dir, mode=0o777,exist_ok=True)
 
         
-    async def a_run(self, user_strategy, agent_strategy) -> Tuple[float, List[Dict]]:
+    async def a_run(self, user_strategy, agent_strategy) -> Tuple[float, List[Dict], Dict]:
         self._create_isolated_data()
         try:
             async with MultiServerMCPClient({
@@ -246,8 +244,17 @@ class MockStoryEnv(Env):
         search_data_hash = set()
         for search in self.task.metadata.searches:
             search_data_hash.add(self._function_to_hash(search.model_dump()))
-        self.console_verbose.log(f"\n[bold red]self.tool_calls:\n{json.dumps([tool_call['function'] for tool_call in self.tool_calls], ensure_ascii=False, indent=2)}[/bold red]")
-        # self.console_verbose.log(f"\n[bold red]self.task.metadata.searches:\n{json.dumps([search.model_dump() for search in self.task.metadata.searches], ensure_ascii=False, indent=2)}[/bold red]")
+        try:
+            tool_functions = [tool_call['function'] for tool_call in self.tool_calls]
+            self.console_verbose.log_table(
+                tool_functions, 
+                title="The Tools Invoked by Agent", 
+                name_column="Name", 
+                args_column="Arguments"
+            )
+        except:
+            self.console_verbose.log(f"\n[bold red]The Tools Invoked by Agent:\n\n{json.dumps([tool_call['function'] for tool_call in self.tool_calls], ensure_ascii=False, indent=2)}[/bold red]")
+            
         return search_data_hash.issubset(service_data_hash)
     
     def _function_to_hash(self, function):
@@ -266,5 +273,22 @@ class MockStoryEnv(Env):
     def calculate_outputs_reward(self):
         long_string = "".join([msg['content'] for msg in self.session if msg['role'] == 'assistant'])
         return all([output in long_string for output in self.task.metadata.outputs])
+    
+    def calculate_time_reward(self, elapsed_time: List[float], max_limit:int):
+        """
+        计算时间奖励
+        :param elapsed_time: 消耗的时间
+        :param max_limit: 最大限制
+        :param ratio: 比例
+        :return: 奖励结果
+        """
+        avg_time = sum(elapsed_time) / len(elapsed_time)
+        if avg_time <= 0:
+            raise ValueError("avg_time must be greater than 0")
+        elif avg_time > max_limit:
+            return 0.0
+        else:
+            # 使用反比例函数生成平滑曲线，确保在0到0.5之间
+            return round((max_limit - avg_time) / (max_limit + avg_time), 3)
             
     

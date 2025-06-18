@@ -1,5 +1,6 @@
-# Copyright Sierra
 from rich.console import Console
+from rich.table import Table
+import json
 from pydantic import BaseModel
 from typing import List, Dict, Optional, Any
 from langgraph.prebuilt import create_react_agent
@@ -57,10 +58,8 @@ class Episode(BaseModel):
 class RunConfig(BaseModel):
     agent_model: str
     user_model: str
-    reward_model:str 
     num_trials: int 
     env: str
-    temperature: float = 0.0
     user_strategy: str
     agent_strategy: str
     start_index: int = 0
@@ -87,6 +86,38 @@ class RunLogger:
     def log(self, *args):
         if self.verbose:
             self.console.log(*args)
+        else:
+            # 如果没有启用日志，什么都不做
+            pass
+    
+    def log_table(self, data_list, title="Table", name_column="Name", args_column="Arguments"):
+        """输出表格格式的数据
+        
+        Args:
+            data_list: 包含字典的列表，每个字典应有'name'和'arguments'键
+            title: 表格标题
+            name_column: 名称列的标题
+            args_column: 参数列的标题
+        """
+        if self.verbose:
+            print("\n\n")
+            table = Table(
+                title=title, 
+                show_header=True, 
+                header_style="bold magenta",
+                show_lines=True,  # 添加这个参数来显示行分隔线
+            )
+            table.add_column(name_column, style="cyan", justify="left")
+            table.add_column(args_column, style="yellow", justify="left")
+            
+            for item in data_list:
+                name = item.get('name', 'N/A')
+                arguments = item.get('arguments', {})
+                # 将arguments格式化为JSON字符串，但限制长度以保持表格美观
+                args_str = json.dumps(arguments, ensure_ascii=False, indent=2)
+                table.add_row(name, args_str)
+            
+            self.console.print(table)
         else:
             # 如果没有启用日志，什么都不做
             pass

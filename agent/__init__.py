@@ -3,7 +3,6 @@ from .servers.offline.tools import ActionTools
 import os
 
 OFFLINE_SERVER_DIR = os.path.join(os.path.dirname(__file__), "servers", "offline")
-ONLINE_SERVER_DIR = os.path.join(os.path.dirname(__file__), "servers", "online")
 OFFLINE_CACHE_DIR = os.path.join(os.path.dirname(__file__), "servers", "offline", "cache")
 
 

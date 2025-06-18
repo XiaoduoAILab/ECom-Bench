@@ -1,8 +1,6 @@
-from re import A
 from utils import Task, Action, Search, Validation, ProductInfo
 
 ALL_TASKS = [
-# Task Done, validtion Done
     Task(
         annotator='0',
         user_id="cnjd喜哥2号",
@@ -131,8 +129,6 @@ ALL_TASKS = [
             ]
         )
     ),
-    
-# Task Done, validtion Done
     Task(
         annotator='1',
         user_id="cnjd喜哥2号",
@@ -211,8 +207,6 @@ ALL_TASKS = [
             ]
         )
     ),
-
-# Task Done, Validtion Done
     Task(
         annotator='2',
         user_id="cnjdii星星ii",
@@ -313,7 +307,6 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
     Task(
         annotator='3',
         user_id="cnjd18463287301_p",
@@ -438,8 +431,6 @@ ALL_TASKS = [
             ]
         )
     ),
-
-# Task Done, Validtion Done
     Task(
         annotator='4',
         user_id="cnjd18463287301_p",
@@ -528,9 +519,7 @@ ALL_TASKS = [
             ]
         )
     ),
-    
-# Task Done, Validtion Done
-        Task(
+    Task(
         annotator='5',
         user_id="cnjd18463287301_p",
         shop_id="5de650c946e7c3001814990f",
@@ -603,7 +592,6 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
     Task(
         annotator='6',
         user_id="cnjd林韵佩",
@@ -682,7 +670,7 @@ ALL_TASKS = [
             searches=[]
         )
     ),
-# Task Done, Validtion Done
+
     Task(
         annotator='7',
         user_id="cnjdwdnipzaorvgkymr",
@@ -803,7 +791,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
+
     Task(
         annotator='8',
         user_id="cnjdwdnipzaorvgkymr",
@@ -916,7 +904,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
+
     Task(
         annotator='9',
         user_id="cnjd辛谭婷",
@@ -1023,7 +1011,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
+
         Task(
         annotator='10',
         user_id="cnjd辛谭婷",
@@ -1104,7 +1092,7 @@ ALL_TASKS = [
         )
     ),
 
-# Task Done, Validtion Done
+
     Task(
         annotator='11',
         user_id="cnjdwdwlbgefqhbifv",
@@ -1201,7 +1189,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
+
     Task(
         annotator='12',
         user_id="cnjd18700806944_p",
@@ -1326,7 +1314,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done   
+   
     Task(
         annotator='13',
         user_id="cnjd18700806944_p",
@@ -1441,7 +1429,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
+
     Task(
         annotator='14',
         user_id="cnjdhxn1024301170",
@@ -1517,7 +1505,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
+
         Task(
         annotator='15',
         user_id="cnjdjd_5cbbac22e35b4",
@@ -1594,7 +1582,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
+
     Task(
         annotator='16',
         user_id="cnjdjd_5cbbac22e35b4",
@@ -1681,7 +1669,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
+
     Task(
         annotator='17',
         user_id="cnjd丶暖心萌面人",
@@ -1771,7 +1759,7 @@ ALL_TASKS = [
             searches=[]
         )
     ),
-    # Task Done, Validtion Done
+    
     Task(
         annotator='18',
         user_id="cnjd丶暖心萌面人",
@@ -1949,7 +1937,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
+
     Task(
         annotator='20',
         user_id="cnjd丶暖心萌面人",
@@ -2027,7 +2015,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
+
     Task(
         annotator='21',
         user_id="cnjd丶暖心萌面人",
@@ -2142,7 +2130,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
+
     Task(
         annotator='22',
         user_id="cnjd2235243611_m",
@@ -2265,7 +2253,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
+
     Task(
         annotator='23',
         user_id="cnjd2235243611_m",
@@ -2381,7 +2369,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
+
         Task(
         annotator='24',
         user_id="cnjd2235243611_m",
@@ -2495,7 +2483,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
+
         Task(
         annotator='25',
         user_id="cnjd东强京82",
@@ -2582,8 +2570,7 @@ ALL_TASKS = [
             searches=[]
         )
     ),
-# Task Done, Validtion Done
-        Task(
+    Task(
         annotator='26',
         user_id="cnjd东强京82",
         shop_id="5de650c946e7c3001814990f",
@@ -2688,8 +2675,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
-        Task(
+    Task(
         annotator='27',
         user_id="cnjd数码精灵兆亮",
         shop_id="5de650c946e7c3001814990f",
@@ -2749,8 +2735,7 @@ ALL_TASKS = [
             ]
         )
     ),
-# Task Done, Validtion Done
-        Task(
+    Task(
         annotator='28',
         user_id="cnjd数码精灵兆亮",
         shop_id="5de650c946e7c3001814990f",
@@ -2835,8 +2820,7 @@ ALL_TASKS = [
             searches=[]
         )
     ),
-        
-        Task(
+    Task(
         annotator='29',
         user_id="cnjd紅紅火火發大財",
         shop_id="5de650c946e7c3001814990f",
@@ -4003,7 +3987,6 @@ ALL_TASKS = [
             ]
         )
     ),
-#做一个物流的
     Task(
         annotator='44',
         user_id="cnjd波波豆",
@@ -4649,7 +4632,6 @@ ALL_TASKS = [
             ]
         )
     ),
-    
     Task(
         annotator='51',
         user_id="cnjdjd_fvfvqajwvbaj",

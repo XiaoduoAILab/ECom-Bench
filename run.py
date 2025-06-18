@@ -14,7 +14,7 @@ def parse_args() -> RunConfig:
     parser = argparse.ArgumentParser()
     parser.add_argument("--num-trials", type=int, default=1)
     parser.add_argument(
-        "--env", type=str, choices=["story","recommendation","session", "dialogue"], default="story"
+        "--env", type=str, choices=["story"], default="story"
     )
     parser.add_argument(
         "--user-model",
@@ -40,20 +40,6 @@ def parse_args() -> RunConfig:
         choices=['human', 'llm'],
         default='llm',
     )
-    parser.add_argument(
-        "--reward-model",
-        type=str,
-        default="qwen",
-        help="The model to use for the reward simulator",
-    )
-    
-    
-    parser.add_argument(
-        "--temperature",
-        type=float,
-        default=0.0,
-        help="The sampling temperature for the action model",
-    )
     parser.add_argument("--start-index", type=int, default=0)
     parser.add_argument("--end-index", type=int, default=-1, help="Run all tasks if -1")
     parser.add_argument("--task-ids", type=int, nargs="+", help="(Optional) run only the tasks with the given IDs")
@@ -74,12 +60,10 @@ def parse_args() -> RunConfig:
     return RunConfig(
         user_model=args.user_model,
         agent_model=args.agent_model,
-        reward_model=args.reward_model,
         user_strategy=args.user_strategy,
         agent_strategy=args.agent_strategy,
         num_trials=args.num_trials,
         env=args.env,
-        temperature=args.temperature,
         start_index=args.start_index,
         end_index=args.end_index,
         task_ids=args.task_ids,

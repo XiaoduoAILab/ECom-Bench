@@ -4,7 +4,6 @@ import json
 import random
 import traceback
 from math import comb
-import multiprocessing
 from typing import List, Dict, Any, Tuple
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
@@ -12,14 +11,14 @@ from rich.progress import Progress
 from envs import get_env
 from utils import RunConfig, console_verbose, EnvRunResult, DetailReward
 import traceback
-import asyncio  # 添加asyncio导入，用于处理协程
+import asyncio 
 
 async def run(config: RunConfig) -> List:
-    assert config.env in ["story", "recommendation", "session", "dialogue"]  
+    assert config.env in ["story"]  
     random.seed(config.seed)
     max_time = config.max_time
     time_str = datetime.now().strftime("%m%d%H%M%S")
-    ckpt_path = f"{config.log_dir}/user-{config.user_model}_agent-{config.agent_model}_reward-{config.reward_model}_env-{config.env}_range_{config.start_index}-{config.end_index}_{time_str}.json"
+    ckpt_path = f"{config.log_dir}/user-{config.user_model}_agent-{config.agent_model}_env-{config.env}_range_{config.start_index}-{config.end_index}_{time_str}.json"
     if not os.path.exists(config.log_dir):
         os.makedirs(config.log_dir)
     console_verbose.reset(config.verbose)
@@ -28,7 +27,6 @@ async def run(config: RunConfig) -> List:
         env_name=config.env,
         user_model=config.user_model,
         agent_model=config.agent_model,
-        reward_model=config.reward_model,
         console_verbose=console_verbose
     )
     end_index = (
@@ -57,7 +55,6 @@ async def run(config: RunConfig) -> List:
                     env_name=config.env,
                     user_model=config.user_model,
                     agent_model=config.agent_model,
-                    reward_model=config.reward_model,
                     console_verbose=console_verbose,
                     task_index=idx
                 )
@@ -112,12 +109,11 @@ async def run(config: RunConfig) -> List:
             with ThreadPoolExecutor(max_workers=config.max_concurrency) as executor:
                 # 提交所有任务
                 future_to_idx = {executor.submit(_run, idx): idx for idx in idxs}
-                
                 # 处理完成的结果
                 for future in concurrent.futures.as_completed(future_to_idx):
                     idx = future_to_idx[future]
                     try:
-                        result = future.result()  # 这里不再是协程，而是直接获取结果
+                        result = future.result() 
                         env_results.append(result[0])
                         tasks_results.append(result[1])
                         # 更新任务进度
@@ -138,10 +134,10 @@ async def run(config: RunConfig) -> List:
             progress.remove_task(task_progress)
             # 集中打印所有任务结果
             console_verbose.print("\n[bold blue]===== 任务结果摘要 =====[/bold blue]")
-            for results in all_tasks_results:  # 修复：移除解包，直接使用结果对象
-                console_verbose.print(f"[bold blue]Trial {results['num_trial']}[/bold blue]：\n")  # 修复：使用字典访问
+            for results in all_tasks_results:  
+                console_verbose.print(f"[bold blue]Trial {results['num_trial']}[/bold blue]：\n")  
                 batch_size = 10
-                for i in range(0, len(results['results']), batch_size):  # 修复：访问results字典中的'results'列表
+                for i in range(0, len(results['results']), batch_size):  
                     batch_results = results['results'][i:i+batch_size]
                     batch_results = [' '.join(r) for r in batch_results]
                     console_verbose.print(f"[bold blue] {'  '.join(batch_results)}")

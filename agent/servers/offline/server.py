@@ -497,8 +497,6 @@ def schedule_service_tool(
     set_data(data)
     return result
 
-
-
 # @mcp.tool()
 # def get_products_recommendation_tool(
 #     platform: Annotated[

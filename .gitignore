@@ -10,3 +10,4 @@ __pycache__/
 *.json
 !envs/story/data/*json
 !warehouse/synthesize/
+.vscode
