@@ -100,7 +100,8 @@ class MockStoryEnv(Env):
             }
             return reward, self.session, detail_reward
         except Exception as e:
-            self.console_verbose.log(f"[red]异步资源管理错误: {str(e)}[/red]")
+            self.console_verbose.log(f"[red]任务：{self.task_index} 异步资源管理错误: {str(e)}[/red]")
+            print(traceback.format_exc())
             detail_reward = {
                 'action': 0,
                 'search': 0,

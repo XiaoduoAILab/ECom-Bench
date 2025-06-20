@@ -1,8 +1,8 @@
 from utils import LLM
 
 class UserBased(LLM):
-    def __init__(self, user_model:str, verbose=False, mcp_tools= []):
-        super().__init__(model_name=user_model, verbose=verbose, mcp_tools=mcp_tools)
+    def __init__(self, user_model:str, verbose=False, mcp_tools= [], temperature = 0.3):
+        super().__init__(model_name=user_model, verbose=verbose, mcp_tools=mcp_tools, temperature = 0.3)
         self.detail_messages = []
         self.user_model = super()._initiate_agent()
     
@@ -22,8 +22,6 @@ class UserBased(LLM):
         self.detail_messages.append(responses["messages"])
         self.messages.append({"role": "assistant", "content": responses["messages"][-1].content})
         return responses["messages"][-1].content
-
-
 
 
 from langchain.output_parsers import PydanticOutputParser
@@ -78,8 +76,8 @@ class Response(BaseModel):
     
     
 class UserCoT(UserBased):
-    def __init__(self, user_model:str, verbose=False, mcp_tools= []):
-        super().__init__(user_model=user_model, verbose=verbose, mcp_tools=mcp_tools)
+    def __init__(self, user_model:str, verbose=False, mcp_tools= [], temperature = 0.3):
+        super().__init__(user_model=user_model, verbose=verbose, mcp_tools=mcp_tools, temperature = 0.3)
         self.parser = PydanticOutputParser(pydantic_object=Response)
         self.prompt_template = PromptTemplate(
             template="""

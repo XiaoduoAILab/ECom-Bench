@@ -1,8 +1,8 @@
 from utils import LLM
 
 class AgentLangChain(LLM):
-    def __init__(self, agent_model:str, verbose=False, mcp_tools= []):
-        super().__init__(model_name=agent_model, verbose=verbose, mcp_tools=mcp_tools)
+    def __init__(self, agent_model:str, verbose=False, mcp_tools= [], temperature = 0.3):
+        super().__init__(model_name=agent_model, verbose=verbose, mcp_tools=mcp_tools, temperature = 0.3)
         self.agent_model = super()._initiate_agent()
         self.detail_messages = []
     

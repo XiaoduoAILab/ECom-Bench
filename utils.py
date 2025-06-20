@@ -209,8 +209,8 @@ class LLM(ABC):
         elif self.model_name == 'kimi':
             self.llm = ChatOpenAI(
                 base_url="https://api.moonshot.cn/v1",
-                api_key="sk-mXCG6gH91EUXY6DJlFuCSza9oBE9OWLNk90OwzO7johskVlt",
-                model="moonshot-v1-128k",
+                api_key="sk-BEO5xC1oZ9APSzPOdOCXSJybPnwYXur8wRSpIL7OgprWnn1z",
+                model="moonshot-v1-32k",
                 temperature=self.temperature
             )
         elif self.model_name == 'qwenvlmax':

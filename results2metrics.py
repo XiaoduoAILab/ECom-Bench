@@ -151,10 +151,10 @@ def get_agent_name(files):
 if __name__ == '__main__':
     
     files = [
-        'results/user-qwen_agent-gpt-4o_reward-qwen_env-story_range_0--1_0618130649.json',
-        'results/user-qwen_agent-gpt-4o_reward-qwen_env-story_range_0--1_0618131301.json',
-        'results/user-qwen_agent-gpt-4o_reward-qwen_env-story_range_0--1_0618152409.json',
-        'results/user-qwen_agent-gpt-4o_reward-qwen_env-story_range_0--1_0618154222.json'
+        'results/user-qwen_agent-kimi_env-story_range_0--1_0619202640.json',
+        'results/user-qwen_agent-kimi_env-story_range_0--1_0620091458.json',
+        'results/user-qwen_agent-kimi_env-story_range_0--1_0620095140.json'
+        
     ]
     
     model = get_agent_name(files)

@@ -2483,8 +2483,7 @@ ALL_TASKS = [
             ]
         )
     ),
-
-        Task(
+    Task(
         annotator='25',
         user_id="cnjd东强京82",
         shop_id="5de650c946e7c3001814990f",

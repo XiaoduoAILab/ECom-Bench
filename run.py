@@ -54,7 +54,7 @@ def parse_args() -> RunConfig:
     parser.add_argument("--shuffle", type=int, default=0)
     parser.add_argument("--num_trials", type=int, default=1)
     parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
-    parser.add_argument("--max_time",type=int, default=300, help="max time of every task")
+    parser.add_argument("--max_time",type=int, default=600, help="max time of every task")
     args = parser.parse_args()
     console.print(f"[green]{args}[/green]")  # Info color
     return RunConfig(
