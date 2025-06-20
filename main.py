@@ -121,14 +121,7 @@ async def run(config: RunConfig) -> List:
                     except Exception as e:
                         console_verbose.print(f"[red]\n处理任务 {idx} 时出错: {str(e)}[/red]")
                         console_verbose.print(traceback.format_exc())  # 这会打印完整的堆栈跟踪
-            
-            def extract_task_id(task_result):
-                # task_result是一个元组，第二个元素是"task_id={idx}"格式的字符串
-                task_id_str = task_result[1]  # 获取"task_id={idx}"字符串
-                task_id = int(task_id_str.split('=')[1])  # 提取数字部分
-                return task_id
-            
-            tasks_results.sort(key=extract_task_id)
+
             all_env_results.extend(env_results)
             all_tasks_results.append({"num_trial": i+1, "results": tasks_results})
             progress.remove_task(task_progress)
