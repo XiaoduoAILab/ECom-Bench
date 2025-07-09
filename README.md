@@ -9,11 +9,11 @@ tau-bench 采用 MIT 许可，详情见：(https://github.com/sierra-research/ta
 在此向原作者表示感谢
 
 ## 声明
-“本仿真环境包含模拟用户数据，仅限非生产测试，禁止用于真实用户数据训练，数据使用遵循《个人信息保护法》。”
+本仿真环境包含模拟用户数据，仅限非生产测试，禁止用于真实用户数据训练，数据使用遵循《个人信息保护法》。
 
 ## 概述
 
-Ecom-Bench是一个专门用于评估电商客服对话系统性能的综合基准测试框架。该框架通过模拟真实的电商客服场景，为自然语言处理系统在实际工业环境中的部署提供了标准化的评估方法。<mcreference link="https://2025.emnlp.org/calls/industry_track/" index="1">1</mcreference> <mcreference link="https://2024.emnlp.org/calls/industry_track/" index="4">4</mcreference>
+Ecom-Bench是一个专门用于评估电商客服对话系统性能的综合基准测试框架。该框架通过模拟真实的电商客服场景，为自然语言处理系统在实际工业环境中的部署提供了标准化的评估方法。
 
 ## 主要特性
 
@@ -73,7 +73,7 @@ python run.py --task-ids 1 2 3
 ### 高级配置
 
 ```bash
-# 自定义用户和代理策略
+# 自定义用户和智能体策略
 python run.py --user-strategy cot --agent-strategy llm
 
 # 设置并发数和日志目录
@@ -87,11 +87,11 @@ python run.py --verbose
 
 ```
 Ecom-Bench/
-├── agent/                    # 代理实现
-│   ├── agents_list/         # 不同类型的代理
-│   │   ├── agent_human.py   # 人工代理
-│   │   ├── agent_langchain.py # LangChain代理
-│   │   └── agent_sdk.py     # SDK代理
+├── agent/                    # 智能体实现
+│   ├── agents_list/         # 不同类型的智能体
+│   │   ├── agent_human.py   # 人工智能体
+│   │   ├── agent_langchain.py # LangChain智能体
+│   │   └── agent_sdk.py     # SDK智能体
 │   └── servers/             # 服务器组件
 ├── envs/                    # 环境实现
 │   ├── base.py             # 基础环境类
@@ -125,7 +125,7 @@ Ecom-Bench/
 - **UserHuman**: 人工用户交互
 
 ### 代理系统
-<mcfile name="agent_sdk.py" path="/Users/utopia/Documents/晓多/Ecom-Bench/agent/agents_list/agent_sdk.py"></mcfile>支持多种客服代理实现:
+<mcfile name="agent_sdk.py" path="/Users/utopia/Documents/晓多/Ecom-Bench/agent/agents_list/agent_sdk.py"></mcfile>支持多种客服智能体实现:
 - 集成多个LLM提供商(Qwen、DeepSeek等)
 - MCP工具调用支持
 - 可配置的模型参数
@@ -155,7 +155,7 @@ Ecom-Bench/
 - **OpenAI系列**: 通过标准OpenAI API
 
 ### 配置参数
-<mcfile name="utils.py" path="/Users/utopia/Documents/晓多/Ecom-Bench/utils.py"></mcfile>中的`RunConfig`类定义了所有可配置参数:
+<mcfile name="utils.py" path="/Users/utopia/Documents/晓多/Ecom-Bench/utils.py"></mcfile>`RunConfig`类定义了所有可配置参数:
 - 模型选择和策略配置
 - 任务范围和并发设置
 - 日志和输出配置
@@ -188,14 +188,6 @@ Ecom-Bench/
 2. 实现`call`方法和系统提示加载
 3. 在环境中注册新策略
 
-## 贡献指南
-
-我们欢迎社区贡献！请遵循以下步骤:
-1. Fork本仓库
-2. 创建特性分支
-3. 提交更改
-4. 创建Pull Request
-
 ## 许可证
 
 本项目采用Apache 2.0许可证。详见[LICENSE](https://github.com/XiaoduoAILab/ECom-Bench/blob/main/LICENSE)。
@@ -205,11 +197,14 @@ Ecom-Bench/
 如果您在研究中使用了Ecom-Bench，请引用:
 
 ```bibtex
-@misc{Ecom-Bench2024,
-  title={Ecom-Bench: A Comprehensive Benchmark for E-commerce Customer Service Dialogue Systems},
-  author={[作者姓名]},
-  year={2024},
-  url={https://github.com/[用户名]/Ecom-Bench}
+@misc{wang2025ecombenchllmagentresolve,
+      title={ECom-Bench: Can LLM Agent Resolve Real-World E-commerce Customer Support Issues?}, 
+      author={Haoxin Wang and Xianhan Peng and Xucheng Huang and Yizhe Huang and Ming Gong and Chenghan Yang and Yang Liu and Ling Jiang},
+      year={2025},
+      eprint={2507.05639},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2507.05639}, 
 }
 ```
 
@@ -217,9 +212,8 @@ Ecom-Bench/
 
 如有问题或建议，请通过以下方式联系:
 - 提交GitHub Issue
-- 发送邮件至: [联系邮箱]
+- 发送邮件至: huangyizhe@xiaoduotech.com
 
 ---
 
-**注**: 本框架专为学术研究和工业应用设计，符合EMNLP Industry Track对真实世界应用和可重现研究的要求。<mcreference link="https://2025.emnlp.org/calls/industry_track/" index="1">1</mcreference> <mcreference link="https://2024.emnlp.org/calls/industry_track/" index="4">4</mcreference>
         
