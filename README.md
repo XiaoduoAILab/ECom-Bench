@@ -1,7 +1,13 @@
-
 # Ecom-Bench: 电商客服对话评估基准测试框架
 [![arXiv](https://img.shields.io/badge/Arxiv-2507.05639-b31b1b.svg?logo=arXiv)](https://arxiv.org/pdf/2507.05639)
-[![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-green.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE)
+[![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-blue.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE)
+
+## 基于项目
+本项目基于tau-bench: [tau-bench LICENSE](https://github.com/sierra-research/tau-bench/blob/main/LICENSE)  
+在此向原作者表示感谢
+
+## 声明
+“本仿真环境包含模拟用户数据，仅限非生产测试，禁止用于真实用户数据训练，数据使用遵循《个人信息保护法》。”
 
 ## 概述
 
