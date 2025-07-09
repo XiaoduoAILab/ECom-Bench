@@ -143,13 +143,13 @@ Ecom-Bench/
 <mcfile name="tasks.py" path="/Users/utopia/Documents/晓多/Ecom-Bench/envs/story/tasks.py"></mcfile>包含了丰富的测试任务，每个任务包括:
 
 
-📌 用户画像（消费习惯/性格特征）
+&emsp;📌 用户画像（消费习惯/性格特征）
 
-🎯 交互意图与目标
+&emsp;🎯 交互意图与目标
 
-🏬 平台店铺上下文信息
+&emsp;🏬 平台店铺上下文信息
 
-✅ 预期动作验收标准
+&emsp;✅ 预期动作验收标准
 
 ## 实验配置
 
