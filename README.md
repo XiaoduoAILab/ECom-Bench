@@ -3,7 +3,9 @@
 [![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-blue.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE)
 
 ## 基于项目
-本项目基于tau-bench: [tau-bench LICENSE](https://github.com/sierra-research/tau-bench/blob/main/LICENSE)  
+本项目基于 tau-bench 开发，tau-bench 版权信息如下：   
+tau-bench - Copyright (c) 2024 noahshinn   
+tau-bench 采用 MIT 许可，详情见：(https://github.com/sierra-research/tau-bench/blob/main/LICENSE)  
 在此向原作者表示感谢
 
 ## 声明
@@ -196,7 +198,7 @@ Ecom-Bench/
 
 ## 许可证
 
-本项目采用Apache 2.0许可证。详见LICENSE文件。
+本项目采用Apache 2.0许可证。详见[LICENSE](https://github.com/XiaoduoAILab/ECom-Bench/blob/main/LICENSE)。
 
 ## 引用
 
