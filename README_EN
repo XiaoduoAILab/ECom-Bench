@@ -1,0 +1,44 @@
+# Ecom-Bench: E-commerce Customer Service Dialogue Evaluation Benchmark Framework
+[![arXiv](https://img.shields.io/badge/Arxiv-2507.05639-b31b1b.svg?logo=arXiv)](https://arxiv.org/pdf/2507.05639)
+[![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-blue.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE)
+
+## Project Background
+Developed based on the tau-bench project with special thanks to Sierra Inc. for their open-source contribution  
+tau-bench uses MIT license: [View details](https://github.com/sierra-research/tau-bench/blob/main/LICENSE)
+
+## Important Notice
+⚠️ This simulation environment contains simulated user data for non-production testing only  
+🛡️ Strictly prohibited for training with real user data, fully compliant with China's Personal Information Protection Law (PIPL)
+
+## Framework Positioning
+Ecom-Bench is a comprehensive evaluation benchmark framework designed for e-commerce customer service dialogue systems, providing standardized validation solutions through real-world scenario simulations before industrial deployment of natural language processing systems.
+
+### Core Advantages
+🎯 **Realistic Scenario Recreation**  
+- Supports reproduction of customer service scenarios from mainstream platforms like JD.com
+- User profile-driven based on real user behavior characteristics
+- Complex multi-turn dialogue interaction verification
+
+🤖 **Flexible Architecture Design**  
+- User strategies: Rule-based/Based, Chain-of-Thought (CoT), Human-in-the-loop
+- Agent strategies: LLM-driven/Dual-mode (human + AI)
+- Model-agnostic: Compatible with mainstream large models like Qwen, DeepSeek-V3
+
+📊 **Multi-dimensional Evaluation System**  
+| Dimension          | Core Metrics                 |
+|--------------------|------------------------------|
+| Action Accuracy    | Operation command execution accuracy |
+| Search Efficiency  | Information retrieval precision     |
+| Output Quality     | Response content relevance         |
+| Response Timeliness| System real-time responsiveness    |
+
+🛠️ **Engineering Support**
+- Native support for MCP (Model Context Protocol) tool calling protocol
+- Asynchronous high-concurrency dialogue processing engine
+- Smart result caching for accelerated evaluation
+
+## Installation Requirements
+
+```bash
+pip install -r requirements.txt
+
