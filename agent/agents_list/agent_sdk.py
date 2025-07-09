@@ -6,10 +6,10 @@ class AgentSDK(LLM):
     # 将配置定义为类变量（缩进与类方法同级）
     DEEPSEEK_V3_CONFIG = {
         "deepseek-v3": {
-            "access_key": "AKLTZjNmZmE3NTY3NzJhNGViZTlmM2FkMmU5YjAwNjZhZDQ",
-            "secret_key": "T0dRMU1UVXhNelV4TVRsaE5EaGxORGxoTW1OaE5ERTNZVGt3TldJME9Eaw==",
-            "api_key": "1d5b3a37-e1cc-4617-9a1d-143343600089",
-            "endpoint_id": "ep-20250207153843-p6tc7"
+            "access_key": " ",
+            "secret_key": " ",
+            "api_key": " ",
+            "endpoint_id": " "
         }
     }
 
@@ -20,9 +20,9 @@ class AgentSDK(LLM):
 
         # 配置初始化
         if agent_model == 'qwen':
-            self.base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"
-            self.api_key = "sk-d74f4f3190c84ff9a2bf4fee33c8a248"
-            self.model_version = 'qwen-max'
+            self.base_url = " "
+            self.api_key = " "
+            self.model_version = ' '
         else:
             self.base_url = "https://ark.cn-beijing.volces.com/api/v3"
             self.api_key = self.DEEPSEEK_V3_CONFIG["deepseek-v3"]['api_key']  # 使用类名引用类变量
