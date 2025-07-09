@@ -1,5 +1,7 @@
 
 # Ecom-Bench: 电商客服对话评估基准测试框架
+[![arXiv](https://img.shields.io/badge/Arxiv-2507.05639-b31b1b.svg?logo=arXiv)](https://arxiv.org/pdf/2507.05639)
+[![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-green.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE)
 
 ## 概述
 
@@ -188,7 +190,7 @@ Ecom-Bench/
 
 ## 许可证
 
-本项目采用MIT许可证。详见LICENSE文件。
+本项目采用Apache 2.0许可证。详见LICENSE文件。
 
 ## 引用
 
