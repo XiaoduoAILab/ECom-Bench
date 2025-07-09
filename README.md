@@ -119,15 +119,15 @@ Ecom-Bench/
 
 ### 用户模拟器
 <mcfile name="user.py" path="/Users/utopia/Documents/晓多/Ecom-Bench/user/user.py"></mcfile>提供了多种用户模拟策略:
-- **UserBased**: 基于规则的用户行为模拟
-- **UserCoT**: 基于思维链的用户推理
-- **UserHuman**: 人工用户交互
+- **UserBased**: 规则驱动型用户行为
+- **UserCoT**: 思维链推理型用户
+- **UserHuman**: 人工交互接口
 
 ### 代理系统
 <mcfile name="agent_sdk.py" path="/Users/utopia/Documents/晓多/Ecom-Bench/agent/agents_list/agent_sdk.py"></mcfile>支持多种客服智能体实现:
 - 集成多个LLM提供商(Qwen、DeepSeek等)
-- MCP工具调用支持
-- 可配置的模型参数
+- 支持MCP工具调用
+- 可配置模型参数
 
 ## 评估指标
 
@@ -141,17 +141,22 @@ Ecom-Bench/
 ## 任务配置
 
 <mcfile name="tasks.py" path="/Users/utopia/Documents/晓多/Ecom-Bench/envs/story/tasks.py"></mcfile>包含了丰富的测试任务，每个任务包括:
-- 用户画像(消费者类型、性格特征、行为特征)
-- 具体的交互意图和目标
-- 平台和商店信息
-- 评估标准
+
+
+📌 用户画像（消费习惯/性格特征）
+
+🎯 交互意图与目标
+
+🏬 平台店铺上下文信息
+
+✅ 预期动作验收标准
 
 ## 实验配置
 
 ### 支持的模型
-- **Qwen系列**: 通过阿里云DashScope API
-- **DeepSeek-V3**: 通过火山引擎API
-- **OpenAI系列**: 通过标准OpenAI API
+- **Qwen系列**: 调用阿里云DashScope API
+- **DeepSeek-V3**: 调用火山引擎API
+- **OpenAI系列**: 调用标准OpenAI API
 
 ### 配置参数
 <mcfile name="utils.py" path="/Users/utopia/Documents/晓多/Ecom-Bench/utils.py"></mcfile>`RunConfig`类定义了所有可配置参数:
