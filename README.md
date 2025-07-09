@@ -1,42 +1,41 @@
-# Ecom-Bench: 电商客服对话评估基准测试框架
+# Ecom-Bench：电商客服对话评估基准测试框架
 [![arXiv](https://img.shields.io/badge/Arxiv-2507.05639-b31b1b.svg?logo=arXiv)](https://arxiv.org/pdf/2507.05639)
 [![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-blue.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE)
 
-## 基于项目
-本项目基于 tau-bench 开发，tau-bench 版权信息如下：   
-tau-bench - Copyright (c) 2024 Sierra Inc.   
-tau-bench 采用 MIT 许可，详情见：(https://github.com/sierra-research/tau-bench/blob/main/LICENSE)  
-在此向原作者表示感谢
+## 项目背景
+基于 tau-bench 项目开发，在此特别致谢 Sierra Inc. 的开源贡献  
+tau-bench 采用 MIT 许可：[查看详情](https://github.com/sierra-research/tau-bench/blob/main/LICENSE)
 
-## 声明
-本仿真环境包含模拟用户数据，仅限非生产测试，禁止用于真实用户数据训练，数据使用遵循《个人信息保护法》。
+## 重要声明
+⚠️ 本仿真环境包含模拟用户数据，仅限非生产环境测试  
+🛡️ 禁止用于真实用户数据训练，严格遵循《个人信息保护法》要求
 
-## 概述
+## 框架定位
+Ecom-Bench 是专为电商客服对话系统设计的综合评估基准测试框架，通过真实场景模拟为自然语言处理系统提供工业级部署前的标准化验证方案。
 
-Ecom-Bench是一个专门用于评估电商客服对话系统性能的综合基准测试框架。该框架通过模拟真实的电商客服场景，为自然语言处理系统在实际工业环境中的部署提供了标准化的评估方法。
+### 核心优势
+🎯 **真实场景还原**  
+- 支持京东等主流电商平台客服场景复现
+- 基于真实用户行为特征的用户画像驱动
+- 复杂多轮对话交互能力验证
 
-## 主要特性
+🤖 **灵活架构设计**  
+- 用户策略：规则驱动(based)/思维链(cot)/人工介入(human)
+- 客服策略：LLM驱动/人工双模式
+- 模型无关：兼容 Qwen、DeepSeek-V3 等主流大模型
 
-### 🎯 真实场景模拟
-- **多平台支持**: 支持京东等主流电商平台的客服场景
-- **用户画像驱动**: 基于真实用户行为特征的用户模拟器
-- **多轮对话**: 支持复杂的多轮对话交互评估
+📊 **多维评估体系**  
+| 评估维度       | 核心指标               |
+|----------------|------------------------|
+| 动作准确性     | 操作指令执行正确率     |
+| 搜索效率       | 信息检索精准度         |
+| 输出质量       | 回复内容相关性         |
+| 响应时效       | 系统实时响应能力       |
 
-### 🤖 灵活的代理架构
-- **多种用户策略**: 支持基于规则(based)、思维链(cot)和人工(human)的用户模拟
-- **多种代理策略**: 支持LLM驱动和人工的客服代理
-- **模型无关**: 支持多种大语言模型(Qwen、DeepSeek-V3等)
-
-### 📊 全面的评估指标
-- **动作准确性**: 评估客服执行的操作是否正确
-- **搜索效率**: 评估信息检索的准确性和效率
-- **输出质量**: 评估回复内容的质量和相关性
-- **响应时间**: 评估系统的实时性能
-
-### 🛠️ 工具集成
-- **MCP协议支持**: 集成Model Context Protocol进行工具调用
-- **异步处理**: 支持高并发的异步对话处理
-- **结果缓存**: 智能缓存机制提升评估效率
+🛠️ **工程化支持**
+- 原生支持 MCP(Model Context Protocol)工具调用协议
+- 异步高并发对话处理引擎
+- 智能结果缓存加速评估流程
 
 ## 安装要求
 
@@ -83,7 +82,7 @@ python run.py --max-concurrency 5 --log-dir ./custom_results
 python run.py --verbose
 ```
 
-## 项目结构
+## 系统架构
 
 ```
 Ecom-Bench/
