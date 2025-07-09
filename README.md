@@ -4,7 +4,7 @@
 
 ## 基于项目
 本项目基于 tau-bench 开发，tau-bench 版权信息如下：   
-tau-bench - Copyright (c) 2024 noahshinn   
+tau-bench - Copyright (c) 2024 Sierra Inc.   
 tau-bench 采用 MIT 许可，详情见：(https://github.com/sierra-research/tau-bench/blob/main/LICENSE)  
 在此向原作者表示感谢
 
