@@ -1,4 +1,4 @@
-# Ecom-Bench：电商客服对话评估基准测试框架
+i# Ecom-Bench：电商客服对话评估基准测试框架
 [![arXiv](https://img.shields.io/badge/Arxiv-2507.05639-b31b1b.svg?logo=arXiv)](https://arxiv.org/pdf/2507.05639)
 [![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-blue.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE)
 
@@ -123,7 +123,7 @@ Ecom-Bench/
 - **UserCoT**: 思维链推理型用户
 - **UserHuman**: 人工交互接口
 
-### 代理系统
+### 智能体系统
 <mcfile name="agent_sdk.py" path="/Users/utopia/Documents/晓多/Ecom-Bench/agent/agents_list/agent_sdk.py"></mcfile>支持多种客服智能体实现:
 - 集成多个LLM提供商(Qwen、DeepSeek等)
 - 支持MCP工具调用
