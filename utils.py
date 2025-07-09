@@ -10,8 +10,8 @@ from langchain_openai import AzureChatOpenAI
 from abc import ABC, abstractmethod
 from datetime import datetime
 import os
-os.environ["AZURE_OPENAI_API_KEY"] = '0ff535d339e44592b42256a1e2a4cda3'
-os.environ["ZHIPUAI_API_KEY"] =  '2d00fac6fbc0408db8bd096b9b704a41.9Hje9rgehzpa22ku'
+os.environ["AZURE_OPENAI_API_KEY"] = ' '
+os.environ["ZHIPUAI_API_KEY"] =  ' '
 
 
 class ProductInfo(BaseModel):
@@ -137,87 +137,87 @@ class LLM(ABC):
     def _initiate_llm(self):
         if self.model_name == 'glm-4-flash':
             self.llm = ChatZhipuAI(
-                model="glm-4-flash-250414",
-                temperature=self.temperature
+                model = " ",
+                temperature = self.temperature
             )
         elif self.model_name == 'glm-4-plus':
-            os.environ["ZHIPUAI_API_KEY"] = '626e93484e6643af9dda2f9deffe803a.rXJLatBAvI7ZwNve'
+            os.environ["ZHIPUAI_API_KEY"] = ' '
             self.llm = ChatZhipuAI(
-                model="glm-4-plus",
+                model=" ",
                 temperature=self.temperature
             )
         elif self.model_name == 'glm-4-air':
-            os.environ["ZHIPUAI_API_KEY"] = '2d00fac6fbc0408db8bd096b9b704a41.9Hje9rgehzpa22ku'
+            os.environ["ZHIPUAI_API_KEY"] = ' '
             self.llm = ChatZhipuAI(
-                model="glm-4-air-250414",
+                model=" ",
                 temperature=self.temperature
             )
         elif self.model_name == 'glm-z1-air':
             self.llm = ChatZhipuAI(
-                model="glm-z1-air",
+                model=" ",
                 temperature=self.temperature
             )
             
         elif self.model_name == 'glm-4-air-250414':
-            os.environ["ZHIPUAI_API_KEY"] = '626e93484e6643af9dda2f9deffe803a.rXJLatBAvI7ZwNve'
+            os.environ["ZHIPUAI_API_KEY"] = ' '
             self.llm = ChatZhipuAI(
-                model="glm-4-air-250414",
+                model=" ",
                 temperature=self.temperature
             )
         elif self.model_name == 'deepseek-r1':
             self.llm = ChatOpenAI(
-                base_url="https://api.siliconflow.cn/v1/",
-                api_key="sk-ebqawkpjzurnbgwyduaxwlziszkyphrqikupmhvmfewlgdcw",
-                model="deepseek-ai/DeepSeek-R1",
+                base_url=" ",
+                api_key=" ",
+                model=" ",
                 temperature=self.temperature
             )
         elif self.model_name == 'deepseek-v3':
             self.llm = ChatOpenAI(
-                base_url="https://ark.cn-beijing.volces.com/api/v3",
-                api_key="1d5b3a37-e1cc-4617-9a1d-143343600089",
-                model="ep-20250207153843-p6tc7",
+                base_url=" ",
+                api_key=" ",
+                model=" ",
                 temperature=self.temperature
             )
         elif self.model_name == 'gpt-4o':
             self.llm = AzureChatOpenAI(
-                azure_endpoint="https://xiaoduoai-ai-data1.openai.azure.com/",
-                azure_deployment="gpt-4o",
-                openai_api_version="2025-01-01-preview",
+                azure_endpoint=" ",
+                azure_deployment=" ",
+                openai_api_version=" ",
                 temperature=self.temperature
             )
         elif self.model_name == 'gpt-35':
             self.llm = AzureChatOpenAI(
-                azure_endpoint="https://xiaoduoai-ai-data1.openai.azure.com/",
-                openai_api_version="2025-01-01-preview",
-                azure_deployment="gpt-35-turbo",
+                azure_endpoint=" ",
+                openai_api_version=" ",
+                azure_deployment=" ",
                 temperature=self.temperature
             )
         elif self.model_name == 'doubao15':
             self.llm = ChatOpenAI(
-                base_url="https://ark.cn-beijing.volces.com/api/v3",
-                api_key="1d5b3a37-e1cc-4617-9a1d-143343600089",
-                model="ep-20250212144301-lf67c",
+                base_url=" ",
+                api_key=" ",
+                model=" ",
                 temperature=self.temperature
             )
         elif self.model_name == 'qwen':
             self.llm = ChatOpenAI(
-                base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-                api_key="sk-d74f4f3190c84ff9a2bf4fee33c8a248",
-                model="qwen-max",
+                base_url=" ",
+                api_key=" ",
+                model=" ",
                 temperature=self.temperature
             )
         elif self.model_name == 'kimi':
             self.llm = ChatOpenAI(
-                base_url="https://api.moonshot.cn/v1",
-                api_key="sk-BEO5xC1oZ9APSzPOdOCXSJybPnwYXur8wRSpIL7OgprWnn1z",
-                model="moonshot-v1-32k",
+                base_url=" ",
+                api_key=" ",
+                model=" ",
                 temperature=self.temperature
             )
         elif self.model_name == 'qwenvlmax':
             self.llm = ChatOpenAI(
-                base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-                api_key="sk-d74f4f3190c84ff9a2bf4fee33c8a248",
-                model="qwen-vl-max-0809",
+                base_url=" ",
+                api_key=" ",
+                model=" ",
                 temperature=self.temperature
             )
         else:
