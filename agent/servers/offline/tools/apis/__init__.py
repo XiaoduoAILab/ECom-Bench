@@ -11,35 +11,35 @@ class OnlineLLMApi:
 
         # Initialize all model clients
         self.azure_client = AzureOpenAIClient(
-            api_base="https://xiaoduoai-ai-data1.openai.azure.com/",
-            api_key="0ff535d339e44592b42256a1e2a4cda3",
-            api_version="2025-01-01-preview",
+            api_base=" ",
+            api_key=" ",
+            api_version=" ",
             console=self.console
         )
         self.qwen_client = QwenModelClient(
-            api_key="sk-d74f4f3190c84ff9a2bf4fee33c8a248",
-            base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+            api_key=" ",
+            base_url=" ",
             console=self.console
         )
         self.doubao_client = DoubaoModelClient(
-            api_key="1d5b3a37-e1cc-4617-9a1d-143343600089",
-            base_url="https://ark.cn-beijing.volces.com/api/v3",
-            endpoint_id="ep-20240520050246-ctznf",
+            api_key=" ",
+            base_url=" ",
+            endpoint_id=" ",
             console=self.console
         )
         self.doubao_1_5_client = Doubao1_5ModelClient(
             # api_key="your_doubao_1_5_api_key",
-            api_key = "1d5b3a37-e1cc-4617-9a1d-143343600089",
-            base_url="https://ark.cn-beijing.volces.com/api/v3",
-            endpoint_id = "ep-20250212144301-lf67c",
+            api_key = " ",
+            base_url=" ",
+            endpoint_id = " ",
             console=self.console
             # endpoint_id="your_endpoint_id",
         )
         self.deepseek_client = DeepseekV3ModelClient(
             # api_key="your_deepseek_api_key",
-            api_key="1d5b3a37-e1cc-4617-9a1d-143343600089",
-            base_url="https://ark.cn-beijing.volces.com/api/v3",
-            endpoint_id="ep-20250207153843-p6tc7",
+            api_key=" ",
+            base_url=" ",
+            endpoint_id=" ",
             console=self.console
             # endpoint_id="your_endpoint_id"
         )
