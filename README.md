@@ -14,6 +14,8 @@ tau-bench uses MIT license: [View details](https://github.com/sierra-research/ta
 Ecom-Bench is a comprehensive evaluation benchmark framework designed for e-commerce customer service dialogue systems, providing standardized validation solutions through real-world scenario simulations before industrial deployment of natural language processing systems.
 
 ### Core Advantages
+![images/table1.png](https://github.com/XiaoduoAILab/ECom-Bench/blob/main/images/table1.png)
+
 🎯 **Realistic Scenario Recreation**  
 - Supports reproduction of customer service scenarios from mainstream platforms like JD.com
 - User profile-driven based on real user behavior characteristics
@@ -107,7 +109,7 @@ Ecom-Bench/
 ├── utils.py                 # Utility functions
 └── requirements.txt         # Dependency list
 ```
-
+![images/figure1.png](https://github.com/XiaoduoAILab/ECom-Bench/blob/main/images/figure1.png)
 ## Core Components
 
 ### Environment System
