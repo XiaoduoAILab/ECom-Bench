@@ -14,6 +14,8 @@ tau-bench 采用 MIT 许可：[查看详情](https://github.com/sierra-research/
 Ecom-Bench 是专为电商客服对话系统设计的综合评估基准测试框架，通过真实场景模拟为自然语言处理系统提供工业级部署前的标准化验证方案。
 
 ### 核心优势
+![images/table1.png](https://github.com/XiaoduoAILab/ECom-Bench/blob/main/images/table1.png)
+
 🎯 **真实场景还原**  
 - 支持京东等主流电商平台客服场景复现
 - 基于真实用户行为特征的用户画像驱动
@@ -107,7 +109,7 @@ Ecom-Bench/
 ├── utils.py                 # 工具函数
 └── requirements.txt         # 依赖列表
 ```
-
+![images/figure1.png](https://github.com/XiaoduoAILab/ECom-Bench/blob/main/images/figure1.png)
 ## 核心组件
 
 ### 环境系统
