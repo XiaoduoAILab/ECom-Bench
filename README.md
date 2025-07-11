@@ -1,6 +1,11 @@
 # Ecom-Bench: E-commerce Customer Service Dialogue Evaluation Benchmark Framework
 [![arXiv](https://img.shields.io/badge/Arxiv-2507.05639-b31b1b.svg?logo=arXiv)](https://arxiv.org/pdf/2507.05639)
 [![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-blue.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE)
+<h4 align="center">
+    <p>
+        <a href="https://github.com/XiaoduoAILab/ECom-Bench/edit/main/README.md">中文</a> | <b>English</b>
+    <p>
+</h4>
 
 ## Project Background
 Developed based on the tau-bench project with special thanks to Sierra Inc. for their open-source contribution  
