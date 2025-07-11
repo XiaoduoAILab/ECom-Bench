@@ -2,6 +2,12 @@
 [![arXiv](https://img.shields.io/badge/Arxiv-2507.05639-b31b1b.svg?logo=arXiv)](https://arxiv.org/pdf/2507.05639)
 [![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-blue.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE)
 
+<h4 align="center">
+    <p>
+        <a href="https://github.com/XiaoduoAILab/ECom-Bench/edit/main/README-CN.md">中文</a> | <b>English</b>
+    <p>
+</h4>
+
 ## 项目背景
 基于 tau-bench 项目开发，在此特别致谢 Sierra Inc. 的开源贡献  
 tau-bench 采用 MIT 许可：[查看详情](https://github.com/sierra-research/tau-bench/blob/main/LICENSE)
