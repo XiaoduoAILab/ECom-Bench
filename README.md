@@ -5,7 +5,7 @@
 <h4 align="center">
     <p>
         <a href="https://github.com/XiaoduoAILab/ECom-Bench/edit/main/README_CN.md">中文</a> | <b>English</b>
-    <p>
+    </p>
 </h4>
 
 ## Project Background
