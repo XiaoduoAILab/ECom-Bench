@@ -4,7 +4,7 @@ results/
 warehouse/
 agent/servers/offline/cache/
 .vscode/
-__pycache__/
+**/__pycache__/
 .DS_Store
 *.csv
 *.json
