@@ -1,0 +1,13 @@
+test/
+app/data/
+results/
+warehouse/
+agent/servers/offline/cache/
+.vscode/
+__pycache__/
+.DS_Store
+*.csv
+*.json
+!envs/story/data/*json
+!warehouse/synthesize/
+.vscode
